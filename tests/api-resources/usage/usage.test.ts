@@ -45,10 +45,7 @@ describe('resource usage', () => {
   });
 
   test('query: only required params', async () => {
-    const responsePromise = client.usage.query({
-      endDate: '2019-12-27T18:11:19.117Z',
-      startDate: '2019-12-27T18:11:19.117Z',
-    });
+    const responsePromise = client.usage.query();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -61,15 +58,42 @@ describe('resource usage', () => {
   test('query: required and optional params', async () => {
     const response = await client.usage.query({
       orgId: 'orgId',
-      endDate: '2019-12-27T18:11:19.117Z',
-      startDate: '2019-12-27T18:11:19.117Z',
       accountIds: ['string'],
       aggregations: [{ fieldCode: 'x', fieldType: 'DIMENSION', function: 'SUM', meterId: 'x' }],
       dimensionFilters: [{ fieldCode: 'x', meterId: 'x', values: ['string'] }],
+      endDate: '2019-12-27T18:11:19.117Z',
       groups: [{ groupType: 'ACCOUNT' }],
       limit: 1,
       meterIds: ['string'],
+      startDate: '2019-12-27T18:11:19.117Z',
     });
+  });
+
+  test('query: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.usage.query({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      M3ter.NotFoundError,
+    );
+  });
+
+  test('query: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.usage.query(
+        {
+          orgId: 'orgId',
+          accountIds: ['string'],
+          aggregations: [{ fieldCode: 'x', fieldType: 'DIMENSION', function: 'SUM', meterId: 'x' }],
+          dimensionFilters: [{ fieldCode: 'x', meterId: 'x', values: ['string'] }],
+          endDate: '2019-12-27T18:11:19.117Z',
+          groups: [{ groupType: 'ACCOUNT' }],
+          limit: 1,
+          meterIds: ['string'],
+          startDate: '2019-12-27T18:11:19.117Z',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(M3ter.NotFoundError);
   });
 
   test('submit: only required params', async () => {

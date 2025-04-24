@@ -580,7 +580,7 @@ export interface AccountRetrieveParams {
 
 export interface AccountUpdateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
+   * Path param: UUID of the Organization. The Organization represents your company
    * as a direct customer of the m3ter service.
    */
   orgId?: string;

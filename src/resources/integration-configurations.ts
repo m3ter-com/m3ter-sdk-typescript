@@ -170,17 +170,20 @@ export interface IntegrationConfigurationResponse {
   id: string;
 
   /**
-   * The destination system for the integration.
+   * The destination system for the integration run.
    */
   destination: string;
 
   /**
-   * The unique identifier (UUID) of the entity the integration is for.
+   * The unique identifier (UUID) of the entity the integration run is for.
    */
   entityId: string;
 
   /**
-   * The type of entity the integration is for _(e.g. Bill)_.
+   * The type of entity the integration run is for. Two options:
+   *
+   * - Bill
+   * - Notification
    */
   entityType: string;
 
@@ -211,7 +214,7 @@ export interface IntegrationConfigurationResponse {
   createdBy?: string;
 
   /**
-   * The date and time the integration was completed _(in ISO-8601 format)_.
+   * The date and time the integration was completed. _(in ISO-8601 format)_.
    */
   dtCompleted?: string;
 
@@ -226,7 +229,7 @@ export interface IntegrationConfigurationResponse {
   dtLastModified?: string;
 
   /**
-   * The date and time the integration was started _(in ISO-8601 format)_.
+   * The date and time the integration run was started _(in ISO-8601 format)_.
    */
   dtStarted?: string;
 
@@ -1016,6 +1019,16 @@ export interface IntegrationConfigurationGetByEntityParams {
    * Path param: UUID of the organization
    */
   orgId?: string;
+
+  /**
+   * Query param: Destination type to retrieve IntegrationConfigs for
+   */
+  destination?: string;
+
+  /**
+   * Query param: UUID of the destination to retrieve IntegrationConfigs for
+   */
+  destinationId?: string;
 
   /**
    * Query param: UUID of the entity to retrieve IntegrationConfigs for

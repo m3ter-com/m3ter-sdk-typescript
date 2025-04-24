@@ -53,6 +53,7 @@ describe('resource transactions', () => {
       orgId: 'orgId',
       nextToken: 'nextToken',
       pageSize: 1,
+      scheduleId: 'scheduleId',
       transactionTypeId: 'transactionTypeId',
     });
   });
@@ -69,7 +70,13 @@ describe('resource transactions', () => {
     await expect(
       client.balances.transactions.list(
         'balanceId',
-        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1, transactionTypeId: 'transactionTypeId' },
+        {
+          orgId: 'orgId',
+          nextToken: 'nextToken',
+          pageSize: 1,
+          scheduleId: 'scheduleId',
+          transactionTypeId: 'transactionTypeId',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(M3ter.NotFoundError);

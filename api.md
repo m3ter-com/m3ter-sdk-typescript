@@ -309,6 +309,9 @@ Types:
 - <code><a href="./src/resources/data-exports/data-exports.ts">AdHocOperationalDataRequest</a></code>
 - <code><a href="./src/resources/data-exports/data-exports.ts">AdHocResponse</a></code>
 - <code><a href="./src/resources/data-exports/data-exports.ts">AdHocUsageDataRequest</a></code>
+- <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerAccountGroup</a></code>
+- <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerDimensionGroup</a></code>
+- <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerTimeGroup</a></code>
 
 Methods:
 
@@ -318,7 +321,9 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/data-exports/destinations.ts">DataExportDestinationGoogleCloudStorageRequest</a></code>
 - <code><a href="./src/resources/data-exports/destinations.ts">DataExportDestinationResponse</a></code>
+- <code><a href="./src/resources/data-exports/destinations.ts">DataExportDestinationS3Request</a></code>
 - <code><a href="./src/resources/data-exports/destinations.ts">DestinationCreateResponse</a></code>
 - <code><a href="./src/resources/data-exports/destinations.ts">DestinationRetrieveResponse</a></code>
 - <code><a href="./src/resources/data-exports/destinations.ts">DestinationUpdateResponse</a></code>

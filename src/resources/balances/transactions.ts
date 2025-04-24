@@ -263,6 +263,11 @@ export interface TransactionListParams extends CursorParams {
   /**
    * Query param:
    */
+  scheduleId?: string | null;
+
+  /**
+   * Query param:
+   */
   transactionTypeId?: string | null;
 }
 

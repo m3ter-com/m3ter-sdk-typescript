@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import * as DataExportsAPI from './data-exports';
 import { Cursor, type CursorParams } from '../../pagination';
 
 export class Schedules extends APIResource {
@@ -237,32 +238,6 @@ export interface OperationalDataExportScheduleResponse {
 }
 
 export interface UsageDataExportScheduleRequest {
-  /**
-   * Specifies the time period for the aggregation of usage data included each time
-   * the Data Export Schedule runs:
-   *
-   * - **ORIGINAL**. Usage data is _not aggregated_. If you select to not aggregate,
-   *   then raw usage data measurements collected by all Data Field types and any
-   *   Derived Fields on the selected Meters are included in the export. This is the
-   *   _Default_.
-   *
-   * If you want to aggregate usage data for the Export Schedule you must define an
-   * `aggregationFrequency`:
-   *
-   * - **HOUR**. Aggregated hourly.
-   * - **DAY**. Aggregated daily.
-   * - **WEEK**. Aggregated weekly.
-   * - **MONTH**. Aggregated monthly.
-   *
-   * - If you select to aggregate usage data for a Export Schedule, then only the
-   *   aggregated usage data collected by numeric Data Fields of type **MEASURE**,
-   *   **INCOME**, or **COST** on selected Meters are included in the export.
-   *
-   * **NOTE**: If you define an `aggregationFrequency` other than **ORIGINAL** and do
-   * not define an `aggregation` method, then you'll receive and error.
-   */
-  aggregationFrequency: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH';
-
   sourceType: 'USAGE' | 'OPERATIONAL';
 
   /**
@@ -290,6 +265,7 @@ export interface UsageDataExportScheduleRequest {
    * section in our main User Documentation.
    */
   timePeriod:
+    | 'LAST_12_HOURS'
     | 'TODAY'
     | 'YESTERDAY'
     | 'WEEK_TO_DATE'
@@ -300,27 +276,31 @@ export interface UsageDataExportScheduleRequest {
     | 'PREVIOUS_MONTH';
 
   /**
-   * List of account IDs for which the usage data will be exported.
+   * List of account IDs to export
    */
   accountIds?: Array<string>;
 
   /**
-   * Specifies the aggregation method applied to usage data collected in the numeric
-   * Data Fields of Meters included for the Data Export Schedule - that is, Data
-   * Fields of type **MEASURE**, **INCOME**, or **COST**:
-   *
-   * - **SUM**. Adds the values.
-   * - **MIN**. Uses the minimum value.
-   * - **MAX**. Uses the maximum value.
-   * - **COUNT**. Counts the number of values.
-   * - **LATEST**. Uses the most recent value. Note: Based on the timestamp `ts`
-   *   value of usage data measurement submissions. If using this method, please
-   *   ensure _distinct_ `ts` values are used for usage data measurement submissions.
+   * List of aggregations to apply
    */
-  aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN';
+  aggregations?: Array<UsageDataExportScheduleRequest.Aggregation>;
 
   /**
-   * List of meter IDs for which the usage data will be exported.
+   * List of dimension filters to apply
+   */
+  dimensionFilters?: Array<UsageDataExportScheduleRequest.DimensionFilter>;
+
+  /**
+   * List of groups to apply
+   */
+  groups?: Array<
+    | UsageDataExportScheduleRequest.DataExportsDataExplorerAccountGroup
+    | UsageDataExportScheduleRequest.DataExportsDataExplorerDimensionGroup
+    | UsageDataExportScheduleRequest.DataExportsDataExplorerTimeGroup
+  >;
+
+  /**
+   * List of meter IDs to export
    */
   meterIds?: Array<string>;
 
@@ -337,9 +317,71 @@ export interface UsageDataExportScheduleRequest {
   version?: number;
 }
 
+export namespace UsageDataExportScheduleRequest {
+  export interface Aggregation {
+    /**
+     * Field code
+     */
+    fieldCode: string;
+
+    /**
+     * Type of field
+     */
+    fieldType: 'DIMENSION' | 'MEASURE';
+
+    /**
+     * Aggregation function
+     */
+    function: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
+
+    /**
+     * Meter ID
+     */
+    meterId: string;
+  }
+
+  export interface DimensionFilter {
+    /**
+     * Field code
+     */
+    fieldCode: string;
+
+    /**
+     * Meter ID
+     */
+    meterId: string;
+
+    /**
+     * Values to filter by
+     */
+    values: Array<string>;
+  }
+
+  /**
+   * Group by account
+   */
+  export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
+    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+  }
+
+  /**
+   * Group by dimension
+   */
+  export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
+    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+  }
+
+  /**
+   * Group by time
+   */
+  export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
+    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+  }
+}
+
 export interface UsageDataExportScheduleResponse {
   /**
-   * The id of the schedule
+   * The id of the schedule configuration.
    */
   id: string;
 
@@ -359,45 +401,23 @@ export interface UsageDataExportScheduleResponse {
   accountIds?: Array<string>;
 
   /**
-   * Specifies the aggregation method applied to usage data collected in the numeric
-   * Data Fields of Meters included for the Data Export Schedule - that is, Data
-   * Fields of type **MEASURE**, **INCOME**, or **COST**:
-   *
-   * - **SUM**. Adds the values.
-   * - **MIN**. Uses the minimum value.
-   * - **MAX**. Uses the maximum value.
-   * - **COUNT**. Counts the number of values.
-   * - **LATEST**. Uses the most recent value. Note: Based on the timestamp `ts`
-   *   value of usage data measurement submissions. If using this method, please
-   *   ensure _distinct_ `ts` values are used for usage data measurement submissions.
+   * List of aggregations to apply
    */
-  aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN';
+  aggregations?: Array<UsageDataExportScheduleResponse.Aggregation>;
 
   /**
-   * Specifies the time period for the aggregation of usage data included each time
-   * the Data Export Schedule runs:
-   *
-   * - **ORIGINAL**. Usage data is _not aggregated_. If you select to not aggregate,
-   *   then raw usage data measurements collected by all Data Field types and any
-   *   Derived Fields on the selected Meters are included in the export. This is the
-   *   _Default_.
-   *
-   * If you want to aggregate usage data for the Export Schedule you must define an
-   * `aggregationFrequency`:
-   *
-   * - **HOUR**. Aggregated hourly.
-   * - **DAY**. Aggregated daily.
-   * - **WEEK**. Aggregated weekly.
-   * - **MONTH**. Aggregated monthly.
-   *
-   * - If you select to aggregate usage data for a Export Schedule, then only the
-   *   aggregated usage data collected by numeric Data Fields of type **MEASURE**,
-   *   **INCOME**, or **COST** on selected Meters are included in the export.
-   *
-   * **NOTE**: If you define an `aggregationFrequency` other than **ORIGINAL** and do
-   * not define an `aggregation` method, then you'll receive and error.
+   * List of dimension filters to apply
    */
-  aggregationFrequency?: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH';
+  dimensionFilters?: Array<UsageDataExportScheduleResponse.DimensionFilter>;
+
+  /**
+   * List of groups to apply
+   */
+  groups?: Array<
+    | UsageDataExportScheduleResponse.DataExportsDataExplorerAccountGroup
+    | UsageDataExportScheduleResponse.DataExportsDataExplorerDimensionGroup
+    | UsageDataExportScheduleResponse.DataExportsDataExplorerTimeGroup
+  >;
 
   /**
    * List of meter IDs for which the usage data will be exported.
@@ -429,6 +449,7 @@ export interface UsageDataExportScheduleResponse {
    * section in our main User Documentation.
    */
   timePeriod?:
+    | 'LAST_12_HOURS'
     | 'TODAY'
     | 'YESTERDAY'
     | 'WEEK_TO_DATE'
@@ -437,6 +458,68 @@ export interface UsageDataExportScheduleResponse {
     | 'LAST_35_DAYS'
     | 'PREVIOUS_WEEK'
     | 'PREVIOUS_MONTH';
+}
+
+export namespace UsageDataExportScheduleResponse {
+  export interface Aggregation {
+    /**
+     * Field code
+     */
+    fieldCode: string;
+
+    /**
+     * Type of field
+     */
+    fieldType: 'DIMENSION' | 'MEASURE';
+
+    /**
+     * Aggregation function
+     */
+    function: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
+
+    /**
+     * Meter ID
+     */
+    meterId: string;
+  }
+
+  export interface DimensionFilter {
+    /**
+     * Field code
+     */
+    fieldCode: string;
+
+    /**
+     * Meter ID
+     */
+    meterId: string;
+
+    /**
+     * Values to filter by
+     */
+    values: Array<string>;
+  }
+
+  /**
+   * Group by account
+   */
+  export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
+    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+  }
+
+  /**
+   * Group by dimension
+   */
+  export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
+    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+  }
+
+  /**
+   * Group by time
+   */
+  export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
+    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+  }
 }
 
 /**
@@ -586,32 +669,6 @@ export declare namespace ScheduleCreateParams {
     orgId?: string;
 
     /**
-     * Body param: Specifies the time period for the aggregation of usage data included
-     * each time the Data Export Schedule runs:
-     *
-     * - **ORIGINAL**. Usage data is _not aggregated_. If you select to not aggregate,
-     *   then raw usage data measurements collected by all Data Field types and any
-     *   Derived Fields on the selected Meters are included in the export. This is the
-     *   _Default_.
-     *
-     * If you want to aggregate usage data for the Export Schedule you must define an
-     * `aggregationFrequency`:
-     *
-     * - **HOUR**. Aggregated hourly.
-     * - **DAY**. Aggregated daily.
-     * - **WEEK**. Aggregated weekly.
-     * - **MONTH**. Aggregated monthly.
-     *
-     * - If you select to aggregate usage data for a Export Schedule, then only the
-     *   aggregated usage data collected by numeric Data Fields of type **MEASURE**,
-     *   **INCOME**, or **COST** on selected Meters are included in the export.
-     *
-     * **NOTE**: If you define an `aggregationFrequency` other than **ORIGINAL** and do
-     * not define an `aggregation` method, then you'll receive and error.
-     */
-    aggregationFrequency: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH';
-
-    /**
      * Body param:
      */
     sourceType: 'USAGE' | 'OPERATIONAL';
@@ -641,6 +698,7 @@ export declare namespace ScheduleCreateParams {
      * section in our main User Documentation.
      */
     timePeriod:
+      | 'LAST_12_HOURS'
       | 'TODAY'
       | 'YESTERDAY'
       | 'WEEK_TO_DATE'
@@ -651,27 +709,31 @@ export declare namespace ScheduleCreateParams {
       | 'PREVIOUS_MONTH';
 
     /**
-     * Body param: List of account IDs for which the usage data will be exported.
+     * Body param: List of account IDs to export
      */
     accountIds?: Array<string>;
 
     /**
-     * Body param: Specifies the aggregation method applied to usage data collected in
-     * the numeric Data Fields of Meters included for the Data Export Schedule - that
-     * is, Data Fields of type **MEASURE**, **INCOME**, or **COST**:
-     *
-     * - **SUM**. Adds the values.
-     * - **MIN**. Uses the minimum value.
-     * - **MAX**. Uses the maximum value.
-     * - **COUNT**. Counts the number of values.
-     * - **LATEST**. Uses the most recent value. Note: Based on the timestamp `ts`
-     *   value of usage data measurement submissions. If using this method, please
-     *   ensure _distinct_ `ts` values are used for usage data measurement submissions.
+     * Body param: List of aggregations to apply
      */
-    aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN';
+    aggregations?: Array<UsageDataExportScheduleRequest.Aggregation>;
 
     /**
-     * Body param: List of meter IDs for which the usage data will be exported.
+     * Body param: List of dimension filters to apply
+     */
+    dimensionFilters?: Array<UsageDataExportScheduleRequest.DimensionFilter>;
+
+    /**
+     * Body param: List of groups to apply
+     */
+    groups?: Array<
+      | UsageDataExportScheduleRequest.DataExportsDataExplorerAccountGroup
+      | UsageDataExportScheduleRequest.DataExportsDataExplorerDimensionGroup
+      | UsageDataExportScheduleRequest.DataExportsDataExplorerTimeGroup
+    >;
+
+    /**
+     * Body param: List of meter IDs to export
      */
     meterIds?: Array<string>;
 
@@ -686,6 +748,68 @@ export declare namespace ScheduleCreateParams {
      *   preserved. Version is incremented by 1 and listed in the response.
      */
     version?: number;
+  }
+
+  export namespace UsageDataExportScheduleRequest {
+    export interface Aggregation {
+      /**
+       * Field code
+       */
+      fieldCode: string;
+
+      /**
+       * Type of field
+       */
+      fieldType: 'DIMENSION' | 'MEASURE';
+
+      /**
+       * Aggregation function
+       */
+      function: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
+
+      /**
+       * Meter ID
+       */
+      meterId: string;
+    }
+
+    export interface DimensionFilter {
+      /**
+       * Field code
+       */
+      fieldCode: string;
+
+      /**
+       * Meter ID
+       */
+      meterId: string;
+
+      /**
+       * Values to filter by
+       */
+      values: Array<string>;
+    }
+
+    /**
+     * Group by account
+     */
+    export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
+      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+    }
+
+    /**
+     * Group by dimension
+     */
+    export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
+      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+    }
+
+    /**
+     * Group by time
+     */
+    export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
+      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+    }
   }
 }
 
@@ -757,32 +881,6 @@ export declare namespace ScheduleUpdateParams {
     orgId?: string;
 
     /**
-     * Body param: Specifies the time period for the aggregation of usage data included
-     * each time the Data Export Schedule runs:
-     *
-     * - **ORIGINAL**. Usage data is _not aggregated_. If you select to not aggregate,
-     *   then raw usage data measurements collected by all Data Field types and any
-     *   Derived Fields on the selected Meters are included in the export. This is the
-     *   _Default_.
-     *
-     * If you want to aggregate usage data for the Export Schedule you must define an
-     * `aggregationFrequency`:
-     *
-     * - **HOUR**. Aggregated hourly.
-     * - **DAY**. Aggregated daily.
-     * - **WEEK**. Aggregated weekly.
-     * - **MONTH**. Aggregated monthly.
-     *
-     * - If you select to aggregate usage data for a Export Schedule, then only the
-     *   aggregated usage data collected by numeric Data Fields of type **MEASURE**,
-     *   **INCOME**, or **COST** on selected Meters are included in the export.
-     *
-     * **NOTE**: If you define an `aggregationFrequency` other than **ORIGINAL** and do
-     * not define an `aggregation` method, then you'll receive and error.
-     */
-    aggregationFrequency: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH';
-
-    /**
      * Body param:
      */
     sourceType: 'USAGE' | 'OPERATIONAL';
@@ -812,6 +910,7 @@ export declare namespace ScheduleUpdateParams {
      * section in our main User Documentation.
      */
     timePeriod:
+      | 'LAST_12_HOURS'
       | 'TODAY'
       | 'YESTERDAY'
       | 'WEEK_TO_DATE'
@@ -822,27 +921,31 @@ export declare namespace ScheduleUpdateParams {
       | 'PREVIOUS_MONTH';
 
     /**
-     * Body param: List of account IDs for which the usage data will be exported.
+     * Body param: List of account IDs to export
      */
     accountIds?: Array<string>;
 
     /**
-     * Body param: Specifies the aggregation method applied to usage data collected in
-     * the numeric Data Fields of Meters included for the Data Export Schedule - that
-     * is, Data Fields of type **MEASURE**, **INCOME**, or **COST**:
-     *
-     * - **SUM**. Adds the values.
-     * - **MIN**. Uses the minimum value.
-     * - **MAX**. Uses the maximum value.
-     * - **COUNT**. Counts the number of values.
-     * - **LATEST**. Uses the most recent value. Note: Based on the timestamp `ts`
-     *   value of usage data measurement submissions. If using this method, please
-     *   ensure _distinct_ `ts` values are used for usage data measurement submissions.
+     * Body param: List of aggregations to apply
      */
-    aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN';
+    aggregations?: Array<UsageDataExportScheduleRequest.Aggregation>;
 
     /**
-     * Body param: List of meter IDs for which the usage data will be exported.
+     * Body param: List of dimension filters to apply
+     */
+    dimensionFilters?: Array<UsageDataExportScheduleRequest.DimensionFilter>;
+
+    /**
+     * Body param: List of groups to apply
+     */
+    groups?: Array<
+      | UsageDataExportScheduleRequest.DataExportsDataExplorerAccountGroup
+      | UsageDataExportScheduleRequest.DataExportsDataExplorerDimensionGroup
+      | UsageDataExportScheduleRequest.DataExportsDataExplorerTimeGroup
+    >;
+
+    /**
+     * Body param: List of meter IDs to export
      */
     meterIds?: Array<string>;
 
@@ -857,6 +960,68 @@ export declare namespace ScheduleUpdateParams {
      *   preserved. Version is incremented by 1 and listed in the response.
      */
     version?: number;
+  }
+
+  export namespace UsageDataExportScheduleRequest {
+    export interface Aggregation {
+      /**
+       * Field code
+       */
+      fieldCode: string;
+
+      /**
+       * Type of field
+       */
+      fieldType: 'DIMENSION' | 'MEASURE';
+
+      /**
+       * Aggregation function
+       */
+      function: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
+
+      /**
+       * Meter ID
+       */
+      meterId: string;
+    }
+
+    export interface DimensionFilter {
+      /**
+       * Field code
+       */
+      fieldCode: string;
+
+      /**
+       * Meter ID
+       */
+      meterId: string;
+
+      /**
+       * Values to filter by
+       */
+      values: Array<string>;
+    }
+
+    /**
+     * Group by account
+     */
+    export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
+      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+    }
+
+    /**
+     * Group by dimension
+     */
+    export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
+      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+    }
+
+    /**
+     * Group by time
+     */
+    export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
+      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+    }
   }
 }
 

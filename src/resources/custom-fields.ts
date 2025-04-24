@@ -82,6 +82,11 @@ export interface CustomFieldsResponse {
   compoundAggregation?: Record<string, string | number>;
 
   /**
+   * CustomFields added to Contract entities.
+   */
+  contract?: Record<string, unknown>;
+
+  /**
    * The id of the user who created this custom field.
    */
   createdBy?: string;
@@ -149,7 +154,7 @@ export interface CustomFieldUpdateParams {
   account?: Record<string, string | number>;
 
   /**
-   * Body param: Updates to accountPlan entity CustomFields.
+   * Body param: Updates to AccountPlan entity CustomFields.
    */
   accountPlan?: Record<string, string | number>;
 
@@ -162,6 +167,11 @@ export interface CustomFieldUpdateParams {
    * Body param: Updates to Compound Aggregation entity CustomFields.
    */
   compoundAggregation?: Record<string, string | number>;
+
+  /**
+   * Body param: Updates to Contract entity CustomFields.
+   */
+  contract?: Record<string, unknown>;
 
   /**
    * Body param: Updates to Meter entity CustomFields.

@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import * as DataExportsAPI from '../data-exports/data-exports';
 import * as FileUploadsAPI from './file-uploads/file-uploads';
 import {
   FileUploadGenerateUploadURLParams,
@@ -60,9 +61,37 @@ export class Usage extends APIResource {
   }
 
   /**
-   * Query and filter usage data
+   * Query and filter usage data collected for your Organization.
+   *
+   * You can use several parameters to filter the range of usage data returned:
+   *
+   * - **Time period.** Use `startDate` and `endDate` to define a period. The query
+   *   references the `timestamp` values of usage data submissions for applying the
+   *   defined time period, and not the time submissions were `receivedAt` by the
+   *   platform. Only usage data with a `timestamp` that falls in the defined time
+   *   period are returned.(Required)
+   * - **Meters.** Specify the Meters you want the query to return data for.
+   * - **Accounts.** Specify the Accounts you want the query to return data for.
+   * - **Dimension Filters.** Specify values for Dimension data fields on included
+   *   Meters. Only data that match the specified Dimension field values will be
+   *   returned for the query.
+   *
+   * You can apply Aggregations functions to the usage data returned for the query.
+   * If you apply Aggregations, you can select to group the data by:
+   *
+   * - **Account**
+   * - **Time**
+   * - **Dimension**
    */
-  query(params: UsageQueryParams, options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse> {
+  query(params?: UsageQueryParams, options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse>;
+  query(options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse>;
+  query(
+    params: UsageQueryParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<UsageQueryResponse> {
+    if (isRequestOptions(params)) {
+      return this.query({}, params);
+    }
     const { orgId = this._client.orgId, ...body } = params;
     return this._client.post(`/organizations/${orgId}/usage/query`, { body, ...options });
   }
@@ -214,7 +243,19 @@ export interface UsageQueryResponse {
   data?: Array<Record<string, unknown>>;
 
   /**
-   * Flag to know if there are more data available than the one returned
+   * Boolean flag to indicate whether or not there are more data available for the
+   * query than are returned:
+   *
+   * - If there are more data, then TRUE.
+   * - If there are no more data, then FALSE.
+   *
+   * **NOTES:**
+   *
+   * - The limit on the size of the return is 20000 data items. If the query returns
+   *   more than this limit, only 20000 items are returned with most recent first and
+   *   `hasMoreData` will be TRUE.
+   * - If you have set `limit` in your query request at fewer than the number
+   *   returned by the query, then `hasMoreData` will be TRUE in the response.
    */
   hasMoreData?: boolean;
 }
@@ -233,53 +274,85 @@ export interface UsageGetFailedIngestDownloadURLParams {
 
 export interface UsageQueryParams {
   /**
-   * Path param: UUID of the organization
+   * Path param: UUID of the Organization. The Organization represents your company
+   * as a direct customer of the m3ter service.
    */
   orgId?: string;
 
   /**
-   * Body param: ISO 8601 formatted end date to filter by.
-   */
-  endDate: string;
-
-  /**
-   * Body param: ISO 8601 formatted start date to filter by.
-   */
-  startDate: string;
-
-  /**
-   * Body param:
+   * Body param: Specify the Accounts you want the query to return usage data for.
    */
   accountIds?: Array<string>;
 
   /**
-   * Body param:
+   * Body param: Define the Aggregation functions you want to apply to data fields on
+   * included Meters:
+   *
+   * - **SUM**. Adds the values.
+   * - **MIN**. Uses the minimum value.
+   * - **MAX**. Uses the maximum value.
+   * - **COUNT**. Counts the number of values.
+   * - **LATEST**. Uses the most recent value.
+   * - **MEAN**. Uses the arithmetic mean of the values.
+   * - **UNIQUE**. Uses a count of the number of unique values.
+   *
+   * **NOTE!** The Aggregation functions that can be applied depend on the data field
+   * type:
+   *
+   * - **Measure** fields. `SUM`, `MIN`, `MAX`, `COUNT`, `LATEST`, or `MEAN`
+   *   functions can be applied.
+   * - **Dimension** field. `COUNT` or `UNIQUE` functions can be applied.
    */
   aggregations?: Array<UsageQueryParams.Aggregation>;
 
   /**
-   * Body param:
+   * Body param: Define Dimension filters you want to apply for the query.
+   *
+   * Specify values for Dimension data fields on included Meters. Only data that
+   * match the specified Dimension field values will be returned for the query.
    */
   dimensionFilters?: Array<UsageQueryParams.DimensionFilter>;
 
   /**
-   * Body param:
+   * Body param: The exclusive end date to define a time period to filter by. (_ISO
+   * 8601 formatted_)
+   */
+  endDate?: string;
+
+  /**
+   * Body param: If you've applied Aggregations for your query, specify any grouping
+   * you want to impose on the returned data:
+   *
+   * - **Account**
+   * - **Time** - group by frequency. Five options: `DAY`, `HOUR`, `WEEK`, `MONTH`,
+   *   or `QUARTER`.
+   * - **Dimension** - group by Meter and data field.
+   *
+   * **NOTE:** If you attempt to impose grouping for a query that doesn't apply
+   * Aggregations, you'll receive an error.
    */
   groups?: Array<
-    | UsageQueryParams.DataExplorerAccountGroup
-    | UsageQueryParams.DataExplorerDimensionGroup
-    | UsageQueryParams.DataExplorerTimeGroup
+    | UsageQueryParams.DataExportsDataExplorerAccountGroup
+    | UsageQueryParams.DataExportsDataExplorerDimensionGroup
+    | UsageQueryParams.DataExportsDataExplorerTimeGroup
   >;
 
   /**
-   * Body param:
+   * Body param: Define a limit for the number of usage data items you want the query
+   * to return, starting with the most recently received data item.
    */
   limit?: number;
 
   /**
-   * Body param:
+   * Body param: Specify the Meters you want the query to return usage data for.
    */
   meterIds?: Array<string>;
+
+  /**
+   * Body param: The inclusive start date to define a time period to filter by. (_ISO
+   * 8601 formatted_)
+   */
+  startDate?: string;
 }
 
 export namespace UsageQueryParams {
@@ -325,36 +398,21 @@ export namespace UsageQueryParams {
   /**
    * Group by account
    */
-  export interface DataExplorerAccountGroup {
+  export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
     groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
   }
 
   /**
    * Group by dimension
    */
-  export interface DataExplorerDimensionGroup {
-    /**
-     * Field code to group by
-     */
-    fieldCode: string;
-
-    /**
-     * Meter ID to group by
-     */
-    meterId: string;
-
+  export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
     groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
   }
 
   /**
    * Group by time
    */
-  export interface DataExplorerTimeGroup {
-    /**
-     * Frequency of usage data
-     */
-    frequency: 'DAY' | 'HOUR' | 'WEEK' | 'MONTH' | 'QUARTER';
-
+  export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
     groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
   }
 }

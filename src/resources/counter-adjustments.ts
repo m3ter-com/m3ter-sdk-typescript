@@ -343,6 +343,11 @@ export interface CounterAdjustmentListParams extends CursorParams {
    * than this date.
    */
   endDateStart?: string;
+
+  /**
+   * Query param: Sort order for the results
+   */
+  sortOrder?: string;
 }
 
 export interface CounterAdjustmentDeleteParams {

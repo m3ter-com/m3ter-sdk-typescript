@@ -179,6 +179,9 @@ export {
   type AdHocOperationalDataRequest,
   type AdHocResponse,
   type AdHocUsageDataRequest,
+  type DataExplorerAccountGroup,
+  type DataExplorerDimensionGroup,
+  type DataExplorerTimeGroup,
   type DataExportCreateAdhocParams,
 } from './data-exports/data-exports';
 export {

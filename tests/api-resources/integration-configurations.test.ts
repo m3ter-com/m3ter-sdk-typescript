@@ -223,6 +223,8 @@ describe('resource integrationConfigurations', () => {
   test('getByEntity: required and optional params', async () => {
     const response = await client.integrationConfigurations.getByEntity('entityType', {
       orgId: 'orgId',
+      destination: 'destination',
+      destinationId: 'destinationId',
       entityId: 'entityId',
     });
   });
@@ -239,7 +241,7 @@ describe('resource integrationConfigurations', () => {
     await expect(
       client.integrationConfigurations.getByEntity(
         'entityType',
-        { orgId: 'orgId', entityId: 'entityId' },
+        { orgId: 'orgId', destination: 'destination', destinationId: 'destinationId', entityId: 'entityId' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(M3ter.NotFoundError);

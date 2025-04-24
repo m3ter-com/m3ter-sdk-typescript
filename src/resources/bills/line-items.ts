@@ -109,6 +109,8 @@ export interface LineItemResponse {
    */
   billId?: string;
 
+  chargeId?: string;
+
   /**
    * The unique identifier (UUID) of the Commitment _(if this is used)_.
    */
