@@ -15,7 +15,7 @@ describe('resource dataExports', () => {
   test('createAdhoc: only required params', async () => {
     const responsePromise = client.dataExports.createAdhoc({
       operationalDataTypes: ['BILLS'],
-      sourceType: 'USAGE',
+      sourceType: 'OPERATIONAL',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -30,7 +30,7 @@ describe('resource dataExports', () => {
     const response = await client.dataExports.createAdhoc({
       orgId: 'orgId',
       operationalDataTypes: ['BILLS'],
-      sourceType: 'USAGE',
+      sourceType: 'OPERATIONAL',
       version: 0,
     });
   });

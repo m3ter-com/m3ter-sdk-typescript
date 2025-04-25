@@ -134,6 +134,11 @@ export interface DataExportDestinationGoogleCloudStorageRequest {
   providerId: string;
 
   /**
+   * The type of destination to create. Possible values are: GCS
+   */
+  destinationType?: 'GCS';
+
+  /**
    * Specify how you want the file path to be structured in your bucket destination -
    * by Time first (Default) or Type first.
    *
@@ -250,6 +255,11 @@ export interface DataExportDestinationS3Request {
    * in our main User documentation.
    */
   iamRoleArn: string;
+
+  /**
+   * The type of destination to create. Possible values are: S3
+   */
+  destinationType?: 'S3';
 
   /**
    * Specify how you want the file path to be structured in your bucket destination -
@@ -863,6 +873,11 @@ export declare namespace DestinationCreateParams {
     iamRoleArn: string;
 
     /**
+     * Body param: The type of destination to create. Possible values are: S3
+     */
+    destinationType?: 'S3';
+
+    /**
      * Body param: Specify how you want the file path to be structured in your bucket
      * destination - by Time first (Default) or Type first.
      *
@@ -925,6 +940,11 @@ export declare namespace DestinationCreateParams {
      * Body param: The export destination Web Identity Federation identity providerId.
      */
     providerId: string;
+
+    /**
+     * Body param: The type of destination to create. Possible values are: GCS
+     */
+    destinationType?: 'GCS';
 
     /**
      * Body param: Specify how you want the file path to be structured in your bucket
@@ -1014,6 +1034,11 @@ export declare namespace DestinationUpdateParams {
     iamRoleArn: string;
 
     /**
+     * Body param: The type of destination to create. Possible values are: S3
+     */
+    destinationType?: 'S3';
+
+    /**
      * Body param: Specify how you want the file path to be structured in your bucket
      * destination - by Time first (Default) or Type first.
      *
@@ -1076,6 +1101,11 @@ export declare namespace DestinationUpdateParams {
      * Body param: The export destination Web Identity Federation identity providerId.
      */
     providerId: string;
+
+    /**
+     * Body param: The type of destination to create. Possible values are: GCS
+     */
+    destinationType?: 'GCS';
 
     /**
      * Body param: Specify how you want the file path to be structured in your bucket

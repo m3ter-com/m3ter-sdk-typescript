@@ -147,7 +147,10 @@ export interface AdHocOperationalDataRequest {
     | 'BALANCE_TRANSACTIONS'
   >;
 
-  sourceType: 'USAGE' | 'OPERATIONAL';
+  /**
+   * The type of data to export. Possible values are: OPERATIONAL
+   */
+  sourceType: 'OPERATIONAL';
 
   /**
    * The version number of the entity:
@@ -173,7 +176,10 @@ export interface AdHocResponse {
 }
 
 export interface AdHocUsageDataRequest {
-  sourceType: 'USAGE' | 'OPERATIONAL';
+  /**
+   * The type of data to export. Possible values are: USAGE
+   */
+  sourceType: 'USAGE';
 
   /**
    * List of account IDs for which the usage data will be exported.
@@ -351,9 +357,9 @@ export declare namespace DataExportCreateAdhocParams {
     >;
 
     /**
-     * Body param:
+     * Body param: The type of data to export. Possible values are: OPERATIONAL
      */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'OPERATIONAL';
 
     /**
      * Body param: The version number of the entity:
@@ -375,9 +381,9 @@ export declare namespace DataExportCreateAdhocParams {
     orgId?: string;
 
     /**
-     * Body param:
+     * Body param: The type of data to export. Possible values are: USAGE
      */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'USAGE';
 
     /**
      * Body param: List of account IDs for which the usage data will be exported.

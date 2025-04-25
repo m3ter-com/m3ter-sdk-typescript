@@ -181,7 +181,10 @@ export interface OperationalDataExportScheduleRequest {
     | 'BALANCE_TRANSACTIONS'
   >;
 
-  sourceType: 'USAGE' | 'OPERATIONAL';
+  /**
+   * The type of data to export. Possible values are: OPERATIONAL
+   */
+  sourceType: 'OPERATIONAL';
 
   /**
    * The version number of the entity:
@@ -238,7 +241,10 @@ export interface OperationalDataExportScheduleResponse {
 }
 
 export interface UsageDataExportScheduleRequest {
-  sourceType: 'USAGE' | 'OPERATIONAL';
+  /**
+   * The type of data to export. Possible values are: USAGE
+   */
+  sourceType: 'USAGE';
 
   /**
    * Define a time period to control the range of usage data you want the data export
@@ -645,9 +651,9 @@ export declare namespace ScheduleCreateParams {
     >;
 
     /**
-     * Body param:
+     * Body param: The type of data to export. Possible values are: OPERATIONAL
      */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'OPERATIONAL';
 
     /**
      * Body param: The version number of the entity:
@@ -669,9 +675,9 @@ export declare namespace ScheduleCreateParams {
     orgId?: string;
 
     /**
-     * Body param:
+     * Body param: The type of data to export. Possible values are: USAGE
      */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'USAGE';
 
     /**
      * Body param: Define a time period to control the range of usage data you want the
@@ -857,9 +863,9 @@ export declare namespace ScheduleUpdateParams {
     >;
 
     /**
-     * Body param:
+     * Body param: The type of data to export. Possible values are: OPERATIONAL
      */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'OPERATIONAL';
 
     /**
      * Body param: The version number of the entity:
@@ -881,9 +887,9 @@ export declare namespace ScheduleUpdateParams {
     orgId?: string;
 
     /**
-     * Body param:
+     * Body param: The type of data to export. Possible values are: USAGE
      */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'USAGE';
 
     /**
      * Body param: Define a time period to control the range of usage data you want the
