@@ -472,6 +472,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/organization-config.ts">OrganizationConfigRequest</a></code>
 - <code><a href="./src/resources/organization-config.ts">OrganizationConfigResponse</a></code>
 
 Methods:

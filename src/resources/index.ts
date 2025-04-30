@@ -258,6 +258,7 @@ export {
 } from './notification-configurations';
 export {
   OrganizationConfig,
+  type OrganizationConfigRequest,
   type OrganizationConfigResponse,
   type OrganizationConfigRetrieveParams,
   type OrganizationConfigUpdateParams,

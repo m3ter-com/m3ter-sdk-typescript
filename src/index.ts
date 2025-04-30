@@ -230,6 +230,7 @@ import {
 } from './resources/notification-configurations';
 import {
   OrganizationConfig,
+  OrganizationConfigRequest,
   OrganizationConfigResponse,
   OrganizationConfigRetrieveParams,
   OrganizationConfigUpdateParams,
@@ -1053,6 +1054,7 @@ export declare namespace M3ter {
 
   export {
     OrganizationConfig as OrganizationConfig,
+    type OrganizationConfigRequest as OrganizationConfigRequest,
     type OrganizationConfigResponse as OrganizationConfigResponse,
     type OrganizationConfigRetrieveParams as OrganizationConfigRetrieveParams,
     type OrganizationConfigUpdateParams as OrganizationConfigUpdateParams,
