@@ -621,7 +621,7 @@ export type ScheduleCreateParams =
 export declare namespace ScheduleCreateParams {
   export interface OperationalDataExportScheduleRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -670,7 +670,7 @@ export declare namespace ScheduleCreateParams {
 
   export interface UsageDataExportScheduleRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -821,7 +821,7 @@ export declare namespace ScheduleCreateParams {
 
 export interface ScheduleRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
@@ -833,7 +833,7 @@ export type ScheduleUpdateParams =
 export declare namespace ScheduleUpdateParams {
   export interface OperationalDataExportScheduleRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -882,7 +882,7 @@ export declare namespace ScheduleUpdateParams {
 
   export interface UsageDataExportScheduleRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -1033,7 +1033,7 @@ export declare namespace ScheduleUpdateParams {
 
 export interface ScheduleListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -1045,7 +1045,7 @@ export interface ScheduleListParams extends CursorParams {
 
 export interface ScheduleDeleteParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

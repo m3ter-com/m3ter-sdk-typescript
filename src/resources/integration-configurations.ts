@@ -731,7 +731,7 @@ export interface IntegrationConfigurationEnableResponse {
 
 export interface IntegrationConfigurationCreateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -857,16 +857,14 @@ export namespace IntegrationConfigurationCreateParams {
 
 export interface IntegrationConfigurationRetrieveParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface IntegrationConfigurationUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -992,31 +990,28 @@ export namespace IntegrationConfigurationUpdateParams {
 
 export interface IntegrationConfigurationListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for the organization. This specifies
-   * the organization within which the webhook destination is created.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface IntegrationConfigurationDeleteParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface IntegrationConfigurationEnableParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface IntegrationConfigurationGetByEntityParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

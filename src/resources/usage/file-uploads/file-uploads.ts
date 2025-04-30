@@ -67,8 +67,7 @@ export interface FileUploadGenerateUploadURLResponse {
 
 export interface FileUploadGenerateUploadURLParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter platform.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

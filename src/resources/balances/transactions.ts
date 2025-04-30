@@ -194,8 +194,7 @@ export interface TransactionSummaryResponse {
 
 export interface TransactionCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -255,8 +254,7 @@ export interface TransactionCreateParams {
 
 export interface TransactionListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -273,7 +271,7 @@ export interface TransactionListParams extends CursorParams {
 
 export interface TransactionSummaryParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

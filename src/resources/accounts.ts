@@ -404,8 +404,7 @@ export interface AccountSearchResponse {
 
 export interface AccountCreateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -572,16 +571,14 @@ export interface AccountCreateParams {
 
 export interface AccountRetrieveParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface AccountUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -748,8 +745,7 @@ export interface AccountUpdateParams {
 
 export interface AccountListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -767,15 +763,14 @@ export interface AccountListParams extends CursorParams {
 
 export interface AccountDeleteParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface AccountEndDateBillingEntitiesParams {
   /**
-   * Path param: UUID of the Organization.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -803,8 +798,7 @@ export interface AccountEndDateBillingEntitiesParams {
 
 export interface AccountGetChildrenParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -821,7 +815,7 @@ export interface AccountGetChildrenParams {
 
 export interface AccountSearchParams {
   /**
-   * Path param: UUID of the Organization.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

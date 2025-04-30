@@ -252,8 +252,7 @@ export interface CompoundAggregationResponse {
 
 export interface CompoundAggregationCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -371,16 +370,14 @@ export interface CompoundAggregationCreateParams {
 
 export interface CompoundAggregationRetrieveParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CompoundAggregationUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -498,8 +495,7 @@ export interface CompoundAggregationUpdateParams {
 
 export interface CompoundAggregationListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -524,8 +520,7 @@ export interface CompoundAggregationListParams extends CursorParams {
 
 export interface CompoundAggregationDeleteParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

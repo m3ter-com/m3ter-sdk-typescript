@@ -238,8 +238,7 @@ export interface Balance {
 
 export interface BalanceCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -391,16 +390,14 @@ export interface BalanceCreateParams {
 
 export interface BalanceRetrieveParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface BalanceUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -552,8 +549,7 @@ export interface BalanceUpdateParams {
 
 export interface BalanceListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -576,8 +572,7 @@ export interface BalanceListParams extends CursorParams {
 
 export interface BalanceDeleteParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

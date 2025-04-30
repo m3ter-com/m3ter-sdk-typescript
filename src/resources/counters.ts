@@ -156,8 +156,7 @@ export interface CounterResponse {
 
 export interface CounterCreateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of m3ter.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -199,16 +198,14 @@ export interface CounterCreateParams {
 
 export interface CounterRetrieveParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of m3ter.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CounterUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of m3ter.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -250,7 +247,7 @@ export interface CounterUpdateParams {
 
 export interface CounterListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -273,8 +270,7 @@ export interface CounterListParams extends CursorParams {
 
 export interface CounterDeleteParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of m3ter.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

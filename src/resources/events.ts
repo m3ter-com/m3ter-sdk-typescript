@@ -198,16 +198,14 @@ export interface EventGetTypesResponse {
 
 export interface EventRetrieveParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface EventListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) of the Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -268,8 +266,7 @@ export interface EventListParams extends CursorParams {
 
 export interface EventGetFieldsParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -282,8 +279,7 @@ export interface EventGetFieldsParams {
 
 export interface EventGetTypesParams {
   /**
-   * The unique identifer (UUID) of the Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

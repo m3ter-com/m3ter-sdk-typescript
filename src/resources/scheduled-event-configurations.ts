@@ -164,7 +164,7 @@ export interface ScheduledEventConfigurationResponse {
 
 export interface ScheduledEventConfigurationCreateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -214,14 +214,14 @@ export interface ScheduledEventConfigurationCreateParams {
 
 export interface ScheduledEventConfigurationRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface ScheduledEventConfigurationUpdateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -271,7 +271,7 @@ export interface ScheduledEventConfigurationUpdateParams {
 
 export interface ScheduledEventConfigurationListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -283,7 +283,7 @@ export interface ScheduledEventConfigurationListParams extends CursorParams {
 
 export interface ScheduledEventConfigurationDeleteParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

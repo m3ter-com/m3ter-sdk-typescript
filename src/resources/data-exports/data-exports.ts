@@ -328,7 +328,7 @@ export type DataExportCreateAdhocParams =
 export declare namespace DataExportCreateAdhocParams {
   export interface AdHocOperationalDataRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -376,7 +376,7 @@ export declare namespace DataExportCreateAdhocParams {
 
   export interface AdHocUsageDataRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 

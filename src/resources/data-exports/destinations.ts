@@ -842,7 +842,7 @@ export type DestinationCreateParams =
 export declare namespace DestinationCreateParams {
   export interface DataExportDestinationS3Request {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -917,7 +917,7 @@ export declare namespace DestinationCreateParams {
 
   export interface DataExportDestinationGoogleCloudStorageRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -991,7 +991,7 @@ export declare namespace DestinationCreateParams {
 
 export interface DestinationRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
@@ -1003,7 +1003,7 @@ export type DestinationUpdateParams =
 export declare namespace DestinationUpdateParams {
   export interface DataExportDestinationS3Request {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -1078,7 +1078,7 @@ export declare namespace DestinationUpdateParams {
 
   export interface DataExportDestinationGoogleCloudStorageRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -1152,7 +1152,7 @@ export declare namespace DestinationUpdateParams {
 
 export interface DestinationListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -1164,7 +1164,7 @@ export interface DestinationListParams extends CursorParams {
 
 export interface DestinationDeleteParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

@@ -262,7 +262,7 @@ export interface UsageQueryResponse {
 
 export interface UsageGetFailedIngestDownloadURLParams {
   /**
-   * Path param: UUID of the Organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -274,8 +274,7 @@ export interface UsageGetFailedIngestDownloadURLParams {
 
 export interface UsageQueryParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -419,8 +418,7 @@ export namespace UsageQueryParams {
 
 export interface UsageSubmitParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

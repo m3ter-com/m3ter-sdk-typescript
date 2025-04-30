@@ -145,7 +145,7 @@ export interface PlanGroupLinkResponse {
 
 export interface PlanGroupLinkCreateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -174,14 +174,14 @@ export interface PlanGroupLinkCreateParams {
 
 export interface PlanGroupLinkRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PlanGroupLinkUpdateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -210,7 +210,7 @@ export interface PlanGroupLinkUpdateParams {
 
 export interface PlanGroupLinkListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -232,7 +232,7 @@ export interface PlanGroupLinkListParams extends CursorParams {
 
 export interface PlanGroupLinkDeleteParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

@@ -391,8 +391,7 @@ export interface CommitmentSearchResponse {
 
 export interface CommitmentCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. This represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -642,16 +641,14 @@ export interface CommitmentCreateParams {
 
 export interface CommitmentRetrieveParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CommitmentUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -901,8 +898,7 @@ export interface CommitmentUpdateParams {
 
 export interface CommitmentListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -950,16 +946,14 @@ export interface CommitmentListParams extends CursorParams {
 
 export interface CommitmentDeleteParams {
   /**
-   * The unique identifier (UUID) for your organization. The Organization represents
-   * your company as a direct customer our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CommitmentSearchParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

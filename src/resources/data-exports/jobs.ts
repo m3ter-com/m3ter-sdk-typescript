@@ -148,14 +148,14 @@ export interface JobGetDownloadURLResponse {
 
 export interface JobRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface JobListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -189,7 +189,7 @@ export interface JobListParams extends CursorParams {
 
 export interface JobGetDownloadURLParams {
   /**
-   * UUID of the Organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

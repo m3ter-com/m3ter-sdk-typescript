@@ -384,8 +384,7 @@ export interface WebhookSetActiveResponse {
 
 export interface WebhookCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for the organization. This specifies
-   * the organization within which the webhook destination is created.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -435,14 +434,14 @@ export interface WebhookCreateParams {
 
 export interface WebhookRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface WebhookUpdateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -492,7 +491,7 @@ export interface WebhookUpdateParams {
 
 export interface WebhookListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -504,16 +503,14 @@ export interface WebhookListParams extends CursorParams {
 
 export interface WebhookDeleteParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface WebhookSetActiveParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

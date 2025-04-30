@@ -247,8 +247,7 @@ export interface CounterPricingResponse {
 
 export interface CounterPricingCreateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -386,16 +385,14 @@ export interface CounterPricingCreateParams {
 
 export interface CounterPricingRetrieveParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CounterPricingUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -533,8 +530,7 @@ export interface CounterPricingUpdateParams {
 
 export interface CounterPricingListParams extends CursorParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -561,8 +557,7 @@ export interface CounterPricingListParams extends CursorParams {
 
 export interface CounterPricingDeleteParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

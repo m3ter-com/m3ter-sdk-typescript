@@ -184,8 +184,7 @@ export interface CounterAdjustmentResponse {
 
 export interface CounterAdjustmentCreateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -239,16 +238,14 @@ export interface CounterAdjustmentCreateParams {
 
 export interface CounterAdjustmentRetrieveParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CounterAdjustmentUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -302,8 +299,7 @@ export interface CounterAdjustmentUpdateParams {
 
 export interface CounterAdjustmentListParams extends CursorParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -352,8 +348,7 @@ export interface CounterAdjustmentListParams extends CursorParams {
 
 export interface CounterAdjustmentDeleteParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
