@@ -36,6 +36,11 @@ export class BillJobs extends APIResource {
    *   running, and try to create another one, you'll get an HTTP 429 response (Too
    *   many requests). When one of the existing BillJobs has completed, you'll be
    *   able to submit another job
+   *
+   * @example
+   * ```ts
+   * const billJobResponse = await client.billJobs.create();
+   * ```
    */
   create(params?: BillJobCreateParams, options?: Core.RequestOptions): Core.APIPromise<BillJobResponse>;
   create(options?: Core.RequestOptions): Core.APIPromise<BillJobResponse>;
@@ -52,6 +57,13 @@ export class BillJobs extends APIResource {
 
   /**
    * Retrieve a Bill Job for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const billJobResponse = await client.billJobs.retrieve(
+   *   'id',
+   * );
+   * ```
    */
   retrieve(
     id: string,
@@ -78,6 +90,14 @@ export class BillJobs extends APIResource {
    * list can be paginated for easier management, and allows you to query and filter
    * based on various parameters, such as BillJob `status` and whether or not BillJob
    * remains `active`.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const billJobResponse of client.billJobs.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: BillJobListParams,
@@ -104,6 +124,11 @@ export class BillJobs extends APIResource {
    * This endpoint allows you to halt the processing of a specific BillJob, which
    * might be necessary if there are changes in billing requirements or other
    * operational considerations.
+   *
+   * @example
+   * ```ts
+   * const billJobResponse = await client.billJobs.cancel('id');
+   * ```
    */
   cancel(
     id: string,
@@ -139,6 +164,13 @@ export class BillJobs extends APIResource {
    *   that the response might not contain all of the parameters listed. If set to
    *   null,the parameter is hidden to help simplify the output as well as to reduce
    *   its size and improve performance.
+   *
+   * @example
+   * ```ts
+   * const billJobResponse = await client.billJobs.recalculate({
+   *   billIds: ['string'],
+   * });
+   * ```
    */
   recalculate(
     params: BillJobRecalculateParams,

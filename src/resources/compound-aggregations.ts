@@ -13,6 +13,18 @@ export class CompoundAggregations extends APIResource {
    * This endpoint allows you to create a new CompoundAggregation for a specific
    * Organization. The request body must include all the necessary details such as
    * the Calculation formula.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.compoundAggregations.create({
+   *     calculation: 'x',
+   *     name: 'x',
+   *     quantityPerUnit: 1,
+   *     rounding: 'UP',
+   *     unit: 'x',
+   *   });
+   * ```
    */
   create(
     params: CompoundAggregationCreateParams,
@@ -27,6 +39,12 @@ export class CompoundAggregations extends APIResource {
    *
    * This endpoint returns a specific CompoundAggregation associated with an
    * Organization. It provides detailed information about the CompoundAggregation.
+   *
+   * @example
+   * ```ts
+   * const compoundAggregationResponse =
+   *   await client.compoundAggregations.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -57,6 +75,18 @@ export class CompoundAggregations extends APIResource {
    * use this endpoint to update the Compound Aggregation use the `customFields`
    * parameter to preserve those Custom Fields. If you omit them from the update
    * request, they will be lost.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.compoundAggregations.update('id', {
+   *     calculation: 'x',
+   *     name: 'x',
+   *     quantityPerUnit: 1,
+   *     rounding: 'UP',
+   *     unit: 'x',
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -75,6 +105,14 @@ export class CompoundAggregations extends APIResource {
    * measures based on simple Aggregations of usage data. It supports pagination, and
    * includes various query parameters to filter the CompoundAggregations based on
    * Product, CompoundAggregation IDs or short codes.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const compoundAggregationResponse of client.compoundAggregations.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: CompoundAggregationListParams,
@@ -105,6 +143,12 @@ export class CompoundAggregations extends APIResource {
    * a specific Organization. Useful when you need to remove an existing
    * CompoundAggregation that is no longer required, such as when changing pricing or
    * planning models.
+   *
+   * @example
+   * ```ts
+   * const compoundAggregationResponse =
+   *   await client.compoundAggregations.delete('id');
+   * ```
    */
   delete(
     id: string,

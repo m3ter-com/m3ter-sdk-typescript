@@ -8,6 +8,12 @@ export class CustomFields extends APIResource {
   /**
    * Retrieve all Custom Fields added at Organizational level for the entities that
    * support them.
+   *
+   * @example
+   * ```ts
+   * const customFieldsResponse =
+   *   await client.customFields.retrieve();
+   * ```
    */
   retrieve(
     params?: CustomFieldRetrieveParams,
@@ -27,6 +33,12 @@ export class CustomFields extends APIResource {
 
   /**
    * Update Custom Fields added at Organization level to entities that support them.
+   *
+   * @example
+   * ```ts
+   * const customFieldsResponse =
+   *   await client.customFields.update();
+   * ```
    */
   update(
     params?: CustomFieldUpdateParams,

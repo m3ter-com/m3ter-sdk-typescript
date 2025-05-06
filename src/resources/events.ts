@@ -12,6 +12,11 @@ export class Events extends APIResource {
    * Retrieves detailed information about the specific Event with the given UUID. An
    * Event corresponds to a unique instance of a state change within the system,
    * classified under a specific Event Type.
+   *
+   * @example
+   * ```ts
+   * const eventResponse = await client.events.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -46,6 +51,14 @@ export class Events extends APIResource {
    * - Use the
    *   [List Notification Events](https://www.m3ter.com/docs/api#tag/Events/operation/ListEventTypes)
    *   endpoint in this section. The response lists the valid Query parameters.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const eventResponse of client.events.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: EventListParams,
@@ -92,6 +105,11 @@ export class Events extends APIResource {
    *   functionality implemented. For these Events, their `customFields` values will
    *   not be populated until such time as the custom fields functionality is
    *   implemented for them
+   *
+   * @example
+   * ```ts
+   * const response = await client.events.getFields();
+   * ```
    */
   getFields(
     params?: EventGetFieldsParams,
@@ -114,6 +132,11 @@ export class Events extends APIResource {
    *
    * This endpoint retrieves a list of Event Types that can have Notification rules
    * configured.
+   *
+   * @example
+   * ```ts
+   * const response = await client.events.getTypes();
+   * ```
    */
   getTypes(
     params?: EventGetTypesParams,

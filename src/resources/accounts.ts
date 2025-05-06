@@ -9,6 +9,15 @@ import { Cursor, type CursorParams } from '../pagination';
 export class Accounts extends APIResource {
   /**
    * Create a new Account within the Organization.
+   *
+   * @example
+   * ```ts
+   * const accountResponse = await client.accounts.create({
+   *   code: 'JS!?Q0]r] ]$]',
+   *   emailAddress: 'dev@stainless.com',
+   *   name: 'x',
+   * });
+   * ```
    */
   create(params: AccountCreateParams, options?: Core.RequestOptions): Core.APIPromise<AccountResponse> {
     const { orgId = this._client.orgId, ...body } = params;
@@ -17,6 +26,13 @@ export class Accounts extends APIResource {
 
   /**
    * Retrieve the Account with the given Account UUID.
+   *
+   * @example
+   * ```ts
+   * const accountResponse = await client.accounts.retrieve(
+   *   'id',
+   * );
+   * ```
    */
   retrieve(
     id: string,
@@ -43,6 +59,15 @@ export class Accounts extends APIResource {
    * endpoint to update the Account, use the `customFields` parameter to preserve
    * those Custom Fields. If you omit them from the update request, they will be
    * lost.
+   *
+   * @example
+   * ```ts
+   * const accountResponse = await client.accounts.update('id', {
+   *   code: 'JS!?Q0]r] ]$]',
+   *   emailAddress: 'dev@stainless.com',
+   *   name: 'x',
+   * });
+   * ```
    */
   update(
     id: string,
@@ -55,6 +80,14 @@ export class Accounts extends APIResource {
 
   /**
    * Retrieve a list of Accounts that can be filtered by Account ID or Account Code.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const accountResponse of client.accounts.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: AccountListParams,
@@ -78,6 +111,11 @@ export class Accounts extends APIResource {
   /**
    * Delete the Account with the given UUID. This may fail if there are any
    * AccountPlans that reference the Account being deleted.
+   *
+   * @example
+   * ```ts
+   * const accountResponse = await client.accounts.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -104,6 +142,15 @@ export class Accounts extends APIResource {
    *
    * - When you successfully end-date billing entities, the version number of each
    *   entity is incremented.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.accounts.endDateBillingEntities('id', {
+   *     billingEntities: ['CONTRACT'],
+   *     endDate: '2019-12-27T18:11:19.117Z',
+   *   });
+   * ```
    */
   endDateBillingEntities(
     id: string,
@@ -119,6 +166,13 @@ export class Accounts extends APIResource {
 
   /**
    * Retrieve a list of Accounts that are children of the specified Account.
+   *
+   * @example
+   * ```ts
+   * const accountResponse = await client.accounts.getChildren(
+   *   'id',
+   * );
+   * ```
    */
   getChildren(
     id: string,
@@ -145,6 +199,11 @@ export class Accounts extends APIResource {
    * search criteria. The search query is customizable, allowing for complex nested
    * conditions and sorting. The returned list of Accounts can be paginated for
    * easier management.
+   *
+   * @example
+   * ```ts
+   * const response = await client.accounts.search();
+   * ```
    */
   search(params?: AccountSearchParams, options?: Core.RequestOptions): Core.APIPromise<AccountSearchResponse>;
   search(options?: Core.RequestOptions): Core.APIPromise<AccountSearchResponse>;

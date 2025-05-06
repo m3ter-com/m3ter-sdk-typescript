@@ -10,6 +10,13 @@ export class Currencies extends APIResource {
    * Creates a new Currency for the specified Organization.
    *
    * Used to create a Currency that your Organization will start to use.
+   *
+   * @example
+   * ```ts
+   * const currencyResponse = await client.currencies.create({
+   *   name: 'x',
+   * });
+   * ```
    */
   create(params: CurrencyCreateParams, options?: Core.RequestOptions): Core.APIPromise<CurrencyResponse> {
     const { orgId = this._client.orgId, ...body } = params;
@@ -19,6 +26,13 @@ export class Currencies extends APIResource {
   /**
    * Retrieve the specified Currency with the given UUID. Used to obtain the details
    * of a specified existing Currency in your Organization.
+   *
+   * @example
+   * ```ts
+   * const currencyResponse = await client.currencies.retrieve(
+   *   'id',
+   * );
+   * ```
    */
   retrieve(
     id: string,
@@ -43,6 +57,14 @@ export class Currencies extends APIResource {
    *
    * Used to update the attributes of the specified Currency for the specified
    * Organization.
+   *
+   * @example
+   * ```ts
+   * const currencyResponse = await client.currencies.update(
+   *   'id',
+   *   { name: 'x' },
+   * );
+   * ```
    */
   update(
     id: string,
@@ -59,6 +81,14 @@ export class Currencies extends APIResource {
    * Retrieves a list of Currencies for the specified Organization. This endpoint
    * supports pagination and includes various query parameters to filter the
    * Currencies based on Currency ID, and short codes.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const currencyResponse of client.currencies.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: CurrencyListParams,
@@ -84,6 +114,13 @@ export class Currencies extends APIResource {
    *
    * Used to remove an existing Currency from your Organization that is no longer
    * required.
+   *
+   * @example
+   * ```ts
+   * const currencyResponse = await client.currencies.delete(
+   *   'id',
+   * );
+   * ```
    */
   delete(
     id: string,

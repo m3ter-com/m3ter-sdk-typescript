@@ -6,6 +6,13 @@ import * as Core from '../core';
 export class Authentication extends APIResource {
   /**
    * Get authentication token
+   *
+   * @example
+   * ```ts
+   * const response = await client.authentication.getBearerToken(
+   *   { grant_type: 'client_credentials' },
+   * );
+   * ```
    */
   getBearerToken(
     body: AuthenticationGetBearerTokenParams,

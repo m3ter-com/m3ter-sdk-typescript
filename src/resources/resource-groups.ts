@@ -10,6 +10,12 @@ import { Cursor, type CursorParams } from '../pagination';
 export class ResourceGroups extends APIResource {
   /**
    * Create a ResourceGroup for the UUID
+   *
+   * @example
+   * ```ts
+   * const resourceGroupResponse =
+   *   await client.resourceGroups.create('type', { name: 'x' });
+   * ```
    */
   create(
     type: string,
@@ -22,6 +28,12 @@ export class ResourceGroups extends APIResource {
 
   /**
    * Retrieve the ResourceGroup for the UUID
+   *
+   * @example
+   * ```ts
+   * const resourceGroupResponse =
+   *   await client.resourceGroups.retrieve('type', 'id');
+   * ```
    */
   retrieve(
     type: string,
@@ -45,6 +57,14 @@ export class ResourceGroups extends APIResource {
 
   /**
    * Update the ResourceGroup for the UUID
+   *
+   * @example
+   * ```ts
+   * const resourceGroupResponse =
+   *   await client.resourceGroups.update('type', 'id', {
+   *     name: 'x',
+   *   });
+   * ```
    */
   update(
     type: string,
@@ -58,6 +78,16 @@ export class ResourceGroups extends APIResource {
 
   /**
    * Retrieve a list of ResourceGroup entities
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const resourceGroupResponse of client.resourceGroups.list(
+   *   'type',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     type: string,
@@ -86,6 +116,12 @@ export class ResourceGroups extends APIResource {
 
   /**
    * Delete a ResourceGroup for the UUID
+   *
+   * @example
+   * ```ts
+   * const resourceGroupResponse =
+   *   await client.resourceGroups.delete('type', 'id');
+   * ```
    */
   delete(
     type: string,
@@ -109,6 +145,19 @@ export class ResourceGroups extends APIResource {
 
   /**
    * Add an item to a ResourceGroup.
+   *
+   * @example
+   * ```ts
+   * const resourceGroupResponse =
+   *   await client.resourceGroups.addResource(
+   *     'type',
+   *     'resourceGroupId',
+   *     {
+   *       targetId: '06f6b50c-a868-4ca6-XXXX-448e507d5248',
+   *       targetType: 'ITEM',
+   *     },
+   *   );
+   * ```
    */
   addResource(
     type: string,
@@ -125,6 +174,17 @@ export class ResourceGroups extends APIResource {
 
   /**
    * Retrieve a list of items for a ResourceGroup
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const resourceGroupListContentsResponse of client.resourceGroups.listContents(
+   *   'type',
+   *   'resourceGroupId',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listContents(
     type: string,
@@ -156,6 +216,17 @@ export class ResourceGroups extends APIResource {
 
   /**
    * Retrieve a list of permission policies for a ResourceGroup
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const permissionPolicyResponse of client.resourceGroups.listPermissions(
+   *   'type',
+   *   'resourceGroupId',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listPermissions(
     type: string,
@@ -187,6 +258,19 @@ export class ResourceGroups extends APIResource {
 
   /**
    * Remove an item from a ResourceGroup.
+   *
+   * @example
+   * ```ts
+   * const resourceGroupResponse =
+   *   await client.resourceGroups.removeResource(
+   *     'type',
+   *     'resourceGroupId',
+   *     {
+   *       targetId: '06f6b50c-a868-4ca6-XXXX-448e507d5248',
+   *       targetType: 'ITEM',
+   *     },
+   *   );
+   * ```
    */
   removeResource(
     type: string,

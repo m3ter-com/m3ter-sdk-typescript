@@ -40,6 +40,12 @@ export class Usage extends APIResource {
    *   Organization, then you can perform this **GET** call using the full URL
    *   returned for any ingest failure Event to obtain a failed ingest file download
    *   URL for the Event.
+   *
+   * @example
+   * ```ts
+   * const downloadURLResponse =
+   *   await client.usage.getFailedIngestDownloadURL();
+   * ```
    */
   getFailedIngestDownloadURL(
     params?: UsageGetFailedIngestDownloadURLParams,
@@ -82,6 +88,11 @@ export class Usage extends APIResource {
    * - **Account**
    * - **Time**
    * - **Dimension**
+   *
+   * @example
+   * ```ts
+   * const usageQueryResponse = await client.usage.query();
+   * ```
    */
   query(params?: UsageQueryParams, options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse>;
   query(options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse>;
@@ -135,6 +146,20 @@ export class Usage extends APIResource {
    * contain any end-customer PII data. See the
    * [Introduction section](https://www.m3ter.com/docs/api#section/Introduction)
    * above for more details.
+   *
+   * @example
+   * ```ts
+   * const submitMeasurementsResponse =
+   *   await client.usage.submit({
+   *     measurements: [
+   *       {
+   *         account: 'Acme Corp',
+   *         meter: 'string',
+   *         ts: '2022-08-24T14:15:22Z',
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   submit(
     params: UsageSubmitParams,

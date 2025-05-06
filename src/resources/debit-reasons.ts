@@ -10,6 +10,12 @@ export class DebitReasons extends APIResource {
    * Create a new Debit Reason for your Organization. When you've created a Debit
    * Reason, it becomes available as a debit type for adding Debit line items to
    * Bills. See [Debits](https://www.m3ter.com/docs/api#tag/Debits).
+   *
+   * @example
+   * ```ts
+   * const debitReasonResponse =
+   *   await client.debitReasons.create({ name: 'x' });
+   * ```
    */
   create(
     params: DebitReasonCreateParams,
@@ -21,6 +27,12 @@ export class DebitReasons extends APIResource {
 
   /**
    * Retrieve the Debit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const debitReasonResponse =
+   *   await client.debitReasons.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -42,6 +54,12 @@ export class DebitReasons extends APIResource {
 
   /**
    * Update the Debit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const debitReasonResponse =
+   *   await client.debitReasons.update('id', { name: 'x' });
+   * ```
    */
   update(
     id: string,
@@ -56,6 +74,14 @@ export class DebitReasons extends APIResource {
    * Retrieve a list of the Debit Reason entities created for your Organization. You
    * can filter the list returned for the call by Debit Reason ID, Debit Reason short
    * code, or by Archive status.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const debitReasonResponse of client.debitReasons.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: DebitReasonListParams,
@@ -79,6 +105,12 @@ export class DebitReasons extends APIResource {
 
   /**
    * Delete the Debit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const debitReasonResponse =
+   *   await client.debitReasons.delete('id');
+   * ```
    */
   delete(
     id: string,

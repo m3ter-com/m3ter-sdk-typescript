@@ -8,6 +8,12 @@ import * as Shared from './shared';
 export class OrganizationConfig extends APIResource {
   /**
    * Retrieve the Organization-wide configuration details.
+   *
+   * @example
+   * ```ts
+   * const organizationConfigResponse =
+   *   await client.organizationConfig.retrieve();
+   * ```
    */
   retrieve(
     params?: OrganizationConfigRetrieveParams,
@@ -27,6 +33,20 @@ export class OrganizationConfig extends APIResource {
 
   /**
    * Update the Organization-wide configuration details.
+   *
+   * @example
+   * ```ts
+   * const organizationConfigResponse =
+   *   await client.organizationConfig.update({
+   *     currency: 'USD',
+   *     dayEpoch: '2022-01-01',
+   *     daysBeforeBillDue: 1,
+   *     monthEpoch: '2022-01-01',
+   *     timezone: 'UTC',
+   *     weekEpoch: '2022-01-04',
+   *     yearEpoch: '2022-01-01',
+   *   });
+   * ```
    */
   update(
     params: OrganizationConfigUpdateParams,

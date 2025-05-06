@@ -8,6 +8,20 @@ import { Cursor, type CursorParams } from '../pagination';
 export class Aggregations extends APIResource {
   /**
    * Create a new Aggregation.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.aggregations.create({
+   *     aggregation: 'SUM',
+   *     meterId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *     name: 'x',
+   *     quantityPerUnit: 1,
+   *     rounding: 'UP',
+   *     targetField: 'x',
+   *     unit: 'x',
+   *   });
+   * ```
    */
   create(
     params: AggregationCreateParams,
@@ -19,6 +33,12 @@ export class Aggregations extends APIResource {
 
   /**
    * Retrieve the Aggregation with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.aggregations.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -45,6 +65,20 @@ export class Aggregations extends APIResource {
    * this endpoint to update the Aggregation use the `customFields` parameter to
    * preserve those Custom Fields. If you omit them from the update request, they
    * will be lost.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.aggregations.update('id', {
+   *     aggregation: 'SUM',
+   *     meterId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *     name: 'x',
+   *     quantityPerUnit: 1,
+   *     rounding: 'UP',
+   *     targetField: 'x',
+   *     unit: 'x',
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -58,6 +92,14 @@ export class Aggregations extends APIResource {
   /**
    * Retrieve a list of Aggregations that can be filtered by Product, Aggregation ID,
    * or Code.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const aggregationResponse of client.aggregations.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: AggregationListParams,
@@ -80,6 +122,12 @@ export class Aggregations extends APIResource {
 
   /**
    * Delete the Aggregation with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.aggregations.delete('id');
+   * ```
    */
   delete(
     id: string,

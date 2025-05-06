@@ -18,6 +18,17 @@ export class CounterAdjustments extends APIResource {
    * - CounterAdjustments on Accounts are supported down to a _specific day_ of
    *   granularity - you cannot create more than one CounterAdjustment for any given
    *   day using the same Counter and you'll receive an error if you try to do this.
+   *
+   * @example
+   * ```ts
+   * const counterAdjustmentResponse =
+   *   await client.counterAdjustments.create({
+   *     accountId: 'x',
+   *     counterId: 'x',
+   *     date: '2022-01-04',
+   *     value: 0,
+   *   });
+   * ```
    */
   create(
     params: CounterAdjustmentCreateParams,
@@ -29,6 +40,12 @@ export class CounterAdjustments extends APIResource {
 
   /**
    * Retrieve a CounterAdjustment for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const counterAdjustmentResponse =
+   *   await client.counterAdjustments.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -50,6 +67,17 @@ export class CounterAdjustments extends APIResource {
 
   /**
    * Update a CounterAdjustment for an Account.
+   *
+   * @example
+   * ```ts
+   * const counterAdjustmentResponse =
+   *   await client.counterAdjustments.update('id', {
+   *     accountId: 'x',
+   *     counterId: 'x',
+   *     date: '2022-01-04',
+   *     value: 0,
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -71,6 +99,14 @@ export class CounterAdjustments extends APIResource {
    *   other query parameters.
    * - If you want to use the `date`, `dateStart`, or `dateEnd` query parameters, you
    *   must also use the `accountId` query parameter.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const counterAdjustmentResponse of client.counterAdjustments.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: CounterAdjustmentListParams,
@@ -96,6 +132,12 @@ export class CounterAdjustments extends APIResource {
 
   /**
    * Delete a CounterAdjustment for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const counterAdjustmentResponse =
+   *   await client.counterAdjustments.delete('id');
+   * ```
    */
   delete(
     id: string,

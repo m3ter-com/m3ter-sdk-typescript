@@ -32,6 +32,15 @@ export class FileUploads extends APIResource {
    * - The upload URL is time limited - it is valid for **_one_** minute.
    *
    * Part of the file upload service for submitting measurements data files.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.usage.fileUploads.generateUploadURL({
+   *     contentType: 'x',
+   *     fileName: 'x',
+   *   });
+   * ```
    */
   generateUploadURL(
     params: FileUploadGenerateUploadURLParams,

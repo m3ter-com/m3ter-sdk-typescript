@@ -9,6 +9,12 @@ export class TransactionTypes extends APIResource {
   /**
    * Create a new TransactionType for the specified Organization. Details of the new
    * TransactionType should be included in the request body.
+   *
+   * @example
+   * ```ts
+   * const transactionTypeResponse =
+   *   await client.transactionTypes.create({ name: 'x' });
+   * ```
    */
   create(
     params: TransactionTypeCreateParams,
@@ -21,6 +27,12 @@ export class TransactionTypes extends APIResource {
   /**
    * Retrieves the TransactionType with the given UUID from the specified
    * Organization.
+   *
+   * @example
+   * ```ts
+   * const transactionTypeResponse =
+   *   await client.transactionTypes.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -44,6 +56,12 @@ export class TransactionTypes extends APIResource {
    * Updates the TransactionType with the specified UUID for the specified
    * Organization. Update details for the TransactionType should be included in the
    * request body.
+   *
+   * @example
+   * ```ts
+   * const transactionTypeResponse =
+   *   await client.transactionTypes.update('id', { name: 'x' });
+   * ```
    */
   update(
     id: string,
@@ -58,6 +76,14 @@ export class TransactionTypes extends APIResource {
    * Retrieves a list of TransactionType entities for the specified Organization. The
    * list can be paginated for easier management, and supports filtering by various
    * parameters.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const transactionTypeResponse of client.transactionTypes.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: TransactionTypeListParams,
@@ -83,6 +109,12 @@ export class TransactionTypes extends APIResource {
 
   /**
    * Deletes the TransactionType with the given UUID from the specified Organization.
+   *
+   * @example
+   * ```ts
+   * const transactionTypeResponse =
+   *   await client.transactionTypes.delete('id');
+   * ```
    */
   delete(
     id: string,
