@@ -271,15 +271,22 @@ export interface UsageDataExportScheduleRequest {
    * section in our main User Documentation.
    */
   timePeriod:
-    | 'LAST_12_HOURS'
     | 'TODAY'
     | 'YESTERDAY'
     | 'WEEK_TO_DATE'
-    | 'CURRENT_MONTH'
+    | 'MONTH_TO_DATE'
+    | 'YEAR_TO_DATE'
+    | 'PREVIOUS_WEEK'
+    | 'PREVIOUS_MONTH'
+    | 'PREVIOUS_QUARTER'
+    | 'PREVIOUS_YEAR'
+    | 'LAST_12_HOURS'
+    | 'LAST_7_DAYS'
     | 'LAST_30_DAYS'
     | 'LAST_35_DAYS'
-    | 'PREVIOUS_WEEK'
-    | 'PREVIOUS_MONTH';
+    | 'LAST_90_DAYS'
+    | 'LAST_120_DAYS'
+    | 'LAST_YEAR';
 
   /**
    * List of account IDs to export
@@ -455,15 +462,22 @@ export interface UsageDataExportScheduleResponse {
    * section in our main User Documentation.
    */
   timePeriod?:
-    | 'LAST_12_HOURS'
     | 'TODAY'
     | 'YESTERDAY'
     | 'WEEK_TO_DATE'
-    | 'CURRENT_MONTH'
+    | 'MONTH_TO_DATE'
+    | 'YEAR_TO_DATE'
+    | 'PREVIOUS_WEEK'
+    | 'PREVIOUS_MONTH'
+    | 'PREVIOUS_QUARTER'
+    | 'PREVIOUS_YEAR'
+    | 'LAST_12_HOURS'
+    | 'LAST_7_DAYS'
     | 'LAST_30_DAYS'
     | 'LAST_35_DAYS'
-    | 'PREVIOUS_WEEK'
-    | 'PREVIOUS_MONTH';
+    | 'LAST_90_DAYS'
+    | 'LAST_120_DAYS'
+    | 'LAST_YEAR';
 }
 
 export namespace UsageDataExportScheduleResponse {
@@ -704,15 +718,22 @@ export declare namespace ScheduleCreateParams {
      * section in our main User Documentation.
      */
     timePeriod:
-      | 'LAST_12_HOURS'
       | 'TODAY'
       | 'YESTERDAY'
       | 'WEEK_TO_DATE'
-      | 'CURRENT_MONTH'
+      | 'MONTH_TO_DATE'
+      | 'YEAR_TO_DATE'
+      | 'PREVIOUS_WEEK'
+      | 'PREVIOUS_MONTH'
+      | 'PREVIOUS_QUARTER'
+      | 'PREVIOUS_YEAR'
+      | 'LAST_12_HOURS'
+      | 'LAST_7_DAYS'
       | 'LAST_30_DAYS'
       | 'LAST_35_DAYS'
-      | 'PREVIOUS_WEEK'
-      | 'PREVIOUS_MONTH';
+      | 'LAST_90_DAYS'
+      | 'LAST_120_DAYS'
+      | 'LAST_YEAR';
 
     /**
      * Body param: List of account IDs to export
@@ -916,15 +937,22 @@ export declare namespace ScheduleUpdateParams {
      * section in our main User Documentation.
      */
     timePeriod:
-      | 'LAST_12_HOURS'
       | 'TODAY'
       | 'YESTERDAY'
       | 'WEEK_TO_DATE'
-      | 'CURRENT_MONTH'
+      | 'MONTH_TO_DATE'
+      | 'YEAR_TO_DATE'
+      | 'PREVIOUS_WEEK'
+      | 'PREVIOUS_MONTH'
+      | 'PREVIOUS_QUARTER'
+      | 'PREVIOUS_YEAR'
+      | 'LAST_12_HOURS'
+      | 'LAST_7_DAYS'
       | 'LAST_30_DAYS'
       | 'LAST_35_DAYS'
-      | 'PREVIOUS_WEEK'
-      | 'PREVIOUS_MONTH';
+      | 'LAST_90_DAYS'
+      | 'LAST_120_DAYS'
+      | 'LAST_YEAR';
 
     /**
      * Body param: List of account IDs to export

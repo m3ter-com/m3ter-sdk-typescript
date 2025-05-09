@@ -13,7 +13,11 @@ const client = new M3ter({
 
 describe('resource fileUploads', () => {
   test('generateUploadURL: only required params', async () => {
-    const responsePromise = client.usage.fileUploads.generateUploadURL({ contentType: 'x', fileName: 'x' });
+    const responsePromise = client.usage.fileUploads.generateUploadURL({
+      contentLength: 1,
+      contentType: 'application/json',
+      fileName: 'x',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -26,9 +30,9 @@ describe('resource fileUploads', () => {
   test('generateUploadURL: required and optional params', async () => {
     const response = await client.usage.fileUploads.generateUploadURL({
       orgId: 'orgId',
-      contentType: 'x',
-      fileName: 'x',
       contentLength: 1,
+      contentType: 'application/json',
+      fileName: 'x',
     });
   });
 });

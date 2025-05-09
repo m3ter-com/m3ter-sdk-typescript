@@ -37,7 +37,8 @@ export class FileUploads extends APIResource {
    * ```ts
    * const response =
    *   await client.usage.fileUploads.generateUploadURL({
-   *     contentType: 'x',
+   *     contentLength: 1,
+   *     contentType: 'application/json',
    *     fileName: 'x',
    *   });
    * ```
@@ -81,26 +82,26 @@ export interface FileUploadGenerateUploadURLParams {
   orgId?: string;
 
   /**
+   * Body param: The size of the body in bytes. For example: `"contentLength": 485`,
+   * where 485 is the size in bytes of the file to upload.
+   *
+   * **NOTE:** Required.
+   */
+  contentLength: number;
+
+  /**
    * Body param: The media type of the entity body sent, for example:
    * `"contentType":"text/json"`.
    *
    * **NOTE:** Currently only a JSON formatted file type is supported by the File
    * Upload Service.
    */
-  contentType: string;
+  contentType: 'application/json' | 'text/json';
 
   /**
    * Body param: The name of the measurements file to be uploaded.
    */
   fileName: string;
-
-  /**
-   * Body param: The size of the body in bytes. For example: `"contentLength": 485`,
-   * where 485 is the size in bytes of the file to upload.
-   *
-   * **NOTE:** Required.
-   */
-  contentLength?: number;
 }
 
 FileUploads.Jobs = Jobs;
