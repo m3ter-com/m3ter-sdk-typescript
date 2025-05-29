@@ -51,9 +51,10 @@ describe('resource transactions', () => {
   test('list: required and optional params', async () => {
     const response = await client.balances.transactions.list('balanceId', {
       orgId: 'orgId',
+      entityId: 'entityId',
+      entityType: 'BILL',
       nextToken: 'nextToken',
       pageSize: 1,
-      scheduleId: 'scheduleId',
       transactionTypeId: 'transactionTypeId',
     });
   });
@@ -72,9 +73,10 @@ describe('resource transactions', () => {
         'balanceId',
         {
           orgId: 'orgId',
+          entityId: 'entityId',
+          entityType: 'BILL',
           nextToken: 'nextToken',
           pageSize: 1,
-          scheduleId: 'scheduleId',
           transactionTypeId: 'transactionTypeId',
         },
         { path: '/_stainless_unknown_path' },

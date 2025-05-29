@@ -145,6 +145,8 @@ export interface Balance {
 
   consumptionsAccountingProductId?: string;
 
+  contractId?: string;
+
   /**
    * The unique identifier (UUID) for the user who created the Balance.
    */
@@ -284,6 +286,11 @@ export interface BalanceCreateParams {
    * to for accounting purposes
    */
   consumptionsAccountingProductId?: string;
+
+  /**
+   * Body param:
+   */
+  contractId?: string;
 
   /**
    * Body param: A description of the Balance.
@@ -443,6 +450,11 @@ export interface BalanceUpdateParams {
    * to for accounting purposes
    */
   consumptionsAccountingProductId?: string;
+
+  /**
+   * Body param:
+   */
+  contractId?: string;
 
   /**
    * Body param: A description of the Balance.

@@ -629,6 +629,47 @@ Methods:
 - <code title="get /organizations/{orgId}/scheduledevents/configurations">client.scheduledEventConfigurations.<a href="./src/resources/scheduled-event-configurations.ts">list</a>({ ...params }) -> ScheduledEventConfigurationResponsesCursor</code>
 - <code title="delete /organizations/{orgId}/scheduledevents/configurations/{id}">client.scheduledEventConfigurations.<a href="./src/resources/scheduled-event-configurations.ts">delete</a>(id, { ...params }) -> ScheduledEventConfigurationResponse</code>
 
+# Statements
+
+Types:
+
+- <code><a href="./src/resources/statements/statements.ts">ObjectURLResponse</a></code>
+
+Methods:
+
+- <code title="post /organizations/{orgId}/bills/{id}/statement/csv">client.statements.<a href="./src/resources/statements/statements.ts">createCsv</a>(id, { ...params }) -> ObjectURLResponse</code>
+- <code title="get /organizations/{orgId}/bills/{id}/statement/csv">client.statements.<a href="./src/resources/statements/statements.ts">getCsv</a>(id, { ...params }) -> ObjectURLResponse</code>
+- <code title="get /organizations/{orgId}/bills/{id}/statement/json">client.statements.<a href="./src/resources/statements/statements.ts">getJson</a>(id, { ...params }) -> ObjectURLResponse</code>
+
+## StatementJobs
+
+Types:
+
+- <code><a href="./src/resources/statements/statement-jobs.ts">StatementJobResponse</a></code>
+- <code><a href="./src/resources/statements/statement-jobs.ts">StatementJobCreateBatchResponse</a></code>
+
+Methods:
+
+- <code title="post /organizations/{orgId}/statementjobs">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">create</a>({ ...params }) -> StatementJobResponse</code>
+- <code title="get /organizations/{orgId}/statementjobs/{id}">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">retrieve</a>(id, { ...params }) -> StatementJobResponse</code>
+- <code title="get /organizations/{orgId}/statementjobs">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">list</a>({ ...params }) -> StatementJobResponsesCursor</code>
+- <code title="post /organizations/{orgId}/statementjobs/{id}/cancel">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">cancel</a>(id, { ...params }) -> StatementJobResponse</code>
+- <code title="post /organizations/{orgId}/statementjobs/batch">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">createBatch</a>({ ...params }) -> StatementJobCreateBatchResponse</code>
+
+## StatementDefinitions
+
+Types:
+
+- <code><a href="./src/resources/statements/statement-definitions.ts">StatementDefinitionResponse</a></code>
+
+Methods:
+
+- <code title="post /organizations/{orgId}/statementdefinitions">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">create</a>({ ...params }) -> StatementDefinitionResponse</code>
+- <code title="get /organizations/{orgId}/statementdefinitions/{id}">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">retrieve</a>(id, { ...params }) -> StatementDefinitionResponse</code>
+- <code title="put /organizations/{orgId}/statementdefinitions/{id}">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">update</a>(id, { ...params }) -> StatementDefinitionResponse</code>
+- <code title="get /organizations/{orgId}/statementdefinitions">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">list</a>({ ...params }) -> StatementDefinitionResponsesCursor</code>
+- <code title="delete /organizations/{orgId}/statementdefinitions/{id}">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">delete</a>(id, { ...params }) -> StatementDefinitionResponse</code>
+
 # TransactionTypes
 
 Types:

@@ -411,6 +411,13 @@ import {
   DataExports,
 } from './resources/data-exports/data-exports';
 import {
+  ObjectURLResponse,
+  StatementCreateCsvParams,
+  StatementGetCsvParams,
+  StatementGetJsonParams,
+  Statements,
+} from './resources/statements/statements';
+import {
   DownloadURLResponse,
   MeasurementRequest,
   SubmitMeasurementsRequest,
@@ -635,6 +642,7 @@ export class M3ter extends Core.APIClient {
   products: API.Products = new API.Products(this);
   resourceGroups: API.ResourceGroups = new API.ResourceGroups(this);
   scheduledEventConfigurations: API.ScheduledEventConfigurations = new API.ScheduledEventConfigurations(this);
+  statements: API.Statements = new API.Statements(this);
   transactionTypes: API.TransactionTypes = new API.TransactionTypes(this);
   usage: API.Usage = new API.Usage(this);
   users: API.Users = new API.Users(this);
@@ -760,6 +768,7 @@ M3ter.ResourceGroupResponsesCursor = ResourceGroupResponsesCursor;
 M3ter.ResourceGroupListContentsResponsesCursor = ResourceGroupListContentsResponsesCursor;
 M3ter.ScheduledEventConfigurations = ScheduledEventConfigurations;
 M3ter.ScheduledEventConfigurationResponsesCursor = ScheduledEventConfigurationResponsesCursor;
+M3ter.Statements = Statements;
 M3ter.TransactionTypes = TransactionTypes;
 M3ter.TransactionTypeResponsesCursor = TransactionTypeResponsesCursor;
 M3ter.Usage = Usage;
@@ -1181,6 +1190,14 @@ export declare namespace M3ter {
     type ScheduledEventConfigurationUpdateParams as ScheduledEventConfigurationUpdateParams,
     type ScheduledEventConfigurationListParams as ScheduledEventConfigurationListParams,
     type ScheduledEventConfigurationDeleteParams as ScheduledEventConfigurationDeleteParams,
+  };
+
+  export {
+    Statements as Statements,
+    type ObjectURLResponse as ObjectURLResponse,
+    type StatementCreateCsvParams as StatementCreateCsvParams,
+    type StatementGetCsvParams as StatementGetCsvParams,
+    type StatementGetJsonParams as StatementGetJsonParams,
   };
 
   export {

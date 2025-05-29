@@ -158,7 +158,7 @@ export interface TransactionResponse {
    * responsible for the Transaction being added to the Balance - such as a **User**,
    * a **Service User**, or a **Bill**.
    */
-  entityType?: 'BILL' | 'COMMITMENT' | 'USER' | 'SERVICE_USER';
+  entityType?: 'BILL' | 'COMMITMENT' | 'USER' | 'SERVICE_USER' | 'SCHEDULER';
 
   /**
    * The unique identifier (UUID) for the user who last modified the balance
@@ -261,7 +261,12 @@ export interface TransactionListParams extends CursorParams {
   /**
    * Query param:
    */
-  scheduleId?: string | null;
+  entityId?: string | null;
+
+  /**
+   * Query param:
+   */
+  entityType?: 'BILL' | 'COMMITMENT' | 'USER' | 'SERVICE_USER' | 'SCHEDULER' | null;
 
   /**
    * Query param:

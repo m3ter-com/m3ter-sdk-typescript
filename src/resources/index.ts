@@ -378,6 +378,13 @@ export {
   type ScheduledEventConfigurationDeleteParams,
 } from './scheduled-event-configurations';
 export {
+  Statements,
+  type ObjectURLResponse,
+  type StatementCreateCsvParams,
+  type StatementGetCsvParams,
+  type StatementGetJsonParams,
+} from './statements/statements';
+export {
   TransactionTypeResponsesCursor,
   TransactionTypes,
   type TransactionTypeResponse,

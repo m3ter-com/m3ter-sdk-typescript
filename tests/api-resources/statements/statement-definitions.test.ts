@@ -11,14 +11,9 @@ const client = new M3ter({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource balances', () => {
+describe('resource statementDefinitions', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.balances.create({
-      accountId: 'x',
-      currency: 'x',
-      endDate: '2019-12-27T18:11:19.117Z',
-      startDate: '2019-12-27T18:11:19.117Z',
-    });
+    const responsePromise = client.statements.statementDefinitions.create({ aggregationFrequency: 'DAY' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -29,31 +24,19 @@ describe('resource balances', () => {
   });
 
   test('create: required and optional params', async () => {
-    const response = await client.balances.create({
+    const response = await client.statements.statementDefinitions.create({
       orgId: 'orgId',
-      accountId: 'x',
-      currency: 'x',
-      endDate: '2019-12-27T18:11:19.117Z',
-      startDate: '2019-12-27T18:11:19.117Z',
-      balanceDrawDownDescription: 'balanceDrawDownDescription',
-      code: 'JS!?Q0]r] ]$]',
-      consumptionsAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-      contractId: 'contractId',
-      description: 'description',
-      feesAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-      lineItemTypes: ['STANDING_CHARGE'],
+      aggregationFrequency: 'DAY',
+      dimensions: [{ filter: ['string'], name: 'x', attributes: ['string'], meterId: 'meterId' }],
+      includePricePerUnit: true,
+      measures: [{ aggregations: ['SUM'], meterId: 'meterId', name: 'name' }],
       name: 'name',
-      overageDescription: 'overageDescription',
-      overageSurchargePercent: 0,
-      productIds: ['string'],
-      rolloverAmount: 0,
-      rolloverEndDate: '2019-12-27T18:11:19.117Z',
       version: 0,
     });
   });
 
   test('retrieve: only required params', async () => {
-    const responsePromise = client.balances.retrieve('id');
+    const responsePromise = client.statements.statementDefinitions.retrieve('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -64,29 +47,30 @@ describe('resource balances', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await client.balances.retrieve('id', { orgId: 'orgId' });
+    const response = await client.statements.statementDefinitions.retrieve('id', { orgId: 'orgId' });
   });
 
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.balances.retrieve('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
+    await expect(
+      client.statements.statementDefinitions.retrieve('id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(M3ter.NotFoundError);
   });
 
   test('retrieve: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.balances.retrieve('id', { orgId: 'orgId' }, { path: '/_stainless_unknown_path' }),
+      client.statements.statementDefinitions.retrieve(
+        'id',
+        { orgId: 'orgId' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(M3ter.NotFoundError);
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.balances.update('id', {
-      accountId: 'x',
-      currency: 'x',
-      endDate: '2019-12-27T18:11:19.117Z',
-      startDate: '2019-12-27T18:11:19.117Z',
+    const responsePromise = client.statements.statementDefinitions.update('id', {
+      aggregationFrequency: 'DAY',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -98,31 +82,19 @@ describe('resource balances', () => {
   });
 
   test('update: required and optional params', async () => {
-    const response = await client.balances.update('id', {
+    const response = await client.statements.statementDefinitions.update('id', {
       orgId: 'orgId',
-      accountId: 'x',
-      currency: 'x',
-      endDate: '2019-12-27T18:11:19.117Z',
-      startDate: '2019-12-27T18:11:19.117Z',
-      balanceDrawDownDescription: 'balanceDrawDownDescription',
-      code: 'JS!?Q0]r] ]$]',
-      consumptionsAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-      contractId: 'contractId',
-      description: 'description',
-      feesAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-      lineItemTypes: ['STANDING_CHARGE'],
+      aggregationFrequency: 'DAY',
+      dimensions: [{ filter: ['string'], name: 'x', attributes: ['string'], meterId: 'meterId' }],
+      includePricePerUnit: true,
+      measures: [{ aggregations: ['SUM'], meterId: 'meterId', name: 'name' }],
       name: 'name',
-      overageDescription: 'overageDescription',
-      overageSurchargePercent: 0,
-      productIds: ['string'],
-      rolloverAmount: 0,
-      rolloverEndDate: '2019-12-27T18:11:19.117Z',
       version: 0,
     });
   });
 
   test('list: only required params', async () => {
-    const responsePromise = client.balances.list();
+    const responsePromise = client.statements.statementDefinitions.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -133,11 +105,8 @@ describe('resource balances', () => {
   });
 
   test('list: required and optional params', async () => {
-    const response = await client.balances.list({
+    const response = await client.statements.statementDefinitions.list({
       orgId: 'orgId',
-      accountId: 'accountId',
-      endDateEnd: 'endDateEnd',
-      endDateStart: 'endDateStart',
       nextToken: 'nextToken',
       pageSize: 1,
     });
@@ -145,30 +114,23 @@ describe('resource balances', () => {
 
   test('list: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.balances.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
+    await expect(
+      client.statements.statementDefinitions.list({ path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(M3ter.NotFoundError);
   });
 
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.balances.list(
-        {
-          orgId: 'orgId',
-          accountId: 'accountId',
-          endDateEnd: 'endDateEnd',
-          endDateStart: 'endDateStart',
-          nextToken: 'nextToken',
-          pageSize: 1,
-        },
+      client.statements.statementDefinitions.list(
+        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1 },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(M3ter.NotFoundError);
   });
 
   test('delete: only required params', async () => {
-    const responsePromise = client.balances.delete('id');
+    const responsePromise = client.statements.statementDefinitions.delete('id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -179,20 +141,24 @@ describe('resource balances', () => {
   });
 
   test('delete: required and optional params', async () => {
-    const response = await client.balances.delete('id', { orgId: 'orgId' });
+    const response = await client.statements.statementDefinitions.delete('id', { orgId: 'orgId' });
   });
 
   test('delete: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.balances.delete('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
+    await expect(
+      client.statements.statementDefinitions.delete('id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(M3ter.NotFoundError);
   });
 
   test('delete: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.balances.delete('id', { orgId: 'orgId' }, { path: '/_stainless_unknown_path' }),
+      client.statements.statementDefinitions.delete(
+        'id',
+        { orgId: 'orgId' },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(M3ter.NotFoundError);
   });
 });
