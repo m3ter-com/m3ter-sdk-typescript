@@ -153,13 +153,13 @@ List methods in the M3ter API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllProducts(params) {
-  const allProducts = [];
+async function fetchAllProductResponses(params) {
+  const allProductResponses = [];
   // Automatically fetches more pages as needed.
   for await (const productResponse of client.products.list()) {
-    allProducts.push(productResponse);
+    allProductResponses.push(productResponse);
   }
-  return allProducts;
+  return allProductResponses;
 }
 ```
 
