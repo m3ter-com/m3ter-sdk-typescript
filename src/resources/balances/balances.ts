@@ -158,6 +158,20 @@ export interface Balance {
   currency?: string;
 
   /**
+   * User defined fields enabling you to attach custom data. The value for a custom
+   * field can be either a string or a number.
+   *
+   * If `customFields` can also be defined for this entity at the Organizational
+   * level,`customField` values defined at individual level override values of
+   * `customFields` with the same name defined at Organization level.
+   *
+   * See
+   * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
+   * in the m3ter documentation for more information.
+   */
+  customFields?: Record<string, string | number>;
+
+  /**
    * A description of the Balance.
    */
   description?: string;
@@ -291,6 +305,20 @@ export interface BalanceCreateParams {
    * Body param:
    */
   contractId?: string;
+
+  /**
+   * Body param: User defined fields enabling you to attach custom data. The value
+   * for a custom field can be either a string or a number.
+   *
+   * If `customFields` can also be defined for this entity at the Organizational
+   * level, `customField` values defined at individual level override values of
+   * `customFields` with the same name defined at Organization level.
+   *
+   * See
+   * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
+   * in the m3ter documentation for more information.
+   */
+  customFields?: Record<string, string | number>;
 
   /**
    * Body param: A description of the Balance.
@@ -457,6 +485,20 @@ export interface BalanceUpdateParams {
   contractId?: string;
 
   /**
+   * Body param: User defined fields enabling you to attach custom data. The value
+   * for a custom field can be either a string or a number.
+   *
+   * If `customFields` can also be defined for this entity at the Organizational
+   * level, `customField` values defined at individual level override values of
+   * `customFields` with the same name defined at Organization level.
+   *
+   * See
+   * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
+   * in the m3ter documentation for more information.
+   */
+  customFields?: Record<string, string | number>;
+
+  /**
    * Body param: A description of the Balance.
    */
   description?: string;
@@ -569,6 +611,11 @@ export interface BalanceListParams extends CursorParams {
    * Query param: The unique identifier (UUID) for the end customer's account.
    */
   accountId?: string;
+
+  /**
+   * Query param:
+   */
+  contract?: string | null;
 
   /**
    * Query param: Only include Balances with end dates earlier than this date.

@@ -29,7 +29,7 @@ describe('resource currencies', () => {
       name: 'x',
       archived: true,
       code: 'code',
-      maxDecimalPlaces: 0,
+      maxDecimalPlaces: 2,
       roundingMode: 'UP',
       version: 0,
     });
@@ -81,7 +81,7 @@ describe('resource currencies', () => {
       name: 'x',
       archived: true,
       code: 'code',
-      maxDecimalPlaces: 0,
+      maxDecimalPlaces: 2,
       roundingMode: 'UP',
       version: 0,
     });

@@ -311,6 +311,7 @@ Types:
 - <code><a href="./src/resources/data-exports/data-exports.ts">AdHocUsageDataRequest</a></code>
 - <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerAccountGroup</a></code>
 - <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerDimensionGroup</a></code>
+- <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerGroup</a></code>
 - <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerTimeGroup</a></code>
 
 Methods:

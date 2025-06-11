@@ -334,11 +334,7 @@ export interface UsageDataExportScheduleRequest {
   /**
    * List of groups to apply
    */
-  groups?: Array<
-    | UsageDataExportScheduleRequest.DataExportsDataExplorerAccountGroup
-    | UsageDataExportScheduleRequest.DataExportsDataExplorerDimensionGroup
-    | UsageDataExportScheduleRequest.DataExportsDataExplorerTimeGroup
-  >;
+  groups?: Array<DataExportsAPI.DataExplorerGroup>;
 
   /**
    * List of meter IDs to export
@@ -397,27 +393,6 @@ export namespace UsageDataExportScheduleRequest {
      */
     values: Array<string>;
   }
-
-  /**
-   * Group by account
-   */
-  export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by dimension
-   */
-  export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by time
-   */
-  export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
 }
 
 export interface UsageDataExportScheduleResponse {
@@ -454,11 +429,7 @@ export interface UsageDataExportScheduleResponse {
   /**
    * List of groups to apply
    */
-  groups?: Array<
-    | UsageDataExportScheduleResponse.DataExportsDataExplorerAccountGroup
-    | UsageDataExportScheduleResponse.DataExportsDataExplorerDimensionGroup
-    | UsageDataExportScheduleResponse.DataExportsDataExplorerTimeGroup
-  >;
+  groups?: Array<DataExportsAPI.DataExplorerGroup>;
 
   /**
    * List of meter IDs for which the usage data will be exported.
@@ -557,27 +528,6 @@ export namespace UsageDataExportScheduleResponse {
      */
     values: Array<string>;
   }
-
-  /**
-   * Group by account
-   */
-  export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by dimension
-   */
-  export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by time
-   */
-  export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
 }
 
 /**
@@ -638,7 +588,7 @@ export interface ScheduleListResponse {
    */
   dtLastModified?: string;
 
-  exportFileFormat?: 'CSV' | 'JSON';
+  exportFileFormat?: 'CSV' | 'JSON' | 'JSONL';
 
   /**
    * The id of the user who last modified this Data Export Schedule.
@@ -801,11 +751,7 @@ export declare namespace ScheduleCreateParams {
     /**
      * Body param: List of groups to apply
      */
-    groups?: Array<
-      | UsageDataExportScheduleRequest.DataExportsDataExplorerAccountGroup
-      | UsageDataExportScheduleRequest.DataExportsDataExplorerDimensionGroup
-      | UsageDataExportScheduleRequest.DataExportsDataExplorerTimeGroup
-    >;
+    groups?: Array<DataExportsAPI.DataExplorerGroup>;
 
     /**
      * Body param: List of meter IDs to export
@@ -863,27 +809,6 @@ export declare namespace ScheduleCreateParams {
        * Values to filter by
        */
       values: Array<string>;
-    }
-
-    /**
-     * Group by account
-     */
-    export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-    }
-
-    /**
-     * Group by dimension
-     */
-    export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-    }
-
-    /**
-     * Group by time
-     */
-    export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
     }
   }
 }
@@ -1030,11 +955,7 @@ export declare namespace ScheduleUpdateParams {
     /**
      * Body param: List of groups to apply
      */
-    groups?: Array<
-      | UsageDataExportScheduleRequest.DataExportsDataExplorerAccountGroup
-      | UsageDataExportScheduleRequest.DataExportsDataExplorerDimensionGroup
-      | UsageDataExportScheduleRequest.DataExportsDataExplorerTimeGroup
-    >;
+    groups?: Array<DataExportsAPI.DataExplorerGroup>;
 
     /**
      * Body param: List of meter IDs to export
@@ -1092,27 +1013,6 @@ export declare namespace ScheduleUpdateParams {
        * Values to filter by
        */
       values: Array<string>;
-    }
-
-    /**
-     * Group by account
-     */
-    export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-    }
-
-    /**
-     * Group by dimension
-     */
-    export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-    }
-
-    /**
-     * Group by time
-     */
-    export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
     }
   }
 }

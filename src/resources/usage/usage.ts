@@ -355,11 +355,7 @@ export interface UsageQueryParams {
    * **NOTE:** If you attempt to impose grouping for a query that doesn't apply
    * Aggregations, you'll receive an error.
    */
-  groups?: Array<
-    | UsageQueryParams.DataExportsDataExplorerAccountGroup
-    | UsageQueryParams.DataExportsDataExplorerDimensionGroup
-    | UsageQueryParams.DataExportsDataExplorerTimeGroup
-  >;
+  groups?: Array<DataExportsAPI.DataExplorerGroup>;
 
   /**
    * Body param: Define a limit for the number of usage data items you want the query
@@ -417,27 +413,6 @@ export namespace UsageQueryParams {
      * Values to filter by
      */
     values: Array<string>;
-  }
-
-  /**
-   * Group by account
-   */
-  export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by dimension
-   */
-  export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by time
-   */
-  export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
   }
 }
 

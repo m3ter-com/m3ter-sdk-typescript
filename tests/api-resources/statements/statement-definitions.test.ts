@@ -13,7 +13,9 @@ const client = new M3ter({
 
 describe('resource statementDefinitions', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.statements.statementDefinitions.create({ aggregationFrequency: 'DAY' });
+    const responsePromise = client.statements.statementDefinitions.create({
+      aggregationFrequency: 'ORIGINAL',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -26,8 +28,8 @@ describe('resource statementDefinitions', () => {
   test('create: required and optional params', async () => {
     const response = await client.statements.statementDefinitions.create({
       orgId: 'orgId',
-      aggregationFrequency: 'DAY',
-      dimensions: [{ filter: ['string'], name: 'x', attributes: ['string'], meterId: 'meterId' }],
+      aggregationFrequency: 'ORIGINAL',
+      dimensions: [{ dimensionAttributes: ['string'], dimensionName: 'dimensionName' }],
       includePricePerUnit: true,
       measures: [{ aggregations: ['SUM'], meterId: 'meterId', name: 'name' }],
       name: 'name',
@@ -70,7 +72,7 @@ describe('resource statementDefinitions', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.statements.statementDefinitions.update('id', {
-      aggregationFrequency: 'DAY',
+      aggregationFrequency: 'ORIGINAL',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -84,8 +86,8 @@ describe('resource statementDefinitions', () => {
   test('update: required and optional params', async () => {
     const response = await client.statements.statementDefinitions.update('id', {
       orgId: 'orgId',
-      aggregationFrequency: 'DAY',
-      dimensions: [{ filter: ['string'], name: 'x', attributes: ['string'], meterId: 'meterId' }],
+      aggregationFrequency: 'ORIGINAL',
+      dimensions: [{ dimensionAttributes: ['string'], dimensionName: 'dimensionName' }],
       includePricePerUnit: true,
       measures: [{ aggregations: ['SUM'], meterId: 'meterId', name: 'name' }],
       name: 'name',

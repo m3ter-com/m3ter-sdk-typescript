@@ -406,6 +406,7 @@ import {
   AdHocUsageDataRequest,
   DataExplorerAccountGroup,
   DataExplorerDimensionGroup,
+  DataExplorerGroup,
   DataExplorerTimeGroup,
   DataExportCreateAdhocParams,
   DataExports,
@@ -979,6 +980,7 @@ export declare namespace M3ter {
     type AdHocUsageDataRequest as AdHocUsageDataRequest,
     type DataExplorerAccountGroup as DataExplorerAccountGroup,
     type DataExplorerDimensionGroup as DataExplorerDimensionGroup,
+    type DataExplorerGroup as DataExplorerGroup,
     type DataExplorerTimeGroup as DataExplorerTimeGroup,
     type DataExportCreateAdhocParams as DataExportCreateAdhocParams,
   };

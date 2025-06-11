@@ -181,6 +181,7 @@ export {
   type AdHocUsageDataRequest,
   type DataExplorerAccountGroup,
   type DataExplorerDimensionGroup,
+  type DataExplorerGroup,
   type DataExplorerTimeGroup,
   type DataExportCreateAdhocParams,
 } from './data-exports/data-exports';

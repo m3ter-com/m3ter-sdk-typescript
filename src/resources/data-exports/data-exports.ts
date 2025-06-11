@@ -2,7 +2,6 @@
 
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
-import * as DataExportsAPI from './data-exports';
 import * as DestinationsAPI from './destinations';
 import {
   DataExportDestinationGoogleCloudStorageRequest,
@@ -88,17 +87,14 @@ export class DataExports extends APIResource {
    *   or _Time_.
    *
    * **Date Range for Operational Data Exports**. To restrict the operational data
-   * included in the export by a date/time range, use the `startDate` and `endDate`
-   * date/time request parameters to specify the period. Constraints:
-   *
-   * - `startDate` with no `endDate` is valid.
-   * - `endDate` with no `startDate` is valid.
-   * - If both are set,`startDate` must be before `endDate`.
-   * - `endDate` must be before now UTC.
+   * included in the ad-hoc export by a date/time range, use the `startDate`
+   * date/time request parameter to specify the start of the time period. The export
+   * will include all operational data from the specified `startDate` up until the
+   * date/time the export job runs.
    *
    * **Date Range for Usage Data Exports**. To restrict the usage data included in
-   * the export by date/time range, use the `startDate` and `endDate` date/time
-   * parameters:
+   * the ad-hoc export by date/time range, use the `startDate` and `endDate`
+   * date/time parameters:
    *
    * - Both `startDate` and `endDate` are required.
    * - `endDate` must be after `startDate`.
@@ -195,13 +191,14 @@ export interface AdHocUsageDataRequest {
   dimensionFilters?: Array<AdHocUsageDataRequest.DimensionFilter>;
 
   /**
+   * The exclusive end date for the data export.
+   */
+  endDate?: string;
+
+  /**
    * List of groups to apply
    */
-  groups?: Array<
-    | AdHocUsageDataRequest.DataExportsDataExplorerAccountGroup
-    | AdHocUsageDataRequest.DataExportsDataExplorerDimensionGroup
-    | AdHocUsageDataRequest.DataExportsDataExplorerTimeGroup
-  >;
+  groups?: Array<DataExplorerGroup>;
 
   /**
    * List of meter IDs for which the usage data will be exported.
@@ -260,40 +257,19 @@ export namespace AdHocUsageDataRequest {
      */
     values: Array<string>;
   }
-
-  /**
-   * Group by account
-   */
-  export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by dimension
-   */
-  export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by time
-   */
-  export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
 }
 
 /**
  * Group by account
  */
-export interface DataExplorerAccountGroup {
+export interface DataExplorerAccountGroup extends DataExplorerGroup {
   groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
 }
 
 /**
  * Group by dimension
  */
-export interface DataExplorerDimensionGroup {
+export interface DataExplorerDimensionGroup extends DataExplorerGroup {
   /**
    * Field code to group by
    */
@@ -308,9 +284,16 @@ export interface DataExplorerDimensionGroup {
 }
 
 /**
+ * Group by a field
+ */
+export interface DataExplorerGroup {
+  groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
+}
+
+/**
  * Group by time
  */
-export interface DataExplorerTimeGroup {
+export interface DataExplorerTimeGroup extends DataExplorerGroup {
   /**
    * Frequency of usage data
    */
@@ -399,13 +382,14 @@ export declare namespace DataExportCreateAdhocParams {
     dimensionFilters?: Array<AdHocUsageDataRequest.DimensionFilter>;
 
     /**
+     * Body param: The exclusive end date for the data export.
+     */
+    endDate?: string;
+
+    /**
      * Body param: List of groups to apply
      */
-    groups?: Array<
-      | AdHocUsageDataRequest.DataExportsDataExplorerAccountGroup
-      | AdHocUsageDataRequest.DataExportsDataExplorerDimensionGroup
-      | AdHocUsageDataRequest.DataExportsDataExplorerTimeGroup
-    >;
+    groups?: Array<DataExplorerGroup>;
 
     /**
      * Body param: List of meter IDs for which the usage data will be exported.
@@ -464,27 +448,6 @@ export declare namespace DataExportCreateAdhocParams {
        */
       values: Array<string>;
     }
-
-    /**
-     * Group by account
-     */
-    export interface DataExportsDataExplorerAccountGroup extends DataExportsAPI.DataExplorerAccountGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-    }
-
-    /**
-     * Group by dimension
-     */
-    export interface DataExportsDataExplorerDimensionGroup extends DataExportsAPI.DataExplorerDimensionGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-    }
-
-    /**
-     * Group by time
-     */
-    export interface DataExportsDataExplorerTimeGroup extends DataExportsAPI.DataExplorerTimeGroup {
-      groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-    }
   }
 }
 
@@ -502,6 +465,7 @@ export declare namespace DataExports {
     type AdHocUsageDataRequest as AdHocUsageDataRequest,
     type DataExplorerAccountGroup as DataExplorerAccountGroup,
     type DataExplorerDimensionGroup as DataExplorerDimensionGroup,
+    type DataExplorerGroup as DataExplorerGroup,
     type DataExplorerTimeGroup as DataExplorerTimeGroup,
     type DataExportCreateAdhocParams as DataExportCreateAdhocParams,
   };

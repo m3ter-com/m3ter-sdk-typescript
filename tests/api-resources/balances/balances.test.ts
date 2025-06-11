@@ -39,6 +39,7 @@ describe('resource balances', () => {
       code: 'JS!?Q0]r] ]$]',
       consumptionsAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       contractId: 'contractId',
+      customFields: { foo: 'string' },
       description: 'description',
       feesAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       lineItemTypes: ['STANDING_CHARGE'],
@@ -108,6 +109,7 @@ describe('resource balances', () => {
       code: 'JS!?Q0]r] ]$]',
       consumptionsAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       contractId: 'contractId',
+      customFields: { foo: 'string' },
       description: 'description',
       feesAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       lineItemTypes: ['STANDING_CHARGE'],
@@ -136,6 +138,7 @@ describe('resource balances', () => {
     const response = await client.balances.list({
       orgId: 'orgId',
       accountId: 'accountId',
+      contract: 'contract',
       endDateEnd: 'endDateEnd',
       endDateStart: 'endDateStart',
       nextToken: 'nextToken',
@@ -157,6 +160,7 @@ describe('resource balances', () => {
         {
           orgId: 'orgId',
           accountId: 'accountId',
+          contract: 'contract',
           endDateEnd: 'endDateEnd',
           endDateStart: 'endDateStart',
           nextToken: 'nextToken',
