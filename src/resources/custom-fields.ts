@@ -96,7 +96,7 @@ export interface CustomFieldsResponse {
   /**
    * CustomFields added to Contract entities.
    */
-  contract?: Record<string, unknown>;
+  contract?: Record<string, string | number>;
 
   /**
    * The id of the user who created this custom field.
@@ -181,7 +181,7 @@ export interface CustomFieldUpdateParams {
   /**
    * Body param: Updates to Contract entity CustomFields.
    */
-  contract?: Record<string, unknown>;
+  contract?: Record<string, string | number>;
 
   /**
    * Body param: Updates to Meter entity CustomFields.
