@@ -595,6 +595,7 @@ export class M3ter extends Core.APIClient {
 
     super({
       baseURL: options.baseURL!,
+      baseURLOverridden: baseURL ? baseURL !== 'https://api.m3ter.com' : false,
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -648,6 +649,13 @@ export class M3ter extends Core.APIClient {
   usage: API.Usage = new API.Usage(this);
   users: API.Users = new API.Users(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
+
+  /**
+   * Check whether the base URL is set to its default.
+   */
+  #baseURLOverridden(): boolean {
+    return this.baseURL !== 'https://api.m3ter.com';
+  }
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
