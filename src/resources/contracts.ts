@@ -182,7 +182,7 @@ export interface ContractResponse {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The description of the Contract, which provides context and information.
@@ -326,7 +326,7 @@ export interface ContractCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The description of the Contract, which provides context and
@@ -405,7 +405,7 @@ export interface ContractUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The description of the Contract, which provides context and

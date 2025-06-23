@@ -163,7 +163,7 @@ export interface PlanGroupResponse {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The date and time _(in ISO 8601 format)_ when the PlanGroup was first created.
@@ -277,7 +277,7 @@ export interface PlanGroupCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The minimum spend amount for the PlanGroup.
@@ -390,7 +390,7 @@ export interface PlanGroupUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The minimum spend amount for the PlanGroup.

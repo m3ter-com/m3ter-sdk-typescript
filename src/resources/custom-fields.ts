@@ -76,27 +76,27 @@ export interface CustomFieldsResponse {
   /**
    * CustomFields added to Account entities.
    */
-  account?: Record<string, string | number>;
+  account?: { [key: string]: string | number };
 
   /**
    * CustomFields added to accountPlan entities.
    */
-  accountPlan?: Record<string, string | number>;
+  accountPlan?: { [key: string]: string | number };
 
   /**
    * CustomFields added to simple Aggregation entities.
    */
-  aggregation?: Record<string, string | number>;
+  aggregation?: { [key: string]: string | number };
 
   /**
    * CustomFields added to Compound Aggregation entities.
    */
-  compoundAggregation?: Record<string, string | number>;
+  compoundAggregation?: { [key: string]: string | number };
 
   /**
    * CustomFields added to Contract entities.
    */
-  contract?: Record<string, string | number>;
+  contract?: { [key: string]: string | number };
 
   /**
    * The id of the user who created this custom field.
@@ -122,27 +122,27 @@ export interface CustomFieldsResponse {
   /**
    * CustomFields added to Meter entities.
    */
-  meter?: Record<string, string | number>;
+  meter?: { [key: string]: string | number };
 
   /**
    * CustomFields added to the Organization.
    */
-  organization?: Record<string, string | number>;
+  organization?: { [key: string]: string | number };
 
   /**
    * CustomFields added to Plan entities.
    */
-  plan?: Record<string, string | number>;
+  plan?: { [key: string]: string | number };
 
   /**
    * CustomFields added to planTemplate entities.
    */
-  planTemplate?: Record<string, string | number>;
+  planTemplate?: { [key: string]: string | number };
 
   /**
    * CustomFields added to Product entities.
    */
-  product?: Record<string, string | number>;
+  product?: { [key: string]: string | number };
 }
 
 export interface CustomFieldRetrieveParams {
@@ -161,52 +161,52 @@ export interface CustomFieldUpdateParams {
   /**
    * Body param: Updates to Account entity CustomFields.
    */
-  account?: Record<string, string | number>;
+  account?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to AccountPlan entity CustomFields.
    */
-  accountPlan?: Record<string, string | number>;
+  accountPlan?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to simple Aggregation entity CustomFields.
    */
-  aggregation?: Record<string, string | number>;
+  aggregation?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Compound Aggregation entity CustomFields.
    */
-  compoundAggregation?: Record<string, string | number>;
+  compoundAggregation?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Contract entity CustomFields.
    */
-  contract?: Record<string, string | number>;
+  contract?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Meter entity CustomFields.
    */
-  meter?: Record<string, string | number>;
+  meter?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Organization CustomFields.
    */
-  organization?: Record<string, string | number>;
+  organization?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Plan entity CustomFields.
    */
-  plan?: Record<string, string | number>;
+  plan?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to planTemplate entity CustomFields.
    */
-  planTemplate?: Record<string, string | number>;
+  planTemplate?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Product entity CustomFields.
    */
-  product?: Record<string, string | number>;
+  product?: { [key: string]: string | number };
 
   /**
    * Body param: The version number of the entity:

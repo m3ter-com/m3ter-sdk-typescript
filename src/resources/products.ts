@@ -154,7 +154,7 @@ export interface ProductResponse {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The date and time _(in ISO-8601 format)_ when the Product was created.
@@ -206,7 +206,7 @@ export interface ProductCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The version number of the entity:
@@ -257,7 +257,7 @@ export interface ProductUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The version number of the entity:

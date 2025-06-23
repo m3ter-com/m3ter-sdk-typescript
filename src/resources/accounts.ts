@@ -269,7 +269,7 @@ export interface AccountResponse {
   /**
    * Configuration data for the Account
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created the account.
@@ -317,7 +317,7 @@ export interface AccountResponse {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The number of days after the Bill generation date shown on Bills as the due
@@ -521,7 +521,7 @@ export interface AccountCreateParams {
    *
    * - SendBillsToThirdParties ("true"/"false")
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * Body param: Define the order in which any Prepayment or Balance amounts on the
@@ -573,7 +573,7 @@ export interface AccountCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: Enter the number of days after the Bill generation date that you
@@ -695,7 +695,7 @@ export interface AccountUpdateParams {
    *
    * - SendBillsToThirdParties ("true"/"false")
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * Body param: Define the order in which any Prepayment or Balance amounts on the
@@ -747,7 +747,7 @@ export interface AccountUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: Enter the number of days after the Bill generation date that you

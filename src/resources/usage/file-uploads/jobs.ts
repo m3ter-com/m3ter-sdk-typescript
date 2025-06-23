@@ -173,7 +173,7 @@ export interface JobGetOriginalDownloadURLResponse {
   /**
    * The headers
    */
-  headers?: Record<string, string>;
+  headers?: { [key: string]: string };
 
   /**
    * UUID of the download job

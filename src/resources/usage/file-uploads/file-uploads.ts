@@ -62,7 +62,7 @@ export interface FileUploadGenerateUploadURLResponse {
   /**
    * The headers
    */
-  headers?: Record<string, string>;
+  headers?: { [key: string]: string };
 
   /**
    * UUID of the upload job

@@ -203,7 +203,7 @@ export interface MeasurementRequest {
   /**
    * 'cost' values
    */
-  cost?: Record<string, number>;
+  cost?: { [key: string]: number };
 
   /**
    * End timestamp for the measurement _(in ISO 8601 format)_. _(Optional)_.
@@ -216,22 +216,22 @@ export interface MeasurementRequest {
   /**
    * 'income' values
    */
-  income?: Record<string, number>;
+  income?: { [key: string]: number };
 
   /**
    * 'measure' values
    */
-  measure?: Record<string, number>;
+  measure?: { [key: string]: number };
 
   /**
    * 'metadata' values
    */
-  metadata?: Record<string, string>;
+  metadata?: { [key: string]: string };
 
   /**
    * 'other' values
    */
-  other?: Record<string, string>;
+  other?: { [key: string]: string };
 
   /**
    * Unique ID for this measurement.
@@ -241,17 +241,17 @@ export interface MeasurementRequest {
   /**
    * 'what' values
    */
-  what?: Record<string, string>;
+  what?: { [key: string]: string };
 
   /**
    * 'where' values
    */
-  where?: Record<string, string>;
+  where?: { [key: string]: string };
 
   /**
    * 'who' values
    */
-  who?: Record<string, string>;
+  who?: { [key: string]: string };
 }
 
 export interface SubmitMeasurementsRequest {
@@ -269,7 +269,7 @@ export interface SubmitMeasurementsResponse {
 }
 
 export interface UsageQueryResponse {
-  data?: Array<Record<string, unknown>>;
+  data?: Array<{ [key: string]: unknown }>;
 
   /**
    * Boolean flag to indicate whether or not there are more data available for the

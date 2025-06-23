@@ -291,7 +291,7 @@ export interface IntegrationConfigurationCreateResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -386,7 +386,7 @@ export interface IntegrationConfigurationUpdateResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -481,7 +481,7 @@ export interface IntegrationConfigurationListResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -576,7 +576,7 @@ export interface IntegrationConfigurationDeleteResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -671,7 +671,7 @@ export interface IntegrationConfigurationEnableResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -739,7 +739,7 @@ export interface IntegrationConfigurationCreateParams {
    * Body param: A flexible object to include any additional configuration data
    * specific to the integration.
    */
-  configData: Record<string, unknown>;
+  configData: { [key: string]: unknown };
 
   /**
    * Body param: Base model for defining integration credentials across different
@@ -872,7 +872,7 @@ export interface IntegrationConfigurationUpdateParams {
    * Body param: A flexible object to include any additional configuration data
    * specific to the integration.
    */
-  configData: Record<string, unknown>;
+  configData: { [key: string]: unknown };
 
   /**
    * Body param: Base model for defining integration credentials across different

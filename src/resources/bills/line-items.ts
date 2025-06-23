@@ -171,7 +171,7 @@ export interface LineItemResponse {
    */
   dtLastModified?: string;
 
-  group?: Record<string, string>;
+  group?: { [key: string]: string };
 
   /**
    * Boolean flag indicating whether the Bill line item has associated statement
@@ -272,7 +272,7 @@ export interface LineItemResponse {
    * Specifies the segment name or identifier when segmented Aggregation is used.
    * This is relevant for more complex billing structures.
    */
-  segment?: Record<string, string>;
+  segment?: { [key: string]: string };
 
   /**
    * The number used for sequential invoices.

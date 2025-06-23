@@ -234,7 +234,7 @@ export interface PricingResponse {
    * For each segment in a segmented aggregation, make a separate call using
    * `aggregationId` parameter to update a Pricing.
    */
-  segment?: Record<string, string>;
+  segment?: { [key: string]: string };
 
   segmentString?: string;
 
@@ -400,7 +400,7 @@ export interface PricingCreateParams {
    * [Using API Call to Create Segmented Pricings](https://www.m3ter.com/docs/guides/plans-and-pricing/pricing-plans/pricing-plans-using-segmented-aggregations#using-api-call-to-create-a-segmented-pricing)
    * in our User Documentation.
    */
-  segment?: Record<string, string>;
+  segment?: { [key: string]: string };
 
   /**
    * Body param: The default value is **FALSE**.
@@ -577,7 +577,7 @@ export interface PricingUpdateParams {
    * [Using API Call to Create Segmented Pricings](https://www.m3ter.com/docs/guides/plans-and-pricing/pricing-plans/pricing-plans-using-segmented-aggregations#using-api-call-to-create-a-segmented-pricing)
    * in our User Documentation.
    */
-  segment?: Record<string, string>;
+  segment?: { [key: string]: string };
 
   /**
    * Body param: The default value is **FALSE**.

@@ -210,7 +210,7 @@ export interface AggregationResponse {
    */
   createdBy?: string;
 
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   customSql?: string;
 
@@ -301,7 +301,7 @@ export interface AggregationResponse {
    * Contains the values that are to be used as the segments, read from the fields in
    * the meter pointed at by `segmentedFields`.
    */
-  segments?: Array<Record<string, string>>;
+  segments?: Array<{ [key: string]: string }>;
 
   /**
    * `Code` of the target `dataField` or `derivedField` on the Meter used as the
@@ -427,7 +427,7 @@ export interface AggregationCreateParams {
   /**
    * Body param:
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: **NOTE:** The `customSql` Aggregation type is currently only
@@ -473,7 +473,7 @@ export interface AggregationCreateParams {
    * [Using Wildcards - API Calls](https://www.m3ter.com/docs/guides/setting-up-usage-data-meters-and-aggregations/segmented-aggregations#using-wildcards---api-calls)
    * in our main User Docs.
    */
-  segments?: Array<Record<string, string>>;
+  segments?: Array<{ [key: string]: string }>;
 
   /**
    * Body param: The version number of the entity:
@@ -604,7 +604,7 @@ export interface AggregationUpdateParams {
   /**
    * Body param:
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: **NOTE:** The `customSql` Aggregation type is currently only
@@ -650,7 +650,7 @@ export interface AggregationUpdateParams {
    * [Using Wildcards - API Calls](https://www.m3ter.com/docs/guides/setting-up-usage-data-meters-and-aggregations/segmented-aggregations#using-wildcards---api-calls)
    * in our main User Docs.
    */
-  segments?: Array<Record<string, string>>;
+  segments?: Array<{ [key: string]: string }>;
 
   /**
    * Body param: The version number of the entity:

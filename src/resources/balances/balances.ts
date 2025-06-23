@@ -169,7 +169,7 @@ export interface Balance {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * A description of the Balance.
@@ -318,7 +318,7 @@ export interface BalanceCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: A description of the Balance.
@@ -496,7 +496,7 @@ export interface BalanceUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: A description of the Balance.

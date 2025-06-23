@@ -206,7 +206,7 @@ export interface CompoundAggregationResponse {
    */
   createdBy?: string;
 
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The date and time _(in ISO-8601 format)_ when the CompoundAggregation was
@@ -283,7 +283,7 @@ export interface CompoundAggregationResponse {
    * Contains the values that are to be used as the segments, read from the fields in
    * the meter pointed at by `segmentedFields`.
    */
-  segments?: Array<Record<string, string>>;
+  segments?: Array<{ [key: string]: string }>;
 
   /**
    * User defined or following the _Unified Code for Units of Measure_ (UCUM).
@@ -372,7 +372,7 @@ export interface CompoundAggregationCreateParams {
   /**
    * Body param:
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: Boolean True / False flag:
@@ -497,7 +497,7 @@ export interface CompoundAggregationUpdateParams {
   /**
    * Body param:
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: Boolean True / False flag:

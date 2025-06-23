@@ -204,7 +204,7 @@ export interface EventGetFieldsResponse {
    *
    * **Note:** `new` represents the attributes the newly created object has.
    */
-  events?: Record<string, Record<string, string>>;
+  events?: { [key: string]: { [key: string]: string } };
 }
 
 /**

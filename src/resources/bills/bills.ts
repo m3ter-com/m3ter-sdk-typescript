@@ -491,7 +491,7 @@ export namespace BillResponse {
 
     creditTypeId?: string;
 
-    group?: Record<string, string>;
+    group?: { [key: string]: string };
 
     /**
      * The UUID of the Meter used in the line item.
@@ -535,7 +535,7 @@ export namespace BillResponse {
      * Applies only when segmented Aggregations have been used. The Segment to which
      * the usage data in this line item belongs.
      */
-    segment?: Record<string, string>;
+    segment?: { [key: string]: string };
 
     /**
      * The number used for sequential invoices.
