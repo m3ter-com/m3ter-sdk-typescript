@@ -163,16 +163,6 @@ export interface CommitmentResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The unique identifier (UUID) for the end customer Account the Commitment is
    * added to.
    */
@@ -374,18 +364,21 @@ export interface CommitmentResponse {
    * The start date of the Commitment period in ISO-8601 format.
    */
   startDate?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CommitmentSearchResponse {
-  /**
-   * The list of Commitments information.
-   */
   data?: Array<CommitmentResponse>;
 
-  /**
-   * The `nextToken` for multi-page retrievals. It is used to fetch the next page of
-   * Commitments in a paginated list.
-   */
   nextToken?: string;
 }
 

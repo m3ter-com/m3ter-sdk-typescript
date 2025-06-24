@@ -211,16 +211,6 @@ export interface DataExportDestinationResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The code of the data Export Destination.
    */
   code?: string;
@@ -251,6 +241,16 @@ export interface DataExportDestinationResponse {
    * The name of the data Export Destination.
    */
   name?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface DataExportDestinationS3Request {
@@ -339,16 +339,6 @@ export namespace DestinationCreateResponse {
     id: string;
 
     /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
-
-    /**
      * Name of the S3 bucket for the Export Destination.
      */
     bucketName?: string;
@@ -383,6 +373,16 @@ export namespace DestinationCreateResponse {
      * specified, then the root of the bucket is used.
      */
     prefix?: string;
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 
   /**
@@ -395,16 +395,6 @@ export namespace DestinationCreateResponse {
      * The UUID of the entity.
      */
     id: string;
-
-    /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
 
     /**
      * The bucket name.
@@ -454,6 +444,16 @@ export namespace DestinationCreateResponse {
      * The export destination service account email.
      */
     serviceAccountEmail?: string;
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 }
 
@@ -473,16 +473,6 @@ export namespace DestinationRetrieveResponse {
     id: string;
 
     /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
-
-    /**
      * Name of the S3 bucket for the Export Destination.
      */
     bucketName?: string;
@@ -517,6 +507,16 @@ export namespace DestinationRetrieveResponse {
      * specified, then the root of the bucket is used.
      */
     prefix?: string;
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 
   /**
@@ -529,16 +529,6 @@ export namespace DestinationRetrieveResponse {
      * The UUID of the entity.
      */
     id: string;
-
-    /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
 
     /**
      * The bucket name.
@@ -588,6 +578,16 @@ export namespace DestinationRetrieveResponse {
      * The export destination service account email.
      */
     serviceAccountEmail?: string;
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 }
 
@@ -607,16 +607,6 @@ export namespace DestinationUpdateResponse {
     id: string;
 
     /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
-
-    /**
      * Name of the S3 bucket for the Export Destination.
      */
     bucketName?: string;
@@ -651,6 +641,16 @@ export namespace DestinationUpdateResponse {
      * specified, then the root of the bucket is used.
      */
     prefix?: string;
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 
   /**
@@ -663,16 +663,6 @@ export namespace DestinationUpdateResponse {
      * The UUID of the entity.
      */
     id: string;
-
-    /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
 
     /**
      * The bucket name.
@@ -722,6 +712,16 @@ export namespace DestinationUpdateResponse {
      * The export destination service account email.
      */
     serviceAccountEmail?: string;
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 }
 
@@ -741,16 +741,6 @@ export namespace DestinationDeleteResponse {
     id: string;
 
     /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
-
-    /**
      * Name of the S3 bucket for the Export Destination.
      */
     bucketName?: string;
@@ -785,6 +775,16 @@ export namespace DestinationDeleteResponse {
      * specified, then the root of the bucket is used.
      */
     prefix?: string;
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 
   /**
@@ -797,16 +797,6 @@ export namespace DestinationDeleteResponse {
      * The UUID of the entity.
      */
     id: string;
-
-    /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
 
     /**
      * The bucket name.
@@ -856,6 +846,16 @@ export namespace DestinationDeleteResponse {
      * The export destination service account email.
      */
     serviceAccountEmail?: string;
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 }
 

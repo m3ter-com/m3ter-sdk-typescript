@@ -109,16 +109,6 @@ export interface PricingResponse {
    */
   id: string;
 
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
   accountingProductId?: string;
 
   /**
@@ -270,6 +260,16 @@ export interface PricingResponse {
    *   might include other Products the Account consumes.
    */
   type?: 'DEBIT' | 'PRODUCT_CREDIT' | 'GLOBAL_CREDIT';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface PricingCreateParams {

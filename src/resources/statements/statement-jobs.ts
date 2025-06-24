@@ -199,16 +199,6 @@ export interface StatementJobResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The unique identifier (UUID) of the bill associated with the StatementJob.
    */
   billId?: string;
@@ -260,6 +250,16 @@ export interface StatementJobResponse {
    * outcome of a StatementJob.
    */
   statementJobStatus?: 'PENDING' | 'RUNNING' | 'COMPLETE' | 'CANCELLED' | 'FAILED';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export type StatementJobCreateBatchResponse = Array<StatementJobResponse>;

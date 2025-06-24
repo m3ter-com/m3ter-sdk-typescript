@@ -75,16 +75,6 @@ export interface LineItemResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * A unique identifier (UUID) for the Aggregation that contributes to this Bill
    * line item.
    */
@@ -307,6 +297,16 @@ export interface LineItemResponse {
    * In this example, the unit type of **api_calls** is read from the `unit` field.
    */
   units?: number;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export namespace LineItemResponse {

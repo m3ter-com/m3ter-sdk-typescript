@@ -144,16 +144,6 @@ export interface TransactionTypeResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * TRUE / FALSE flag indicating whether the data entity is archived. An entity can
    * be archived if it is obsolete.
    */
@@ -189,6 +179,16 @@ export interface TransactionTypeResponse {
    * The name of the data entity.
    */
   name?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface TransactionTypeCreateParams {

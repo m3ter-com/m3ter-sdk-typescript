@@ -190,16 +190,6 @@ export interface BillJobResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * An array of UUIDs representing the end customer Accounts associated with the
    * BillJob.
    */
@@ -352,6 +342,16 @@ export interface BillJobResponse {
    * - **RECALCULATE** Returned for a successful _Create Recalculation BillJob_ call.
    */
   type?: 'CREATE' | 'RECALCULATE';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 
   /**
    * The starting date _(epoch)_ for Weekly billing frequency _(in ISO 8601 format)_,

@@ -124,19 +124,9 @@ export interface StatementDefinitionResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * This specifies how often the Statement should aggregate data.
    */
-  aggregationFrequency?: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'QUARTER' | 'YEAR' | 'WHOLE_PERIOD';
+  aggregationFrequency?: 'DAY' | 'WEEK' | 'MONTH' | 'QUARTER' | 'YEAR' | 'WHOLE_PERIOD';
 
   /**
    * The unique identifier (UUID) of the user who created this StatementDefinition.
@@ -184,6 +174,16 @@ export interface StatementDefinitionResponse {
    * Descriptive name for the StatementDefinition providing context and information.
    */
   name?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export namespace StatementDefinitionResponse {
@@ -192,21 +192,32 @@ export namespace StatementDefinitionResponse {
    */
   export interface Dimension {
     /**
-     * Attributes belonging to the dimension
+     * The value of a Dimension to use as a filter. Use "\*" as a wildcard to filter on
+     * all Dimension values.
      */
-    dimensionAttributes?: Array<string>;
+    filter: Array<string>;
 
     /**
-     * The name of a dimension
+     * The name of the Dimension to target in the Meter.
      */
-    dimensionName?: string;
+    name: string;
+
+    /**
+     * The Dimension attribute to target.
+     */
+    attributes?: Array<string>;
+
+    /**
+     * The unique identifier (UUID) of the Meter containing this Dimension.
+     */
+    meterId?: string;
   }
 
   export interface Measure {
     /**
      * A list of Aggregations to apply to the Measure.
      */
-    aggregations?: Array<'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE'>;
+    aggregations?: Array<'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE' | 'CUSTOM_SQL'>;
 
     /**
      * The unique identifier (UUID) of the Meter containing this Measure.
@@ -230,7 +241,7 @@ export interface StatementDefinitionCreateParams {
   /**
    * Body param: This specifies how often the Statement should aggregate data.
    */
-  aggregationFrequency: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'QUARTER' | 'YEAR' | 'WHOLE_PERIOD';
+  aggregationFrequency: 'DAY' | 'WEEK' | 'MONTH' | 'QUARTER' | 'YEAR' | 'WHOLE_PERIOD';
 
   /**
    * Body param: An array of objects, each representing a Dimension data field from a
@@ -278,21 +289,32 @@ export namespace StatementDefinitionCreateParams {
    */
   export interface Dimension {
     /**
-     * Attributes belonging to the dimension
+     * The value of a Dimension to use as a filter. Use "\*" as a wildcard to filter on
+     * all Dimension values.
      */
-    dimensionAttributes?: Array<string>;
+    filter: Array<string>;
 
     /**
-     * The name of a dimension
+     * The name of the Dimension to target in the Meter.
      */
-    dimensionName?: string;
+    name: string;
+
+    /**
+     * The Dimension attribute to target.
+     */
+    attributes?: Array<string>;
+
+    /**
+     * The unique identifier (UUID) of the Meter containing this Dimension.
+     */
+    meterId?: string;
   }
 
   export interface Measure {
     /**
      * A list of Aggregations to apply to the Measure.
      */
-    aggregations?: Array<'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE'>;
+    aggregations?: Array<'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE' | 'CUSTOM_SQL'>;
 
     /**
      * The unique identifier (UUID) of the Meter containing this Measure.
@@ -323,7 +345,7 @@ export interface StatementDefinitionUpdateParams {
   /**
    * Body param: This specifies how often the Statement should aggregate data.
    */
-  aggregationFrequency: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH' | 'QUARTER' | 'YEAR' | 'WHOLE_PERIOD';
+  aggregationFrequency: 'DAY' | 'WEEK' | 'MONTH' | 'QUARTER' | 'YEAR' | 'WHOLE_PERIOD';
 
   /**
    * Body param: An array of objects, each representing a Dimension data field from a
@@ -371,21 +393,32 @@ export namespace StatementDefinitionUpdateParams {
    */
   export interface Dimension {
     /**
-     * Attributes belonging to the dimension
+     * The value of a Dimension to use as a filter. Use "\*" as a wildcard to filter on
+     * all Dimension values.
      */
-    dimensionAttributes?: Array<string>;
+    filter: Array<string>;
 
     /**
-     * The name of a dimension
+     * The name of the Dimension to target in the Meter.
      */
-    dimensionName?: string;
+    name: string;
+
+    /**
+     * The Dimension attribute to target.
+     */
+    attributes?: Array<string>;
+
+    /**
+     * The unique identifier (UUID) of the Meter containing this Dimension.
+     */
+    meterId?: string;
   }
 
   export interface Measure {
     /**
      * A list of Aggregations to apply to the Measure.
      */
-    aggregations?: Array<'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE'>;
+    aggregations?: Array<'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE' | 'CUSTOM_SQL'>;
 
     /**
      * The unique identifier (UUID) of the Meter containing this Measure.

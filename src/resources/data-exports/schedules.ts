@@ -224,16 +224,6 @@ export interface OperationalDataExportScheduleResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * A list of the entities whose operational data is included in the data export.
    */
   operationalDataTypes?: Array<
@@ -256,6 +246,16 @@ export interface OperationalDataExportScheduleResponse {
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
   >;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface UsageDataExportScheduleRequest {
@@ -402,16 +402,6 @@ export interface UsageDataExportScheduleResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * List of account IDs for which the usage data will be exported.
    */
   accountIds?: Array<string>;
@@ -487,6 +477,16 @@ export interface UsageDataExportScheduleResponse {
     | 'LAST_90_DAYS'
     | 'LAST_120_DAYS'
     | 'LAST_YEAR';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export namespace UsageDataExportScheduleResponse {
@@ -554,16 +554,6 @@ export interface ScheduleListResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * Unique short code of the Data Export Schedule.
    */
   code?: string;
@@ -609,6 +599,16 @@ export interface ScheduleListResponse {
   scheduleType?: 'HOUR' | 'DAY' | 'MINUTE' | 'AD_HOC';
 
   sourceType?: 'USAGE' | 'OPERATIONAL';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 /**

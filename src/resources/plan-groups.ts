@@ -121,16 +121,6 @@ export interface PlanGroupResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * Optional. This PlanGroup was created as bespoke for the associated Account with
    * this Account ID.
    */
@@ -236,6 +226,16 @@ export interface PlanGroupResponse {
    * Description of the standing charge, displayed on the bill line item.
    */
   standingChargeDescription?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface PlanGroupCreateParams {

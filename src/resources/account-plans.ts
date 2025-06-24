@@ -138,16 +138,6 @@ export interface AccountPlanResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The unique identifier (UUID) for the Account to which the AccountPlan or
    * AccounPlanGroup is attached.
    */
@@ -256,6 +246,16 @@ export interface AccountPlanResponse {
    * AccountPlanGroup starts to be active for the Account.
    */
   startDate?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface AccountPlanCreateParams {

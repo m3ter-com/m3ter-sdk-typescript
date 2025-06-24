@@ -241,16 +241,6 @@ export interface BillResponse {
    */
   id: string;
 
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
   accountCode?: string;
 
   accountId?: string;
@@ -372,6 +362,16 @@ export interface BillResponse {
   status?: 'PENDING' | 'APPROVED';
 
   timezone?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export namespace BillResponse {
@@ -622,15 +622,8 @@ export interface BillApproveResponse {
 }
 
 export interface BillSearchResponse {
-  /**
-   * An array containing the list of requested Bills.
-   */
   data?: Array<BillResponse>;
 
-  /**
-   * The `nextToken` for multi-page retrievals. It is used to fetch the next page of
-   * Bills in a paginated list.
-   */
   nextToken?: string;
 }
 

@@ -196,17 +196,8 @@ export interface IntegrationConfigurationResponse {
     | 'AUTH_FAILED'
     | 'ACCOUNTING_PERIOD_CLOSED'
     | 'INVOICE_ALREADY_PAID'
-    | 'DISABLED';
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
+    | 'DISABLED'
+    | 'RATE_LIMIT_RETRY';
 
   /**
    * The ID of the user who created this item.
@@ -252,6 +243,16 @@ export interface IntegrationConfigurationResponse {
    * The URL of the entity in the destination system if available.
    */
   url?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface IntegrationConfigurationCreateResponse {

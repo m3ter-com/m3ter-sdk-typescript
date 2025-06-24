@@ -69,6 +69,10 @@ export class Balances extends APIResource {
    * This endpoint returns a list of all Balances associated with your organization.
    * You can filter the Balances by the end customer's Account UUID and end dates,
    * and paginate through them using the `pageSize` and `nextToken` parameters.
+   *
+   * **NOTE:** If a Balance has a rollover amount configured and you want to use the
+   * `endDateStart` or `endDateEnd` query parameters, the `rolloverEndDate` is used
+   * as the end date for the Balance.
    */
   list(params?: BalanceListParams, options?: Core.RequestOptions): Core.PagePromise<BalancesCursor, Balance>;
   list(options?: Core.RequestOptions): Core.PagePromise<BalancesCursor, Balance>;
@@ -110,16 +114,6 @@ export interface Balance {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * The unique identifier (UUID) for the end customer Account the Balance belongs
@@ -250,6 +244,16 @@ export interface Balance {
    * The date _(in ISO 8601 format)_ when the Balance becomes active.
    */
   startDate?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface BalanceCreateParams {
@@ -618,13 +622,16 @@ export interface BalanceListParams extends CursorParams {
   contract?: string | null;
 
   /**
-   * Query param: Only include Balances with end dates earlier than this date.
+   * Query param: Only include Balances with end dates earlier than this date. If a
+   * Balance has a rollover amount configured, then the `rolloverEndDate` will be
+   * used as the end date.
    */
   endDateEnd?: string;
 
   /**
    * Query param: Only include Balances with end dates equal to or later than this
-   * date.
+   * date. If a Balance has a rollover amount configured, then the `rolloverEndDate`
+   * will be used as the end date.
    */
   endDateStart?: string;
 }

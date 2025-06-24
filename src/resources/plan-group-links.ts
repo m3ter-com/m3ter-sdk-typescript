@@ -103,16 +103,6 @@ export interface PlanGroupLinkResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The id of the user who created this plan group link.
    */
   createdBy?: string;
@@ -141,6 +131,16 @@ export interface PlanGroupLinkResponse {
    * ID of the linked Plan
    */
   planId?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface PlanGroupLinkCreateParams {

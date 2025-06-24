@@ -64,16 +64,6 @@ export interface CustomFieldsResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * CustomFields added to Account entities.
    */
   account?: { [key: string]: string | number };
@@ -143,6 +133,16 @@ export interface CustomFieldsResponse {
    * CustomFields added to Product entities.
    */
   product?: { [key: string]: string | number };
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CustomFieldRetrieveParams {

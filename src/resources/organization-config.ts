@@ -340,16 +340,6 @@ export interface OrganizationConfigResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * Grace period before bills are auto-approved. Used in combination with the field
    * `autoApproveBillsGracePeriodUnit`.
    */
@@ -516,6 +506,16 @@ export interface OrganizationConfigResponse {
    * The timezone for the Organization.
    */
   timezone?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 
   /**
    * The first bill date _(in ISO-8601 format)_ for weekly billing periods.

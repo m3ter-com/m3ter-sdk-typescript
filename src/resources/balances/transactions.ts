@@ -121,16 +121,6 @@ export interface TransactionResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The financial value of the transaction, as recorded in the balance.
    */
   amount?: number;
@@ -204,6 +194,16 @@ export interface TransactionResponse {
    * list of created Transaction Types within the Organization Configuration.
    */
   transactionTypeId?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface TransactionSummaryResponse {

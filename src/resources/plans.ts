@@ -96,16 +96,6 @@ export interface PlanResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * _(Optional)_. The Account ID for which this plan was created as custom/bespoke.
    * A custom/bespoke Plan can only be attached to the specified Account.
    */
@@ -238,6 +228,16 @@ export interface PlanResponse {
    * Standing charge description _(displayed on the bill line item)_.
    */
   standingChargeDescription?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface PlanCreateParams {

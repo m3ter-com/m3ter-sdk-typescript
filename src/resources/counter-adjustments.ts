@@ -167,16 +167,6 @@ export interface CounterAdjustmentResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The Account ID the CounterAdjustment was created for.
    */
   accountId?: string;
@@ -222,6 +212,16 @@ export interface CounterAdjustmentResponse {
    * Integer Value of the Counter that was used to make the CounterAdjustment.
    */
   value?: number;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CounterAdjustmentCreateParams {

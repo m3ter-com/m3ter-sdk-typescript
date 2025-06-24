@@ -179,16 +179,6 @@ export interface M3terSignedCredentialsResponse {
   type: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The API key provided by m3ter. This key is part of the credential set required
    * for signing requests and authenticating with m3ter services.
    */
@@ -229,13 +219,6 @@ export interface M3terSignedCredentialsResponse {
    * the API key to generate a signature for secure authentication.
    */
   secret?: string;
-}
-
-export interface Webhook {
-  /**
-   * The UUID of the entity.
-   */
-  id: string;
 
   /**
    * The version number:
@@ -245,7 +228,14 @@ export interface Webhook {
    * - **Update:** On successful Update, the version is incremented by 1 in the
    *   response.
    */
-  version: number;
+  version?: number;
+}
+
+export interface Webhook {
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   active?: boolean;
 
@@ -284,6 +274,16 @@ export interface Webhook {
    * The URL to which webhook requests are sent.
    */
   url?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface WebhookCreateResponse {

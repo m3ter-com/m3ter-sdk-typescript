@@ -220,16 +220,6 @@ export interface ExternalMappingResponse {
   m3terId: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The ID of the user who created this item.
    */
   createdBy?: string;
@@ -253,6 +243,16 @@ export interface ExternalMappingResponse {
    * The ID of the user who last modified this item.
    */
   lastModifiedBy?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface ExternalMappingCreateParams {
