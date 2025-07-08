@@ -15,7 +15,7 @@ describe('resource destinations', () => {
   test('create: only required params', async () => {
     const responsePromise = client.dataExports.destinations.create({
       bucketName: 'xxx',
-      iamRoleArn: 'arn:aws:iam::321669910225:role/z',
+      iamRoleArn: 'arn:aws:iam::321669910225:role/"',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -30,7 +30,7 @@ describe('resource destinations', () => {
     const response = await client.dataExports.destinations.create({
       orgId: 'orgId',
       bucketName: 'xxx',
-      iamRoleArn: 'arn:aws:iam::321669910225:role/z',
+      iamRoleArn: 'arn:aws:iam::321669910225:role/"',
       destinationType: 'S3',
       partitionOrder: 'TYPE_FIRST',
       prefix: 'prefix',
@@ -74,7 +74,7 @@ describe('resource destinations', () => {
   test('update: only required params', async () => {
     const responsePromise = client.dataExports.destinations.update('id', {
       bucketName: 'xxx',
-      iamRoleArn: 'arn:aws:iam::321669910225:role/z',
+      iamRoleArn: 'arn:aws:iam::321669910225:role/"',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -89,7 +89,7 @@ describe('resource destinations', () => {
     const response = await client.dataExports.destinations.update('id', {
       orgId: 'orgId',
       bucketName: 'xxx',
-      iamRoleArn: 'arn:aws:iam::321669910225:role/z',
+      iamRoleArn: 'arn:aws:iam::321669910225:role/"',
       destinationType: 'S3',
       partitionOrder: 'TYPE_FIRST',
       prefix: 'prefix',

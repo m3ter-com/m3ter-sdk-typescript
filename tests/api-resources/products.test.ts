@@ -13,7 +13,7 @@ const client = new M3ter({
 
 describe('resource products', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.products.create({ code: 'JS!?Q0]r] ]$]', name: 'x' });
+    const responsePromise = client.products.create({ code: 'S?oC"$]C] ]]]]]5]', name: 'x' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -26,7 +26,7 @@ describe('resource products', () => {
   test('create: required and optional params', async () => {
     const response = await client.products.create({
       orgId: 'orgId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       name: 'x',
       customFields: { foo: 'string' },
       version: 0,
@@ -63,7 +63,7 @@ describe('resource products', () => {
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.products.update('id', { code: 'JS!?Q0]r] ]$]', name: 'x' });
+    const responsePromise = client.products.update('id', { code: 'S?oC"$]C] ]]]]]5]', name: 'x' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -76,7 +76,7 @@ describe('resource products', () => {
   test('update: required and optional params', async () => {
     const response = await client.products.update('id', {
       orgId: 'orgId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       name: 'x',
       customFields: { foo: 'string' },
       version: 0,

@@ -14,7 +14,7 @@ const client = new M3ter({
 describe('resource accounts', () => {
   test('create: only required params', async () => {
     const responsePromise = client.accounts.create({
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       emailAddress: 'dev@stainless.com',
       name: 'x',
     });
@@ -30,7 +30,7 @@ describe('resource accounts', () => {
   test('create: required and optional params', async () => {
     const response = await client.accounts.create({
       orgId: 'orgId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       emailAddress: 'dev@stainless.com',
       name: 'x',
       address: {
@@ -88,7 +88,7 @@ describe('resource accounts', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.accounts.update('id', {
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       emailAddress: 'dev@stainless.com',
       name: 'x',
     });
@@ -104,7 +104,7 @@ describe('resource accounts', () => {
   test('update: required and optional params', async () => {
     const response = await client.accounts.update('id', {
       orgId: 'orgId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       emailAddress: 'dev@stainless.com',
       name: 'x',
       address: {

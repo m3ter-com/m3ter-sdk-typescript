@@ -13,7 +13,7 @@ export class Accounts extends APIResource {
    * @example
    * ```ts
    * const accountResponse = await client.accounts.create({
-   *   code: 'JS!?Q0]r] ]$]',
+   *   code: 'S?oC"$]C] ]]]]]5]',
    *   emailAddress: 'dev@stainless.com',
    *   name: 'x',
    * });
@@ -63,7 +63,7 @@ export class Accounts extends APIResource {
    * @example
    * ```ts
    * const accountResponse = await client.accounts.update('id', {
-   *   code: 'JS!?Q0]r] ]$]',
+   *   code: 'S?oC"$]C] ]]]]]5]',
    *   emailAddress: 'dev@stainless.com',
    *   name: 'x',
    * });
