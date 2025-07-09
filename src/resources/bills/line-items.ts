@@ -28,8 +28,8 @@ export class LineItems extends APIResource {
     if (isRequestOptions(params)) {
       return this.retrieve(billId, id, {}, params);
     }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${billId}/lineitems/${id}`, options);
+    const { orgId = this._client.orgId, ...query } = params;
+    return this._client.get(`/organizations/${orgId}/bills/${billId}/lineitems/${id}`, { query, ...options });
   }
 
   /**
@@ -73,6 +73,8 @@ export interface LineItemResponse {
    * The UUID of the entity.
    */
   id: string;
+
+  additional?: { [key: string]: unknown };
 
   /**
    * A unique identifier (UUID) for the Aggregation that contributes to this Bill
@@ -330,6 +332,8 @@ export namespace LineItemResponse {
      */
     bandUnits?: number;
 
+    convertedBandSubtotal?: number;
+
     /**
      * The UUID of the credit type.
      */
@@ -368,6 +372,11 @@ export interface LineItemRetrieveParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 }
 
 export interface LineItemListParams extends CursorParams {
@@ -375,6 +384,11 @@ export interface LineItemListParams extends CursorParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 }
 
 LineItems.LineItemResponsesCursor = LineItemResponsesCursor;

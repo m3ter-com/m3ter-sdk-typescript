@@ -74,16 +74,9 @@ export class AccountPlans extends APIResource {
   }
 
   /**
-   * Retrieve a list of AccountPlan and AccountPlanGroup entities for the specified
-   * Organization.
-   *
-   * This endpoint retrieves a list of AccountPlans and AccountPlanGroups for a
-   * specific Organization. The list can be paginated for easier management, and
-   * supports filtering with various parameters.
-   *
-   * **NOTE:** You cannot use the `product` query parameter as a single filter
-   * condition, but must always use it in combination with the `account` query
-   * parameter.
+   * Retrieves a list of AccountPlan and AccountPlanGroup entities for the specified
+   * Organization. The list can be paginated for easier management, and supports
+   * filtering with various query parameters.
    */
   list(
     params?: AccountPlanListParams,
@@ -496,17 +489,28 @@ export interface AccountPlanListParams extends CursorParams {
   /**
    * Query param: The unique identifier (UUID) for the Account whose AccountPlans and
    * AccountPlanGroups you want to retrieve.
+   *
+   * **NOTE:** Only returns the currently active AccountPlans and AccountPlanGroups
+   * for the specified Account. Use in combination with the `includeall` query
+   * parameter to return both active and inactive.
    */
   account?: string;
 
   /**
-   * Query param:
+   * Query param: The unique identifier (UUID) of the Contract which the AccountPlans
+   * you want to retrieve have been linked to.
+   *
+   * **NOTE:** Does not return AccountPlanGroups that have been linked to the
+   * Contract.
    */
   contract?: string | null;
 
   /**
-   * Query param: The specific date for which you want to retrieve active
-   * AccountPlans and AccountPlanGroups.
+   * Query param: The specific date for which you want to retrieve AccountPlans and
+   * AccountPlanGroups.
+   *
+   * **NOTE:** Returns both active and inactive AccountPlans and AccountPlanGroups
+   * for the specified date.
    */
   date?: string;
 
@@ -528,8 +532,10 @@ export interface AccountPlanListParams extends CursorParams {
   includeall?: boolean;
 
   /**
-   * Query param: The unique identifier (UUID) for the Plan or Plan Group whose
-   * associated AccountPlans or AccountPlanGroups you want to retrieve.
+   * Query param: The unique identifier (UUID) for the Plan whose associated
+   * AccountPlans you want to retrieve.
+   *
+   * **NOTE:** Does not return AccountPlanGroups if you use a `planGroupId`.
    */
   plan?: string;
 

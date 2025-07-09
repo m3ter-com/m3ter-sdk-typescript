@@ -61,8 +61,8 @@ export class Bills extends APIResource {
     if (isRequestOptions(params)) {
       return this.retrieve(id, {}, params);
     }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${id}`, options);
+    const { orgId = this._client.orgId, ...query } = params;
+    return this._client.get(`/organizations/${orgId}/bills/${id}`, { query, ...options });
   }
 
   /**
@@ -169,8 +169,8 @@ export class Bills extends APIResource {
     if (isRequestOptions(params)) {
       return this.latestByAccount(accountId, {}, params);
     }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/latest/${accountId}`, options);
+    const { orgId = this._client.orgId, ...query } = params;
+    return this._client.get(`/organizations/${orgId}/bills/latest/${accountId}`, { query, ...options });
   }
 
   /**
@@ -245,6 +245,11 @@ export interface BillResponse {
 
   accountId?: string;
 
+  /**
+   * The id of the user who approved this bill.
+   */
+  approvedBy?: string;
+
   billDate?: string;
 
   billFrequencyInterval?: number;
@@ -279,6 +284,11 @@ export interface BillResponse {
   currencyConversions?: Array<Shared.CurrencyConversion>;
 
   /**
+   * The DateTime when the bill was approved.
+   */
+  dtApproved?: string;
+
+  /**
    * The date and time _(in ISO 8601 format)_ when the Bill was first created.
    */
   dtCreated?: string;
@@ -287,6 +297,11 @@ export interface BillResponse {
    * The date and time _(in ISO 8601 format)_ when the Bill was last modified.
    */
   dtLastModified?: string;
+
+  /**
+   * The DateTime when the bill was locked.
+   */
+  dtLocked?: string;
 
   dueDate?: string;
 
@@ -340,6 +355,11 @@ export interface BillResponse {
   lineItems?: Array<BillResponse.LineItem>;
 
   locked?: boolean;
+
+  /**
+   * The id of the user who locked this bill.
+   */
+  lockedBy?: string;
 
   /**
    * Purchase Order number linked to the Account the Bill is for.
@@ -448,6 +468,8 @@ export namespace BillResponse {
      * The UUID for the line item.
      */
     id?: string;
+
+    additional?: { [key: string]: unknown };
 
     /**
      * The Aggregation ID used for the line item.
@@ -579,6 +601,8 @@ export namespace BillResponse {
        */
       bandUnits?: number;
 
+      convertedBandSubtotal?: number;
+
       /**
        * The UUID of the credit type.
        */
@@ -632,6 +656,11 @@ export interface BillRetrieveParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 }
 
 export interface BillListParams extends CursorParams {
@@ -645,6 +674,11 @@ export interface BillListParams extends CursorParams {
    * specified Account.
    */
   accountId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 
   /**
    * Query param: The specific date in ISO 8601 format for which you want to retrieve
@@ -752,6 +786,11 @@ export interface BillLatestByAccountParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 }
 
 export interface BillLockParams {

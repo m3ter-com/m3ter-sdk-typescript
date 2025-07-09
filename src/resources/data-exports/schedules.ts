@@ -197,6 +197,7 @@ export interface OperationalDataExportScheduleRequest {
     | 'PLAN_GROUP_LINKS'
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
+    | 'TRANSACTION_TYPES'
   >;
 
   /**
@@ -245,6 +246,7 @@ export interface OperationalDataExportScheduleResponse {
     | 'PLAN_GROUP_LINKS'
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
+    | 'TRANSACTION_TYPES'
   >;
 
   /**
@@ -650,6 +652,7 @@ export declare namespace ScheduleCreateParams {
       | 'PLAN_GROUP_LINKS'
       | 'PLAN_TEMPLATES'
       | 'BALANCE_TRANSACTIONS'
+      | 'TRANSACTION_TYPES'
     >;
 
     /**
@@ -854,6 +857,7 @@ export declare namespace ScheduleUpdateParams {
       | 'PLAN_GROUP_LINKS'
       | 'PLAN_TEMPLATES'
       | 'BALANCE_TRANSACTIONS'
+      | 'TRANSACTION_TYPES'
     >;
 
     /**

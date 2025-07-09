@@ -139,6 +139,7 @@ export interface AdHocOperationalDataRequest {
     | 'PLAN_GROUP_LINKS'
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
+    | 'TRANSACTION_TYPES'
   >;
 
   /**
@@ -335,6 +336,7 @@ export declare namespace DataExportCreateAdhocParams {
       | 'PLAN_GROUP_LINKS'
       | 'PLAN_TEMPLATES'
       | 'BALANCE_TRANSACTIONS'
+      | 'TRANSACTION_TYPES'
     >;
 
     /**
