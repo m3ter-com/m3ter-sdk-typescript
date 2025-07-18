@@ -74,6 +74,12 @@ export interface LineItemResponse {
    */
   id: string;
 
+  accountingProductCode?: string;
+
+  accountingProductId?: string;
+
+  accountingProductName?: string;
+
   additional?: { [key: string]: unknown };
 
   /**

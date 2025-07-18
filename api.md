@@ -760,15 +760,12 @@ Types:
 - <code><a href="./src/resources/webhooks.ts">M3terSignedCredentialsRequest</a></code>
 - <code><a href="./src/resources/webhooks.ts">M3terSignedCredentialsResponse</a></code>
 - <code><a href="./src/resources/webhooks.ts">Webhook</a></code>
-- <code><a href="./src/resources/webhooks.ts">WebhookCreateResponse</a></code>
-- <code><a href="./src/resources/webhooks.ts">WebhookUpdateResponse</a></code>
-- <code><a href="./src/resources/webhooks.ts">WebhookSetActiveResponse</a></code>
 
 Methods:
 
-- <code title="post /organizations/{orgId}/integrationdestinations/webhooks">client.webhooks.<a href="./src/resources/webhooks.ts">create</a>({ ...params }) -> WebhookCreateResponse</code>
+- <code title="post /organizations/{orgId}/integrationdestinations/webhooks">client.webhooks.<a href="./src/resources/webhooks.ts">create</a>({ ...params }) -> Webhook</code>
 - <code title="get /organizations/{orgId}/integrationdestinations/webhooks/{id}">client.webhooks.<a href="./src/resources/webhooks.ts">retrieve</a>(id, { ...params }) -> Webhook</code>
-- <code title="put /organizations/{orgId}/integrationdestinations/webhooks/{id}">client.webhooks.<a href="./src/resources/webhooks.ts">update</a>(id, { ...params }) -> WebhookUpdateResponse</code>
+- <code title="put /organizations/{orgId}/integrationdestinations/webhooks/{id}">client.webhooks.<a href="./src/resources/webhooks.ts">update</a>(id, { ...params }) -> Webhook</code>
 - <code title="get /organizations/{orgId}/integrationdestinations/webhooks">client.webhooks.<a href="./src/resources/webhooks.ts">list</a>({ ...params }) -> WebhooksCursor</code>
 - <code title="delete /organizations/{orgId}/integrationdestinations/webhooks/{id}">client.webhooks.<a href="./src/resources/webhooks.ts">delete</a>(id, { ...params }) -> Webhook</code>
-- <code title="put /organizations/{orgId}/integrationdestinations/webhooks/{id}/active">client.webhooks.<a href="./src/resources/webhooks.ts">setActive</a>(id, { ...params }) -> WebhookSetActiveResponse</code>
+- <code title="put /organizations/{orgId}/integrationdestinations/webhooks/{id}/active">client.webhooks.<a href="./src/resources/webhooks.ts">setActive</a>(id, { ...params }) -> Webhook</code>

@@ -469,6 +469,12 @@ export namespace BillResponse {
      */
     id?: string;
 
+    accountingProductCode?: string;
+
+    accountingProductId?: string;
+
+    accountingProductName?: string;
+
     additional?: { [key: string]: unknown };
 
     /**

@@ -151,6 +151,8 @@ export interface StatementDefinitionResponse {
    */
   dtLastModified?: string;
 
+  generateSlimStatements?: boolean;
+
   /**
    * A Boolean indicating whether to include the price per unit in the Statement.
    *
@@ -248,6 +250,11 @@ export interface StatementDefinitionCreateParams {
    * Meter _(for Meters that have Dimensions setup)_.
    */
   dimensions?: Array<StatementDefinitionCreateParams.Dimension>;
+
+  /**
+   * Body param:
+   */
+  generateSlimStatements?: boolean;
 
   /**
    * Body param: A Boolean indicating whether to include the price per unit in the
@@ -352,6 +359,11 @@ export interface StatementDefinitionUpdateParams {
    * Meter _(for Meters that have Dimensions setup)_.
    */
   dimensions?: Array<StatementDefinitionUpdateParams.Dimension>;
+
+  /**
+   * Body param:
+   */
+  generateSlimStatements?: boolean;
 
   /**
    * Body param: A Boolean indicating whether to include the price per unit in the

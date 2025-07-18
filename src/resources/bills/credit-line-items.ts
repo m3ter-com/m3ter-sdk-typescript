@@ -205,6 +205,11 @@ export interface CreditLineItemCreateParams {
   orgId?: string;
 
   /**
+   * Body param:
+   */
+  accountingProductId: string;
+
+  /**
    * Body param: The amount for the line item.
    */
   amount: number;
@@ -299,6 +304,11 @@ export interface CreditLineItemUpdateParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Body param:
+   */
+  accountingProductId: string;
 
   /**
    * Body param: The amount for the line item.

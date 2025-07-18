@@ -10,7 +10,7 @@ export class Webhooks extends APIResource {
    * This endpoint creates a new webhook destination. A webhook destination is a URL
    * where webhook payloads will be sent.
    */
-  create(params: WebhookCreateParams, options?: Core.RequestOptions): Core.APIPromise<WebhookCreateResponse> {
+  create(params: WebhookCreateParams, options?: Core.RequestOptions): Core.APIPromise<Webhook> {
     const { orgId = this._client.orgId, ...body } = params;
     return this._client.post(`/organizations/${orgId}/integrationdestinations/webhooks`, {
       body,
@@ -42,11 +42,7 @@ export class Webhooks extends APIResource {
   /**
    * Update a destination to be used for a webhook.
    */
-  update(
-    id: string,
-    params: WebhookUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookUpdateResponse> {
+  update(id: string, params: WebhookUpdateParams, options?: Core.RequestOptions): Core.APIPromise<Webhook> {
     const { orgId = this._client.orgId, ...body } = params;
     return this._client.put(`/organizations/${orgId}/integrationdestinations/webhooks/${id}`, {
       body,
@@ -102,13 +98,13 @@ export class Webhooks extends APIResource {
     id: string,
     params?: WebhookSetActiveParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookSetActiveResponse>;
-  setActive(id: string, options?: Core.RequestOptions): Core.APIPromise<WebhookSetActiveResponse>;
+  ): Core.APIPromise<Webhook>;
+  setActive(id: string, options?: Core.RequestOptions): Core.APIPromise<Webhook>;
   setActive(
     id: string,
     params: WebhookSetActiveParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookSetActiveResponse> {
+  ): Core.APIPromise<Webhook> {
     if (isRequestOptions(params)) {
       return this.setActive(id, {}, params);
     }
@@ -286,102 +282,6 @@ export interface Webhook {
   version?: number;
 }
 
-export interface WebhookCreateResponse {
-  /**
-   * This schema defines the credentials required for m3ter request signing.
-   */
-  credentials: M3terSignedCredentialsRequest;
-
-  description: string;
-
-  name: string;
-
-  /**
-   * The URL to which the webhook requests will be sent.
-   */
-  url: string;
-
-  active?: boolean;
-
-  code?: string;
-
-  /**
-   * The version number of the entity:
-   *
-   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
-   *   for Create_. On initial Create, version is set at 1 and listed in the
-   *   response.
-   * - **Update Entity:** On Update, version is required and must match the existing
-   *   version because a check is performed to ensure sequential versioning is
-   *   preserved. Version is incremented by 1 and listed in the response.
-   */
-  version?: number;
-}
-
-export interface WebhookUpdateResponse {
-  /**
-   * This schema defines the credentials required for m3ter request signing.
-   */
-  credentials: M3terSignedCredentialsRequest;
-
-  description: string;
-
-  name: string;
-
-  /**
-   * The URL to which the webhook requests will be sent.
-   */
-  url: string;
-
-  active?: boolean;
-
-  code?: string;
-
-  /**
-   * The version number of the entity:
-   *
-   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
-   *   for Create_. On initial Create, version is set at 1 and listed in the
-   *   response.
-   * - **Update Entity:** On Update, version is required and must match the existing
-   *   version because a check is performed to ensure sequential versioning is
-   *   preserved. Version is incremented by 1 and listed in the response.
-   */
-  version?: number;
-}
-
-export interface WebhookSetActiveResponse {
-  /**
-   * This schema defines the credentials required for m3ter request signing.
-   */
-  credentials: M3terSignedCredentialsRequest;
-
-  description: string;
-
-  name: string;
-
-  /**
-   * The URL to which the webhook requests will be sent.
-   */
-  url: string;
-
-  active?: boolean;
-
-  code?: string;
-
-  /**
-   * The version number of the entity:
-   *
-   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
-   *   for Create_. On initial Create, version is set at 1 and listed in the
-   *   response.
-   * - **Update Entity:** On Update, version is required and must match the existing
-   *   version because a check is performed to ensure sequential versioning is
-   *   preserved. Version is incremented by 1 and listed in the response.
-   */
-  version?: number;
-}
-
 export interface WebhookCreateParams {
   /**
    * @deprecated the org id should be set at the client level instead
@@ -527,9 +427,6 @@ export declare namespace Webhooks {
     type M3terSignedCredentialsRequest as M3terSignedCredentialsRequest,
     type M3terSignedCredentialsResponse as M3terSignedCredentialsResponse,
     type Webhook as Webhook,
-    type WebhookCreateResponse as WebhookCreateResponse,
-    type WebhookUpdateResponse as WebhookUpdateResponse,
-    type WebhookSetActiveResponse as WebhookSetActiveResponse,
     WebhooksCursor as WebhooksCursor,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookRetrieveParams as WebhookRetrieveParams,
