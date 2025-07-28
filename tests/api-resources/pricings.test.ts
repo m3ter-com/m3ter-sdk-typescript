@@ -137,6 +137,7 @@ describe('resource pricings', () => {
   test('list: required and optional params', async () => {
     const response = await client.pricings.list({
       orgId: 'orgId',
+      aggregationId: 'aggregationId',
       date: 'date',
       ids: ['string'],
       nextToken: 'nextToken',
@@ -159,6 +160,7 @@ describe('resource pricings', () => {
       client.pricings.list(
         {
           orgId: 'orgId',
+          aggregationId: 'aggregationId',
           date: 'date',
           ids: ['string'],
           nextToken: 'nextToken',

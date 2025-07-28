@@ -626,6 +626,11 @@ export interface PricingListParams extends CursorParams {
   orgId?: string;
 
   /**
+   * Query param: UUID of the Aggregation to retrieve pricings for
+   */
+  aggregationId?: string;
+
+  /**
    * Query param: Date on which to retrieve active Pricings.
    */
   date?: string;
