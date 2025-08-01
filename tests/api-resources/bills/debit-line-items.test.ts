@@ -14,6 +14,7 @@ const client = new M3ter({
 describe('resource debitLineItems', () => {
   test('create: only required params', async () => {
     const responsePromise = client.bills.debitLineItems.create('billId', {
+      accountingProductId: 'accountingProductId',
       amount: 1,
       description: 'x',
       productId: 'productId',
@@ -34,6 +35,7 @@ describe('resource debitLineItems', () => {
   test('create: required and optional params', async () => {
     const response = await client.bills.debitLineItems.create('billId', {
       orgId: 'orgId',
+      accountingProductId: 'accountingProductId',
       amount: 1,
       description: 'x',
       productId: 'productId',
@@ -84,6 +86,7 @@ describe('resource debitLineItems', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.bills.debitLineItems.update('billId', 'id', {
+      accountingProductId: 'accountingProductId',
       amount: 1,
       description: 'x',
       productId: 'productId',
@@ -104,6 +107,7 @@ describe('resource debitLineItems', () => {
   test('update: required and optional params', async () => {
     const response = await client.bills.debitLineItems.update('billId', 'id', {
       orgId: 'orgId',
+      accountingProductId: 'accountingProductId',
       amount: 1,
       description: 'x',
       productId: 'productId',

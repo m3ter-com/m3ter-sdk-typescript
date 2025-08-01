@@ -28,8 +28,8 @@ export class LineItems extends APIResource {
     if (isRequestOptions(params)) {
       return this.retrieve(billId, id, {}, params);
     }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${billId}/lineitems/${id}`, options);
+    const { orgId = this._client.orgId, ...query } = params;
+    return this._client.get(`/organizations/${orgId}/bills/${billId}/lineitems/${id}`, { query, ...options });
   }
 
   /**
@@ -74,15 +74,13 @@ export interface LineItemResponse {
    */
   id: string;
 
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
+  accountingProductCode?: string;
+
+  accountingProductId?: string;
+
+  accountingProductName?: string;
+
+  additional?: { [key: string]: unknown };
 
   /**
    * A unique identifier (UUID) for the Aggregation that contributes to this Bill
@@ -108,6 +106,8 @@ export interface LineItemResponse {
    * The unique identifier (UUID) for the Bill that includes this line item.
    */
   billId?: string;
+
+  chargeId?: string;
 
   /**
    * The unique identifier (UUID) of the Commitment _(if this is used)_.
@@ -169,7 +169,7 @@ export interface LineItemResponse {
    */
   dtLastModified?: string;
 
-  group?: Record<string, string>;
+  group?: { [key: string]: string };
 
   /**
    * Boolean flag indicating whether the Bill line item has associated statement
@@ -270,7 +270,7 @@ export interface LineItemResponse {
    * Specifies the segment name or identifier when segmented Aggregation is used.
    * This is relevant for more complex billing structures.
    */
-  segment?: Record<string, string>;
+  segment?: { [key: string]: string };
 
   /**
    * The number used for sequential invoices.
@@ -305,6 +305,16 @@ export interface LineItemResponse {
    * In this example, the unit type of **api_calls** is read from the `unit` field.
    */
   units?: number;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export namespace LineItemResponse {
@@ -327,6 +337,8 @@ export namespace LineItemResponse {
      * The number of units used within the band.
      */
     bandUnits?: number;
+
+    convertedBandSubtotal?: number;
 
     /**
      * The UUID of the credit type.
@@ -363,18 +375,26 @@ export namespace LineItemResponse {
 
 export interface LineItemRetrieveParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 }
 
 export interface LineItemListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 }
 
 LineItems.LineItemResponsesCursor = LineItemResponsesCursor;

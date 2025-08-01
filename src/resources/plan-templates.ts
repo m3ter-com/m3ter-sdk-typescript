@@ -12,6 +12,18 @@ export class PlanTemplates extends APIResource {
    * This endpoint creates a new PlanTemplate within a specific Organization,
    * identified by its unique UUID. The request body should contain the necessary
    * information for the new PlanTemplate.
+   *
+   * @example
+   * ```ts
+   * const planTemplateResponse =
+   *   await client.planTemplates.create({
+   *     billFrequency: 'DAILY',
+   *     currency: 'xxx',
+   *     name: 'x',
+   *     productId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *     standingCharge: 0,
+   *   });
+   * ```
    */
   create(
     params: PlanTemplateCreateParams,
@@ -26,6 +38,12 @@ export class PlanTemplates extends APIResource {
    *
    * This endpoint allows you to retrieve a specific PlanTemplate within a specific
    * Organization, both identified by their unique identifiers (UUIDs).
+   *
+   * @example
+   * ```ts
+   * const planTemplateResponse =
+   *   await client.planTemplates.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -56,6 +74,18 @@ export class PlanTemplates extends APIResource {
    * this endpoint to update the Plan Template use the `customFields` parameter to
    * preserve those Custom Fields. If you omit them from the update request, they
    * will be lost.
+   *
+   * @example
+   * ```ts
+   * const planTemplateResponse =
+   *   await client.planTemplates.update('id', {
+   *     billFrequency: 'DAILY',
+   *     currency: 'xxx',
+   *     name: 'x',
+   *     productId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *     standingCharge: 0,
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -72,6 +102,14 @@ export class PlanTemplates extends APIResource {
    * This endpoint enables you to retrieve a paginated list of PlanTemplates
    * belonging to a specific Organization, identified by its UUID. You can filter the
    * list by PlanTemplate IDs or Product IDs for more focused retrieval.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const planTemplateResponse of client.planTemplates.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: PlanTemplateListParams,
@@ -97,6 +135,12 @@ export class PlanTemplates extends APIResource {
    *
    * This endpoint enables you to delete a specific PlanTemplate within a specific
    * Organization, both identified by their unique identifiers (UUIDs).
+   *
+   * @example
+   * ```ts
+   * const planTemplateResponse =
+   *   await client.planTemplates.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -124,16 +168,6 @@ export interface PlanTemplateResponse {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * Determines the frequency at which bills are generated.
@@ -188,7 +222,7 @@ export interface PlanTemplateResponse {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The date and time _(in ISO-8601 format)_ when the PlanTemplate was created.
@@ -283,12 +317,21 @@ export interface PlanTemplateResponse {
    * applied to the second bill _(at six months)_, and so on.
    */
   standingChargeOffset?: number;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface PlanTemplateCreateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -371,7 +414,7 @@ export interface PlanTemplateCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The Product minimum spend amount per billing cycle for end customer
@@ -451,16 +494,14 @@ export interface PlanTemplateCreateParams {
 
 export interface PlanTemplateRetrieveParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PlanTemplateUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -543,7 +584,7 @@ export interface PlanTemplateUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The Product minimum spend amount per billing cycle for end customer
@@ -623,8 +664,7 @@ export interface PlanTemplateUpdateParams {
 
 export interface PlanTemplateListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -642,8 +682,7 @@ export interface PlanTemplateListParams extends CursorParams {
 
 export interface PlanTemplateDeleteParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

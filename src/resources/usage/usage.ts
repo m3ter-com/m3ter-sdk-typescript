@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import * as DataExportsAPI from '../data-exports/data-exports';
 import * as FileUploadsAPI from './file-uploads/file-uploads';
 import {
   FileUploadGenerateUploadURLParams,
@@ -39,6 +40,12 @@ export class Usage extends APIResource {
    *   Organization, then you can perform this **GET** call using the full URL
    *   returned for any ingest failure Event to obtain a failed ingest file download
    *   URL for the Event.
+   *
+   * @example
+   * ```ts
+   * const downloadURLResponse =
+   *   await client.usage.getFailedIngestDownloadURL();
+   * ```
    */
   getFailedIngestDownloadURL(
     params?: UsageGetFailedIngestDownloadURLParams,
@@ -60,9 +67,42 @@ export class Usage extends APIResource {
   }
 
   /**
-   * Query and filter usage data
+   * Query and filter usage data collected for your Organization.
+   *
+   * You can use several parameters to filter the range of usage data returned:
+   *
+   * - **Time period.** Use `startDate` and `endDate` to define a period. The query
+   *   references the `timestamp` values of usage data submissions for applying the
+   *   defined time period, and not the time submissions were `receivedAt` by the
+   *   platform. Only usage data with a `timestamp` that falls in the defined time
+   *   period are returned.(Required)
+   * - **Meters.** Specify the Meters you want the query to return data for.
+   * - **Accounts.** Specify the Accounts you want the query to return data for.
+   * - **Dimension Filters.** Specify values for Dimension data fields on included
+   *   Meters. Only data that match the specified Dimension field values will be
+   *   returned for the query.
+   *
+   * You can apply Aggregations functions to the usage data returned for the query.
+   * If you apply Aggregations, you can select to group the data by:
+   *
+   * - **Account**
+   * - **Time**
+   * - **Dimension**
+   *
+   * @example
+   * ```ts
+   * const usageQueryResponse = await client.usage.query();
+   * ```
    */
-  query(params: UsageQueryParams, options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse> {
+  query(params?: UsageQueryParams, options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse>;
+  query(options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse>;
+  query(
+    params: UsageQueryParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<UsageQueryResponse> {
+    if (isRequestOptions(params)) {
+      return this.query({}, params);
+    }
     const { orgId = this._client.orgId, ...body } = params;
     return this._client.post(`/organizations/${orgId}/usage/query`, { body, ...options });
   }
@@ -80,14 +120,14 @@ export class Usage extends APIResource {
    *   The usage data measurement is accepted and ingested as data belonging to the
    *   new auto-created Account. At a later date, you can edit the Account's
    *   Code,??Name, and??e-mail address. For more details, see
-   *   [Submittting Usage Data for Non-Existent Accounts](https://www.m3ter.com/docs/guides/billing-and-usage-data/submitting-usage-data/submitting-usage-data-for-non-existent-accounts)
+   *   [Submitting Usage Data for Non-Existent Accounts](https://www.m3ter.com/docs/guides/billing-and-usage-data/submitting-usage-data/submitting-usage-data-for-non-existent-accounts)
    *   in our main documentation.
    * - **Usage Data Adjustments.** If you need to make corrections for billing
    *   retrospectively against an Account, you can use date/time values in the past
    *   for the `ts` (timestamp) request parameter to submit positive or negative
    *   usage data amounts to correct and reconcile earlier billing anomalies. For
    *   more details, see
-   *   [Submittting Usage Data Adjustments Using Timestamp](https://www.m3ter.com/docs/guides/billing-and-usage-data/submitting-usage-data/submitting-usage-data-adjustments-using-timestamp)
+   *   [Submitting Usage Data Adjustments Using Timestamp](https://www.m3ter.com/docs/guides/billing-and-usage-data/submitting-usage-data/submitting-usage-data-adjustments-using-timestamp)
    *   in our main documentation.
    * - **Ingest Validation Failure Events.** After the intial submission of a usage
    *   data measurement to the Ingest API, a data enrichment stage is performed to
@@ -106,13 +146,31 @@ export class Usage extends APIResource {
    * contain any end-customer PII data. See the
    * [Introduction section](https://www.m3ter.com/docs/api#section/Introduction)
    * above for more details.
+   *
+   * @example
+   * ```ts
+   * const submitMeasurementsResponse =
+   *   await client.usage.submit({
+   *     measurements: [
+   *       {
+   *         account: 'Acme Corp',
+   *         meter: 'string',
+   *         ts: '2022-08-24T14:15:22Z',
+   *       },
+   *     ],
+   *   });
+   * ```
    */
   submit(
     params: UsageSubmitParams,
     options?: Core.RequestOptions,
   ): Core.APIPromise<SubmitMeasurementsResponse> {
     const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/measurements`, { body, ...options });
+    return this._client.post(`/organizations/${orgId}/measurements`, {
+      body,
+      defaultBaseURL: 'https://ingest.m3ter.com',
+      ...options,
+    });
   }
 }
 
@@ -145,7 +203,7 @@ export interface MeasurementRequest {
   /**
    * 'cost' values
    */
-  cost?: Record<string, number>;
+  cost?: { [key: string]: number };
 
   /**
    * End timestamp for the measurement _(in ISO 8601 format)_. _(Optional)_.
@@ -158,22 +216,22 @@ export interface MeasurementRequest {
   /**
    * 'income' values
    */
-  income?: Record<string, number>;
+  income?: { [key: string]: number };
 
   /**
    * 'measure' values
    */
-  measure?: Record<string, number>;
+  measure?: { [key: string]: number };
 
   /**
    * 'metadata' values
    */
-  metadata?: Record<string, string>;
+  metadata?: { [key: string]: string };
 
   /**
    * 'other' values
    */
-  other?: Record<string, string>;
+  other?: { [key: string]: string };
 
   /**
    * Unique ID for this measurement.
@@ -183,17 +241,17 @@ export interface MeasurementRequest {
   /**
    * 'what' values
    */
-  what?: Record<string, string>;
+  what?: { [key: string]: string };
 
   /**
    * 'where' values
    */
-  where?: Record<string, string>;
+  where?: { [key: string]: string };
 
   /**
    * 'who' values
    */
-  who?: Record<string, string>;
+  who?: { [key: string]: string };
 }
 
 export interface SubmitMeasurementsRequest {
@@ -211,17 +269,29 @@ export interface SubmitMeasurementsResponse {
 }
 
 export interface UsageQueryResponse {
-  data?: Array<Record<string, unknown>>;
+  data?: Array<{ [key: string]: unknown }>;
 
   /**
-   * Flag to know if there are more data available than the one returned
+   * Boolean flag to indicate whether or not there are more data available for the
+   * query than are returned:
+   *
+   * - If there are more data, then TRUE.
+   * - If there are no more data, then FALSE.
+   *
+   * **NOTES:**
+   *
+   * - The limit on the size of the return is 20000 data items. If the query returns
+   *   more than this limit, only 20000 items are returned with most recent first and
+   *   `hasMoreData` will be TRUE.
+   * - If you have set `limit` in your query request at fewer than the number
+   *   returned by the query, then `hasMoreData` will be TRUE in the response.
    */
   hasMoreData?: boolean;
 }
 
 export interface UsageGetFailedIngestDownloadURLParams {
   /**
-   * Path param: UUID of the Organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -233,53 +303,80 @@ export interface UsageGetFailedIngestDownloadURLParams {
 
 export interface UsageQueryParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
   /**
-   * Body param: ISO 8601 formatted end date to filter by.
-   */
-  endDate: string;
-
-  /**
-   * Body param: ISO 8601 formatted start date to filter by.
-   */
-  startDate: string;
-
-  /**
-   * Body param:
+   * Body param: Specify the Accounts you want the query to return usage data for.
    */
   accountIds?: Array<string>;
 
   /**
-   * Body param:
+   * Body param: Define the Aggregation functions you want to apply to data fields on
+   * included Meters:
+   *
+   * - **SUM**. Adds the values.
+   * - **MIN**. Uses the minimum value.
+   * - **MAX**. Uses the maximum value.
+   * - **COUNT**. Counts the number of values.
+   * - **LATEST**. Uses the most recent value.
+   * - **MEAN**. Uses the arithmetic mean of the values.
+   * - **UNIQUE**. Uses a count of the number of unique values.
+   *
+   * **NOTE!** The Aggregation functions that can be applied depend on the data field
+   * type:
+   *
+   * - **Measure** fields. `SUM`, `MIN`, `MAX`, `COUNT`, `LATEST`, or `MEAN`
+   *   functions can be applied.
+   * - **Dimension** field. `COUNT` or `UNIQUE` functions can be applied.
    */
   aggregations?: Array<UsageQueryParams.Aggregation>;
 
   /**
-   * Body param:
+   * Body param: Define Dimension filters you want to apply for the query.
+   *
+   * Specify values for Dimension data fields on included Meters. Only data that
+   * match the specified Dimension field values will be returned for the query.
    */
   dimensionFilters?: Array<UsageQueryParams.DimensionFilter>;
 
   /**
-   * Body param:
+   * Body param: The exclusive end date to define a time period to filter by. (_ISO
+   * 8601 formatted_)
    */
-  groups?: Array<
-    | UsageQueryParams.DataExplorerAccountGroup
-    | UsageQueryParams.DataExplorerDimensionGroup
-    | UsageQueryParams.DataExplorerTimeGroup
-  >;
+  endDate?: string;
 
   /**
-   * Body param:
+   * Body param: If you've applied Aggregations for your query, specify any grouping
+   * you want to impose on the returned data:
+   *
+   * - **Account**
+   * - **Time** - group by frequency. Five options: `DAY`, `HOUR`, `WEEK`, `MONTH`,
+   *   or `QUARTER`.
+   * - **Dimension** - group by Meter and data field.
+   *
+   * **NOTE:** If you attempt to impose grouping for a query that doesn't apply
+   * Aggregations, you'll receive an error.
+   */
+  groups?: Array<DataExportsAPI.DataExplorerGroup>;
+
+  /**
+   * Body param: Define a limit for the number of usage data items you want the query
+   * to return, starting with the most recently received data item.
    */
   limit?: number;
 
   /**
-   * Body param:
+   * Body param: Specify the Meters you want the query to return usage data for.
    */
   meterIds?: Array<string>;
+
+  /**
+   * Body param: The inclusive start date to define a time period to filter by. (_ISO
+   * 8601 formatted_)
+   */
+  startDate?: string;
 }
 
 export namespace UsageQueryParams {
@@ -321,48 +418,11 @@ export namespace UsageQueryParams {
      */
     values: Array<string>;
   }
-
-  /**
-   * Group by account
-   */
-  export interface DataExplorerAccountGroup {
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by dimension
-   */
-  export interface DataExplorerDimensionGroup {
-    /**
-     * Field code to group by
-     */
-    fieldCode: string;
-
-    /**
-     * Meter ID to group by
-     */
-    meterId: string;
-
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
-
-  /**
-   * Group by time
-   */
-  export interface DataExplorerTimeGroup {
-    /**
-     * Frequency of usage data
-     */
-    frequency: 'DAY' | 'HOUR' | 'WEEK' | 'MONTH' | 'QUARTER';
-
-    groupType?: 'ACCOUNT' | 'DIMENSION' | 'TIME';
-  }
 }
 
 export interface UsageSubmitParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

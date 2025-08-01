@@ -14,7 +14,7 @@ const client = new M3ter({
 describe('resource plans', () => {
   test('create: only required params', async () => {
     const responsePromise = client.plans.create({
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       name: 'x',
       planTemplateId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     });
@@ -30,7 +30,7 @@ describe('resource plans', () => {
   test('create: required and optional params', async () => {
     const response = await client.plans.create({
       orgId: 'orgId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       name: 'x',
       planTemplateId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       accountId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
@@ -80,7 +80,7 @@ describe('resource plans', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.plans.update('id', {
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       name: 'x',
       planTemplateId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     });
@@ -96,7 +96,7 @@ describe('resource plans', () => {
   test('update: required and optional params', async () => {
     const response = await client.plans.update('id', {
       orgId: 'orgId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       name: 'x',
       planTemplateId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       accountId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',

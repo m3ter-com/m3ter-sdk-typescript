@@ -70,6 +70,28 @@ export class Transactions extends APIResource {
 
   /**
    * Retrieves the Balance Transactions Summary for a given Balance.
+   *
+   * The response contains useful recorded and calculated Transaction amounts created
+   * for a Balance during the time it is active for the Account, including amounts
+   * relevant to any rollover amount configured for a Balance:
+   *
+   * - `totalCreditAmount`. The sum of all credits amounts created for the Balance.
+   * - `totalDebitAmount`. The sum of all debit amounts created for the Balance.
+   * - `initialCreditAmount`. The initial credit amount created for the Balance.
+   * - `expiredBalanceAmount`. The amount of the Balance remaining at the time the
+   *   Balance expires and which is not included in any configured Rollover amount.
+   *   For example, suppose a Balance reaches its end date and $1000 credit remains
+   *   unused. If the Balance is configured to rollover $800, then the
+   *   `expiredBalanceAmount` is calculated as $1000 - $800 = $200.
+   * - `rolloverConsumed`. The sum of debits made against the configured rollover
+   *   amount. Note that this amount is dynamic relative to when the API call is made
+   *   until either the rollover end date is reached or the cap configured for the
+   *   rollover amount is reached, after which it will be unchanged. If no rollover
+   *   is configured for a Balance, then this is ignored.
+   * - `balanceConsumed`. The sum of debits made against the Balance. Note that this
+   *   amount is dynamic relative to when the API call is made until either the
+   *   Balance end date is reached or the available Balance amount reaches zero,
+   *   after which it will be unchanged.
    */
   summary(
     balanceId: string,
@@ -97,16 +119,6 @@ export interface TransactionResponse {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * The financial value of the transaction, as recorded in the balance.
@@ -158,7 +170,7 @@ export interface TransactionResponse {
    * responsible for the Transaction being added to the Balance - such as a **User**,
    * a **Service User**, or a **Bill**.
    */
-  entityType?: 'BILL' | 'COMMITMENT' | 'USER' | 'SERVICE_USER';
+  entityType?: 'BILL' | 'COMMITMENT' | 'USER' | 'SERVICE_USER' | 'SCHEDULER';
 
   /**
    * The unique identifier (UUID) for the user who last modified the balance
@@ -182,10 +194,35 @@ export interface TransactionResponse {
    * list of created Transaction Types within the Organization Configuration.
    */
   transactionTypeId?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface TransactionSummaryResponse {
+  /**
+   * Amount consumed from the original balance
+   */
+  balanceConsumed?: number;
+
+  /**
+   * Amount of the balance that expired without being used
+   */
+  expiredBalanceAmount?: number;
+
   initialCreditAmount?: number;
+
+  /**
+   * Amount consumed from rollover credit
+   */
+  rolloverConsumed?: number;
 
   totalCreditAmount?: number;
 
@@ -194,8 +231,7 @@ export interface TransactionSummaryResponse {
 
 export interface TransactionCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -255,10 +291,19 @@ export interface TransactionCreateParams {
 
 export interface TransactionListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param:
+   */
+  entityId?: string | null;
+
+  /**
+   * Query param:
+   */
+  entityType?: 'BILL' | 'COMMITMENT' | 'USER' | 'SERVICE_USER' | 'SCHEDULER' | null;
 
   /**
    * Query param:
@@ -268,7 +313,7 @@ export interface TransactionListParams extends CursorParams {
 
 export interface TransactionSummaryParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

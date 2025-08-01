@@ -10,6 +10,12 @@ export class DebitReasons extends APIResource {
    * Create a new Debit Reason for your Organization. When you've created a Debit
    * Reason, it becomes available as a debit type for adding Debit line items to
    * Bills. See [Debits](https://www.m3ter.com/docs/api#tag/Debits).
+   *
+   * @example
+   * ```ts
+   * const debitReasonResponse =
+   *   await client.debitReasons.create({ name: 'x' });
+   * ```
    */
   create(
     params: DebitReasonCreateParams,
@@ -21,6 +27,12 @@ export class DebitReasons extends APIResource {
 
   /**
    * Retrieve the Debit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const debitReasonResponse =
+   *   await client.debitReasons.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -42,6 +54,12 @@ export class DebitReasons extends APIResource {
 
   /**
    * Update the Debit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const debitReasonResponse =
+   *   await client.debitReasons.update('id', { name: 'x' });
+   * ```
    */
   update(
     id: string,
@@ -56,6 +74,14 @@ export class DebitReasons extends APIResource {
    * Retrieve a list of the Debit Reason entities created for your Organization. You
    * can filter the list returned for the call by Debit Reason ID, Debit Reason short
    * code, or by Archive status.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const debitReasonResponse of client.debitReasons.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: DebitReasonListParams,
@@ -79,6 +105,12 @@ export class DebitReasons extends APIResource {
 
   /**
    * Delete the Debit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const debitReasonResponse =
+   *   await client.debitReasons.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -106,16 +138,6 @@ export interface DebitReasonResponse {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * TRUE / FALSE flag indicating whether the data entity is archived. An entity can
@@ -152,12 +174,21 @@ export interface DebitReasonResponse {
    * The name of the data entity.
    */
   name?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface DebitReasonCreateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -195,16 +226,14 @@ export interface DebitReasonCreateParams {
 
 export interface DebitReasonRetrieveParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface DebitReasonUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -242,8 +271,7 @@ export interface DebitReasonUpdateParams {
 
 export interface DebitReasonListParams extends CursorParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -269,8 +297,7 @@ export interface DebitReasonListParams extends CursorParams {
 
 export interface DebitReasonDeleteParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

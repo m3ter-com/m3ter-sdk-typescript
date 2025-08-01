@@ -18,6 +18,17 @@ export class CounterAdjustments extends APIResource {
    * - CounterAdjustments on Accounts are supported down to a _specific day_ of
    *   granularity - you cannot create more than one CounterAdjustment for any given
    *   day using the same Counter and you'll receive an error if you try to do this.
+   *
+   * @example
+   * ```ts
+   * const counterAdjustmentResponse =
+   *   await client.counterAdjustments.create({
+   *     accountId: 'x',
+   *     counterId: 'x',
+   *     date: '2022-01-04',
+   *     value: 0,
+   *   });
+   * ```
    */
   create(
     params: CounterAdjustmentCreateParams,
@@ -29,6 +40,12 @@ export class CounterAdjustments extends APIResource {
 
   /**
    * Retrieve a CounterAdjustment for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const counterAdjustmentResponse =
+   *   await client.counterAdjustments.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -50,6 +67,17 @@ export class CounterAdjustments extends APIResource {
 
   /**
    * Update a CounterAdjustment for an Account.
+   *
+   * @example
+   * ```ts
+   * const counterAdjustmentResponse =
+   *   await client.counterAdjustments.update('id', {
+   *     accountId: 'x',
+   *     counterId: 'x',
+   *     date: '2022-01-04',
+   *     value: 0,
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -71,6 +99,14 @@ export class CounterAdjustments extends APIResource {
    *   other query parameters.
    * - If you want to use the `date`, `dateStart`, or `dateEnd` query parameters, you
    *   must also use the `accountId` query parameter.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const counterAdjustmentResponse of client.counterAdjustments.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: CounterAdjustmentListParams,
@@ -96,6 +132,12 @@ export class CounterAdjustments extends APIResource {
 
   /**
    * Delete a CounterAdjustment for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const counterAdjustmentResponse =
+   *   await client.counterAdjustments.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -123,16 +165,6 @@ export interface CounterAdjustmentResponse {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * The Account ID the CounterAdjustment was created for.
@@ -180,12 +212,21 @@ export interface CounterAdjustmentResponse {
    * Integer Value of the Counter that was used to make the CounterAdjustment.
    */
   value?: number;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CounterAdjustmentCreateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -239,16 +280,14 @@ export interface CounterAdjustmentCreateParams {
 
 export interface CounterAdjustmentRetrieveParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CounterAdjustmentUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -302,8 +341,7 @@ export interface CounterAdjustmentUpdateParams {
 
 export interface CounterAdjustmentListParams extends CursorParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -343,12 +381,16 @@ export interface CounterAdjustmentListParams extends CursorParams {
    * than this date.
    */
   endDateStart?: string;
+
+  /**
+   * Query param: Sort order for the results
+   */
+  sortOrder?: string;
 }
 
 export interface CounterAdjustmentDeleteParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

@@ -363,6 +363,8 @@ export interface PermissionStatementResponse {
     | 'HEALTHSCORES_RETRIEVE'
     | 'ANOMALIES_RETRIEVE'
     | 'EXPORTS_DOWNLOAD'
+    | 'MARKETPLACE_USAGE_CREATE'
+    | 'MARKETPLACE_USAGE_RETRIEVE'
   >;
 
   /**
@@ -728,7 +730,7 @@ export interface PermissionPolicyRemoveFromUserGroupResponse {
 
 export interface PermissionPolicyCreateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -756,14 +758,14 @@ export interface PermissionPolicyCreateParams {
 
 export interface PermissionPolicyRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PermissionPolicyUpdateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -791,21 +793,21 @@ export interface PermissionPolicyUpdateParams {
 
 export interface PermissionPolicyListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PermissionPolicyDeleteParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PermissionPolicyAddToServiceUserParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -829,7 +831,7 @@ export interface PermissionPolicyAddToServiceUserParams {
 
 export interface PermissionPolicyAddToSupportUserParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -848,7 +850,7 @@ export interface PermissionPolicyAddToSupportUserParams {
 
 export interface PermissionPolicyAddToUserParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -872,7 +874,7 @@ export interface PermissionPolicyAddToUserParams {
 
 export interface PermissionPolicyAddToUserGroupParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -896,7 +898,7 @@ export interface PermissionPolicyAddToUserGroupParams {
 
 export interface PermissionPolicyRemoveFromServiceUserParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -920,14 +922,14 @@ export interface PermissionPolicyRemoveFromServiceUserParams {
 
 export interface PermissionPolicyRemoveFromSupportUserParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PermissionPolicyRemoveFromUserParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -951,7 +953,7 @@ export interface PermissionPolicyRemoveFromUserParams {
 
 export interface PermissionPolicyRemoveFromUserGroupParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

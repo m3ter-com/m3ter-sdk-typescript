@@ -10,7 +10,7 @@ export class Webhooks extends APIResource {
    * This endpoint creates a new webhook destination. A webhook destination is a URL
    * where webhook payloads will be sent.
    */
-  create(params: WebhookCreateParams, options?: Core.RequestOptions): Core.APIPromise<WebhookCreateResponse> {
+  create(params: WebhookCreateParams, options?: Core.RequestOptions): Core.APIPromise<Webhook> {
     const { orgId = this._client.orgId, ...body } = params;
     return this._client.post(`/organizations/${orgId}/integrationdestinations/webhooks`, {
       body,
@@ -42,11 +42,7 @@ export class Webhooks extends APIResource {
   /**
    * Update a destination to be used for a webhook.
    */
-  update(
-    id: string,
-    params: WebhookUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookUpdateResponse> {
+  update(id: string, params: WebhookUpdateParams, options?: Core.RequestOptions): Core.APIPromise<Webhook> {
     const { orgId = this._client.orgId, ...body } = params;
     return this._client.put(`/organizations/${orgId}/integrationdestinations/webhooks/${id}`, {
       body,
@@ -102,13 +98,13 @@ export class Webhooks extends APIResource {
     id: string,
     params?: WebhookSetActiveParams,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookSetActiveResponse>;
-  setActive(id: string, options?: Core.RequestOptions): Core.APIPromise<WebhookSetActiveResponse>;
+  ): Core.APIPromise<Webhook>;
+  setActive(id: string, options?: Core.RequestOptions): Core.APIPromise<Webhook>;
   setActive(
     id: string,
     params: WebhookSetActiveParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<WebhookSetActiveResponse> {
+  ): Core.APIPromise<Webhook> {
     if (isRequestOptions(params)) {
       return this.setActive(id, {}, params);
     }
@@ -179,16 +175,6 @@ export interface M3terSignedCredentialsResponse {
   type: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The API key provided by m3ter. This key is part of the credential set required
    * for signing requests and authenticating with m3ter services.
    */
@@ -229,13 +215,6 @@ export interface M3terSignedCredentialsResponse {
    * the API key to generate a signature for secure authentication.
    */
   secret?: string;
-}
-
-export interface Webhook {
-  /**
-   * The UUID of the entity.
-   */
-  id: string;
 
   /**
    * The version number:
@@ -245,7 +224,14 @@ export interface Webhook {
    * - **Update:** On successful Update, the version is incremented by 1 in the
    *   response.
    */
-  version: number;
+  version?: number;
+}
+
+export interface Webhook {
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   active?: boolean;
 
@@ -284,108 +270,21 @@ export interface Webhook {
    * The URL to which webhook requests are sent.
    */
   url?: string;
-}
-
-export interface WebhookCreateResponse {
-  /**
-   * This schema defines the credentials required for m3ter request signing.
-   */
-  credentials: M3terSignedCredentialsRequest;
-
-  description: string;
-
-  name: string;
 
   /**
-   * The URL to which the webhook requests will be sent.
-   */
-  url: string;
-
-  active?: boolean;
-
-  code?: string;
-
-  /**
-   * The version number of the entity:
+   * The version number:
    *
-   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
-   *   for Create_. On initial Create, version is set at 1 and listed in the
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
    *   response.
-   * - **Update Entity:** On Update, version is required and must match the existing
-   *   version because a check is performed to ensure sequential versioning is
-   *   preserved. Version is incremented by 1 and listed in the response.
-   */
-  version?: number;
-}
-
-export interface WebhookUpdateResponse {
-  /**
-   * This schema defines the credentials required for m3ter request signing.
-   */
-  credentials: M3terSignedCredentialsRequest;
-
-  description: string;
-
-  name: string;
-
-  /**
-   * The URL to which the webhook requests will be sent.
-   */
-  url: string;
-
-  active?: boolean;
-
-  code?: string;
-
-  /**
-   * The version number of the entity:
-   *
-   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
-   *   for Create_. On initial Create, version is set at 1 and listed in the
-   *   response.
-   * - **Update Entity:** On Update, version is required and must match the existing
-   *   version because a check is performed to ensure sequential versioning is
-   *   preserved. Version is incremented by 1 and listed in the response.
-   */
-  version?: number;
-}
-
-export interface WebhookSetActiveResponse {
-  /**
-   * This schema defines the credentials required for m3ter request signing.
-   */
-  credentials: M3terSignedCredentialsRequest;
-
-  description: string;
-
-  name: string;
-
-  /**
-   * The URL to which the webhook requests will be sent.
-   */
-  url: string;
-
-  active?: boolean;
-
-  code?: string;
-
-  /**
-   * The version number of the entity:
-   *
-   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
-   *   for Create_. On initial Create, version is set at 1 and listed in the
-   *   response.
-   * - **Update Entity:** On Update, version is required and must match the existing
-   *   version because a check is performed to ensure sequential versioning is
-   *   preserved. Version is incremented by 1 and listed in the response.
    */
   version?: number;
 }
 
 export interface WebhookCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for the organization. This specifies
-   * the organization within which the webhook destination is created.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -435,14 +334,14 @@ export interface WebhookCreateParams {
 
 export interface WebhookRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface WebhookUpdateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -492,7 +391,7 @@ export interface WebhookUpdateParams {
 
 export interface WebhookListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -504,16 +403,14 @@ export interface WebhookListParams extends CursorParams {
 
 export interface WebhookDeleteParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface WebhookSetActiveParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -530,9 +427,6 @@ export declare namespace Webhooks {
     type M3terSignedCredentialsRequest as M3terSignedCredentialsRequest,
     type M3terSignedCredentialsResponse as M3terSignedCredentialsResponse,
     type Webhook as Webhook,
-    type WebhookCreateResponse as WebhookCreateResponse,
-    type WebhookUpdateResponse as WebhookUpdateResponse,
-    type WebhookSetActiveResponse as WebhookSetActiveResponse,
     WebhooksCursor as WebhooksCursor,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookRetrieveParams as WebhookRetrieveParams,

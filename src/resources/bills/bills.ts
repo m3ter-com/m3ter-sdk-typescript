@@ -61,8 +61,8 @@ export class Bills extends APIResource {
     if (isRequestOptions(params)) {
       return this.retrieve(id, {}, params);
     }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${id}`, options);
+    const { orgId = this._client.orgId, ...query } = params;
+    return this._client.get(`/organizations/${orgId}/bills/${id}`, { query, ...options });
   }
 
   /**
@@ -169,8 +169,8 @@ export class Bills extends APIResource {
     if (isRequestOptions(params)) {
       return this.latestByAccount(accountId, {}, params);
     }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/latest/${accountId}`, options);
+    const { orgId = this._client.orgId, ...query } = params;
+    return this._client.get(`/organizations/${orgId}/bills/latest/${accountId}`, { query, ...options });
   }
 
   /**
@@ -241,19 +241,14 @@ export interface BillResponse {
    */
   id: string;
 
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
   accountCode?: string;
 
   accountId?: string;
+
+  /**
+   * The id of the user who approved this bill.
+   */
+  approvedBy?: string;
 
   billDate?: string;
 
@@ -289,6 +284,11 @@ export interface BillResponse {
   currencyConversions?: Array<Shared.CurrencyConversion>;
 
   /**
+   * The DateTime when the bill was approved.
+   */
+  dtApproved?: string;
+
+  /**
    * The date and time _(in ISO 8601 format)_ when the Bill was first created.
    */
   dtCreated?: string;
@@ -297,6 +297,11 @@ export interface BillResponse {
    * The date and time _(in ISO 8601 format)_ when the Bill was last modified.
    */
   dtLastModified?: string;
+
+  /**
+   * The DateTime when the bill was locked.
+   */
+  dtLocked?: string;
 
   dueDate?: string;
 
@@ -352,6 +357,11 @@ export interface BillResponse {
   locked?: boolean;
 
   /**
+   * The id of the user who locked this bill.
+   */
+  lockedBy?: string;
+
+  /**
    * Purchase Order number linked to the Account the Bill is for.
    */
   purchaseOrderNumber?: string;
@@ -372,6 +382,16 @@ export interface BillResponse {
   status?: 'PENDING' | 'APPROVED';
 
   timezone?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export namespace BillResponse {
@@ -449,6 +469,14 @@ export namespace BillResponse {
      */
     id?: string;
 
+    accountingProductCode?: string;
+
+    accountingProductId?: string;
+
+    accountingProductName?: string;
+
+    additional?: { [key: string]: unknown };
+
     /**
      * The Aggregation ID used for the line item.
      */
@@ -491,7 +519,7 @@ export namespace BillResponse {
 
     creditTypeId?: string;
 
-    group?: Record<string, string>;
+    group?: { [key: string]: string };
 
     /**
      * The UUID of the Meter used in the line item.
@@ -535,7 +563,7 @@ export namespace BillResponse {
      * Applies only when segmented Aggregations have been used. The Segment to which
      * the usage data in this line item belongs.
      */
-    segment?: Record<string, string>;
+    segment?: { [key: string]: string };
 
     /**
      * The number used for sequential invoices.
@@ -578,6 +606,8 @@ export namespace BillResponse {
        * The number of units used within the band.
        */
       bandUnits?: number;
+
+      convertedBandSubtotal?: number;
 
       /**
        * The UUID of the credit type.
@@ -622,30 +652,26 @@ export interface BillApproveResponse {
 }
 
 export interface BillSearchResponse {
-  /**
-   * An array containing the list of requested Bills.
-   */
   data?: Array<BillResponse>;
 
-  /**
-   * The `nextToken` for multi-page retrievals. It is used to fetch the next page of
-   * Bills in a paginated list.
-   */
   nextToken?: string;
 }
 
 export interface BillRetrieveParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 }
 
 export interface BillListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -654,6 +680,11 @@ export interface BillListParams extends CursorParams {
    * specified Account.
    */
   accountId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 
   /**
    * Query param: The specific date in ISO 8601 format for which you want to retrieve
@@ -721,16 +752,14 @@ export interface BillListParams extends CursorParams {
 
 export interface BillDeleteParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface BillApproveParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -760,24 +789,26 @@ export interface BillApproveParams {
 
 export interface BillLatestByAccountParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Comma separated list of additional fields.
+   */
+  additional?: Array<string>;
 }
 
 export interface BillLockParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface BillSearchParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -836,8 +867,7 @@ export interface BillSearchParams {
 
 export interface BillUpdateStatusParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

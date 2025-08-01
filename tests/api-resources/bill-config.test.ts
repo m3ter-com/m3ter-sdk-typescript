@@ -42,7 +42,7 @@ describe('resource billConfig', () => {
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.billConfig.update({});
+    const responsePromise = client.billConfig.update();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -58,5 +58,22 @@ describe('resource billConfig', () => {
       billLockDate: '2019-12-27',
       version: 0,
     });
+  });
+
+  test('update: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.billConfig.update({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      M3ter.NotFoundError,
+    );
+  });
+
+  test('update: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.billConfig.update(
+        { orgId: 'orgId', billLockDate: '2019-12-27', version: 0 },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(M3ter.NotFoundError);
   });
 });

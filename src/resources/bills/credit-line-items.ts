@@ -163,16 +163,6 @@ export interface CreditLineItemResponse {
   servicePeriodStartDate: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The id of the user who created this credit line item.
    */
   createdBy?: string;
@@ -196,14 +186,28 @@ export interface CreditLineItemResponse {
    * The id of the user who last modified this credit line item.
    */
   lastModifiedBy?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CreditLineItemCreateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Body param:
+   */
+  accountingProductId: string;
 
   /**
    * Body param: The amount for the line item.
@@ -290,18 +294,21 @@ export interface CreditLineItemCreateParams {
 
 export interface CreditLineItemRetrieveParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CreditLineItemUpdateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Body param:
+   */
+  accountingProductId: string;
 
   /**
    * Body param: The amount for the line item.
@@ -388,16 +395,14 @@ export interface CreditLineItemUpdateParams {
 
 export interface CreditLineItemListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CreditLineItemDeleteParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

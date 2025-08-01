@@ -163,16 +163,6 @@ export interface CommitmentResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The unique identifier (UUID) for the end customer Account the Commitment is
    * added to.
    */
@@ -374,25 +364,27 @@ export interface CommitmentResponse {
    * The start date of the Commitment period in ISO-8601 format.
    */
   startDate?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CommitmentSearchResponse {
-  /**
-   * The list of Commitments information.
-   */
   data?: Array<CommitmentResponse>;
 
-  /**
-   * The `nextToken` for multi-page retrievals. It is used to fetch the next page of
-   * Commitments in a paginated list.
-   */
   nextToken?: string;
 }
 
 export interface CommitmentCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. This represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -430,6 +422,12 @@ export interface CommitmentCreateParams {
   /**
    * Body param: The unique identifier (UUID) for the Product linked to the
    * Commitment for accounting purposes. _(Optional)_
+   *
+   * **NOTE:** If you're planning to set up an integration for sending Bills to an
+   * external accounts receivable system, please check requirements for your chosen
+   * system. Some systems, such as NetSuite, require a Product to be linked with any
+   * Bill line items associated with Account Commitments, and the integration will
+   * fail if this is not present
    */
   accountingProductId?: string;
 
@@ -636,16 +634,14 @@ export interface CommitmentCreateParams {
 
 export interface CommitmentRetrieveParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CommitmentUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -683,6 +679,12 @@ export interface CommitmentUpdateParams {
   /**
    * Body param: The unique identifier (UUID) for the Product linked to the
    * Commitment for accounting purposes. _(Optional)_
+   *
+   * **NOTE:** If you're planning to set up an integration for sending Bills to an
+   * external accounts receivable system, please check requirements for your chosen
+   * system. Some systems, such as NetSuite, require a Product to be linked with any
+   * Bill line items associated with Account Commitments, and the integration will
+   * fail if this is not present
    */
   accountingProductId?: string;
 
@@ -889,8 +891,7 @@ export interface CommitmentUpdateParams {
 
 export interface CommitmentListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -938,16 +939,14 @@ export interface CommitmentListParams extends CursorParams {
 
 export interface CommitmentDeleteParams {
   /**
-   * The unique identifier (UUID) for your organization. The Organization represents
-   * your company as a direct customer our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CommitmentSearchParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

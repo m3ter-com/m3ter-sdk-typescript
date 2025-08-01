@@ -170,17 +170,20 @@ export interface IntegrationConfigurationResponse {
   id: string;
 
   /**
-   * The destination system for the integration.
+   * The destination system for the integration run.
    */
   destination: string;
 
   /**
-   * The unique identifier (UUID) of the entity the integration is for.
+   * The unique identifier (UUID) of the entity the integration run is for.
    */
   entityId: string;
 
   /**
-   * The type of entity the integration is for _(e.g. Bill)_.
+   * The type of entity the integration run is for. Two options:
+   *
+   * - Bill
+   * - Notification
    */
   entityType: string;
 
@@ -193,17 +196,8 @@ export interface IntegrationConfigurationResponse {
     | 'AUTH_FAILED'
     | 'ACCOUNTING_PERIOD_CLOSED'
     | 'INVOICE_ALREADY_PAID'
-    | 'DISABLED';
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
+    | 'DISABLED'
+    | 'RATE_LIMIT_RETRY';
 
   /**
    * The ID of the user who created this item.
@@ -211,7 +205,7 @@ export interface IntegrationConfigurationResponse {
   createdBy?: string;
 
   /**
-   * The date and time the integration was completed _(in ISO-8601 format)_.
+   * The date and time the integration was completed. _(in ISO-8601 format)_.
    */
   dtCompleted?: string;
 
@@ -226,7 +220,7 @@ export interface IntegrationConfigurationResponse {
   dtLastModified?: string;
 
   /**
-   * The date and time the integration was started _(in ISO-8601 format)_.
+   * The date and time the integration run was started _(in ISO-8601 format)_.
    */
   dtStarted?: string;
 
@@ -249,6 +243,16 @@ export interface IntegrationConfigurationResponse {
    * The URL of the entity in the destination system if available.
    */
   url?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface IntegrationConfigurationCreateResponse {
@@ -288,7 +292,7 @@ export interface IntegrationConfigurationCreateResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -383,7 +387,7 @@ export interface IntegrationConfigurationUpdateResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -478,7 +482,7 @@ export interface IntegrationConfigurationListResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -573,7 +577,7 @@ export interface IntegrationConfigurationDeleteResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -668,7 +672,7 @@ export interface IntegrationConfigurationEnableResponse {
   /**
    * Configuration data for the integration
    */
-  configData?: Record<string, unknown>;
+  configData?: { [key: string]: unknown };
 
   /**
    * The ID of the user who created this item.
@@ -728,7 +732,7 @@ export interface IntegrationConfigurationEnableResponse {
 
 export interface IntegrationConfigurationCreateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -736,7 +740,7 @@ export interface IntegrationConfigurationCreateParams {
    * Body param: A flexible object to include any additional configuration data
    * specific to the integration.
    */
-  configData: Record<string, unknown>;
+  configData: { [key: string]: unknown };
 
   /**
    * Body param: Base model for defining integration credentials across different
@@ -854,16 +858,14 @@ export namespace IntegrationConfigurationCreateParams {
 
 export interface IntegrationConfigurationRetrieveParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface IntegrationConfigurationUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -871,7 +873,7 @@ export interface IntegrationConfigurationUpdateParams {
    * Body param: A flexible object to include any additional configuration data
    * specific to the integration.
    */
-  configData: Record<string, unknown>;
+  configData: { [key: string]: unknown };
 
   /**
    * Body param: Base model for defining integration credentials across different
@@ -989,33 +991,40 @@ export namespace IntegrationConfigurationUpdateParams {
 
 export interface IntegrationConfigurationListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for the organization. This specifies
-   * the organization within which the webhook destination is created.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface IntegrationConfigurationDeleteParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface IntegrationConfigurationEnableParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface IntegrationConfigurationGetByEntityParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: Destination type to retrieve IntegrationConfigs for
+   */
+  destination?: string;
+
+  /**
+   * Query param: UUID of the destination to retrieve IntegrationConfigs for
+   */
+  destinationId?: string;
 
   /**
    * Query param: UUID of the entity to retrieve IntegrationConfigs for

@@ -309,6 +309,10 @@ Types:
 - <code><a href="./src/resources/data-exports/data-exports.ts">AdHocOperationalDataRequest</a></code>
 - <code><a href="./src/resources/data-exports/data-exports.ts">AdHocResponse</a></code>
 - <code><a href="./src/resources/data-exports/data-exports.ts">AdHocUsageDataRequest</a></code>
+- <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerAccountGroup</a></code>
+- <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerDimensionGroup</a></code>
+- <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerGroup</a></code>
+- <code><a href="./src/resources/data-exports/data-exports.ts">DataExplorerTimeGroup</a></code>
 
 Methods:
 
@@ -318,7 +322,9 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/data-exports/destinations.ts">DataExportDestinationGoogleCloudStorageRequest</a></code>
 - <code><a href="./src/resources/data-exports/destinations.ts">DataExportDestinationResponse</a></code>
+- <code><a href="./src/resources/data-exports/destinations.ts">DataExportDestinationS3Request</a></code>
 - <code><a href="./src/resources/data-exports/destinations.ts">DestinationCreateResponse</a></code>
 - <code><a href="./src/resources/data-exports/destinations.ts">DestinationRetrieveResponse</a></code>
 - <code><a href="./src/resources/data-exports/destinations.ts">DestinationUpdateResponse</a></code>
@@ -467,6 +473,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/organization-config.ts">OrganizationConfigRequest</a></code>
 - <code><a href="./src/resources/organization-config.ts">OrganizationConfigResponse</a></code>
 
 Methods:
@@ -623,6 +630,47 @@ Methods:
 - <code title="get /organizations/{orgId}/scheduledevents/configurations">client.scheduledEventConfigurations.<a href="./src/resources/scheduled-event-configurations.ts">list</a>({ ...params }) -> ScheduledEventConfigurationResponsesCursor</code>
 - <code title="delete /organizations/{orgId}/scheduledevents/configurations/{id}">client.scheduledEventConfigurations.<a href="./src/resources/scheduled-event-configurations.ts">delete</a>(id, { ...params }) -> ScheduledEventConfigurationResponse</code>
 
+# Statements
+
+Types:
+
+- <code><a href="./src/resources/statements/statements.ts">ObjectURLResponse</a></code>
+
+Methods:
+
+- <code title="post /organizations/{orgId}/bills/{id}/statement/csv">client.statements.<a href="./src/resources/statements/statements.ts">createCsv</a>(id, { ...params }) -> ObjectURLResponse</code>
+- <code title="get /organizations/{orgId}/bills/{id}/statement/csv">client.statements.<a href="./src/resources/statements/statements.ts">getCsv</a>(id, { ...params }) -> ObjectURLResponse</code>
+- <code title="get /organizations/{orgId}/bills/{id}/statement/json">client.statements.<a href="./src/resources/statements/statements.ts">getJson</a>(id, { ...params }) -> ObjectURLResponse</code>
+
+## StatementJobs
+
+Types:
+
+- <code><a href="./src/resources/statements/statement-jobs.ts">StatementJobResponse</a></code>
+- <code><a href="./src/resources/statements/statement-jobs.ts">StatementJobCreateBatchResponse</a></code>
+
+Methods:
+
+- <code title="post /organizations/{orgId}/statementjobs">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">create</a>({ ...params }) -> StatementJobResponse</code>
+- <code title="get /organizations/{orgId}/statementjobs/{id}">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">retrieve</a>(id, { ...params }) -> StatementJobResponse</code>
+- <code title="get /organizations/{orgId}/statementjobs">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">list</a>({ ...params }) -> StatementJobResponsesCursor</code>
+- <code title="post /organizations/{orgId}/statementjobs/{id}/cancel">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">cancel</a>(id, { ...params }) -> StatementJobResponse</code>
+- <code title="post /organizations/{orgId}/statementjobs/batch">client.statements.statementJobs.<a href="./src/resources/statements/statement-jobs.ts">createBatch</a>({ ...params }) -> StatementJobCreateBatchResponse</code>
+
+## StatementDefinitions
+
+Types:
+
+- <code><a href="./src/resources/statements/statement-definitions.ts">StatementDefinitionResponse</a></code>
+
+Methods:
+
+- <code title="post /organizations/{orgId}/statementdefinitions">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">create</a>({ ...params }) -> StatementDefinitionResponse</code>
+- <code title="get /organizations/{orgId}/statementdefinitions/{id}">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">retrieve</a>(id, { ...params }) -> StatementDefinitionResponse</code>
+- <code title="put /organizations/{orgId}/statementdefinitions/{id}">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">update</a>(id, { ...params }) -> StatementDefinitionResponse</code>
+- <code title="get /organizations/{orgId}/statementdefinitions">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">list</a>({ ...params }) -> StatementDefinitionResponsesCursor</code>
+- <code title="delete /organizations/{orgId}/statementdefinitions/{id}">client.statements.statementDefinitions.<a href="./src/resources/statements/statement-definitions.ts">delete</a>(id, { ...params }) -> StatementDefinitionResponse</code>
+
 # TransactionTypes
 
 Types:
@@ -712,15 +760,12 @@ Types:
 - <code><a href="./src/resources/webhooks.ts">M3terSignedCredentialsRequest</a></code>
 - <code><a href="./src/resources/webhooks.ts">M3terSignedCredentialsResponse</a></code>
 - <code><a href="./src/resources/webhooks.ts">Webhook</a></code>
-- <code><a href="./src/resources/webhooks.ts">WebhookCreateResponse</a></code>
-- <code><a href="./src/resources/webhooks.ts">WebhookUpdateResponse</a></code>
-- <code><a href="./src/resources/webhooks.ts">WebhookSetActiveResponse</a></code>
 
 Methods:
 
-- <code title="post /organizations/{orgId}/integrationdestinations/webhooks">client.webhooks.<a href="./src/resources/webhooks.ts">create</a>({ ...params }) -> WebhookCreateResponse</code>
+- <code title="post /organizations/{orgId}/integrationdestinations/webhooks">client.webhooks.<a href="./src/resources/webhooks.ts">create</a>({ ...params }) -> Webhook</code>
 - <code title="get /organizations/{orgId}/integrationdestinations/webhooks/{id}">client.webhooks.<a href="./src/resources/webhooks.ts">retrieve</a>(id, { ...params }) -> Webhook</code>
-- <code title="put /organizations/{orgId}/integrationdestinations/webhooks/{id}">client.webhooks.<a href="./src/resources/webhooks.ts">update</a>(id, { ...params }) -> WebhookUpdateResponse</code>
+- <code title="put /organizations/{orgId}/integrationdestinations/webhooks/{id}">client.webhooks.<a href="./src/resources/webhooks.ts">update</a>(id, { ...params }) -> Webhook</code>
 - <code title="get /organizations/{orgId}/integrationdestinations/webhooks">client.webhooks.<a href="./src/resources/webhooks.ts">list</a>({ ...params }) -> WebhooksCursor</code>
 - <code title="delete /organizations/{orgId}/integrationdestinations/webhooks/{id}">client.webhooks.<a href="./src/resources/webhooks.ts">delete</a>(id, { ...params }) -> Webhook</code>
-- <code title="put /organizations/{orgId}/integrationdestinations/webhooks/{id}/active">client.webhooks.<a href="./src/resources/webhooks.ts">setActive</a>(id, { ...params }) -> WebhookSetActiveResponse</code>
+- <code title="put /organizations/{orgId}/integrationdestinations/webhooks/{id}/active">client.webhooks.<a href="./src/resources/webhooks.ts">setActive</a>(id, { ...params }) -> Webhook</code>

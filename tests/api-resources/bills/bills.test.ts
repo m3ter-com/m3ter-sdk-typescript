@@ -24,7 +24,7 @@ describe('resource bills', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await client.bills.retrieve('id', { orgId: 'orgId' });
+    const response = await client.bills.retrieve('id', { orgId: 'orgId', additional: ['string'] });
   });
 
   test('retrieve: request options instead of params are passed correctly', async () => {
@@ -37,7 +37,11 @@ describe('resource bills', () => {
   test('retrieve: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.bills.retrieve('id', { orgId: 'orgId' }, { path: '/_stainless_unknown_path' }),
+      client.bills.retrieve(
+        'id',
+        { orgId: 'orgId', additional: ['string'] },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(M3ter.NotFoundError);
   });
 
@@ -56,6 +60,7 @@ describe('resource bills', () => {
     const response = await client.bills.list({
       orgId: 'orgId',
       accountId: 'accountId',
+      additional: ['string'],
       billDate: 'billDate',
       billDateEnd: 'billDateEnd',
       billDateStart: 'billDateStart',
@@ -86,6 +91,7 @@ describe('resource bills', () => {
         {
           orgId: 'orgId',
           accountId: 'accountId',
+          additional: ['string'],
           billDate: 'billDate',
           billDateEnd: 'billDateEnd',
           billDateStart: 'billDateStart',
@@ -167,7 +173,10 @@ describe('resource bills', () => {
   });
 
   test('latestByAccount: required and optional params', async () => {
-    const response = await client.bills.latestByAccount('accountId', { orgId: 'orgId' });
+    const response = await client.bills.latestByAccount('accountId', {
+      orgId: 'orgId',
+      additional: ['string'],
+    });
   });
 
   test('latestByAccount: request options instead of params are passed correctly', async () => {
@@ -180,7 +189,11 @@ describe('resource bills', () => {
   test('latestByAccount: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.bills.latestByAccount('accountId', { orgId: 'orgId' }, { path: '/_stainless_unknown_path' }),
+      client.bills.latestByAccount(
+        'accountId',
+        { orgId: 'orgId', additional: ['string'] },
+        { path: '/_stainless_unknown_path' },
+      ),
     ).rejects.toThrow(M3ter.NotFoundError);
   });
 

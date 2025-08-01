@@ -13,6 +13,18 @@ export class CompoundAggregations extends APIResource {
    * This endpoint allows you to create a new CompoundAggregation for a specific
    * Organization. The request body must include all the necessary details such as
    * the Calculation formula.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.compoundAggregations.create({
+   *     calculation: 'x',
+   *     name: 'x',
+   *     quantityPerUnit: 1,
+   *     rounding: 'UP',
+   *     unit: 'x',
+   *   });
+   * ```
    */
   create(
     params: CompoundAggregationCreateParams,
@@ -27,6 +39,12 @@ export class CompoundAggregations extends APIResource {
    *
    * This endpoint returns a specific CompoundAggregation associated with an
    * Organization. It provides detailed information about the CompoundAggregation.
+   *
+   * @example
+   * ```ts
+   * const compoundAggregationResponse =
+   *   await client.compoundAggregations.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -57,6 +75,18 @@ export class CompoundAggregations extends APIResource {
    * use this endpoint to update the Compound Aggregation use the `customFields`
    * parameter to preserve those Custom Fields. If you omit them from the update
    * request, they will be lost.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.compoundAggregations.update('id', {
+   *     calculation: 'x',
+   *     name: 'x',
+   *     quantityPerUnit: 1,
+   *     rounding: 'UP',
+   *     unit: 'x',
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -75,6 +105,14 @@ export class CompoundAggregations extends APIResource {
    * measures based on simple Aggregations of usage data. It supports pagination, and
    * includes various query parameters to filter the CompoundAggregations based on
    * Product, CompoundAggregation IDs or short codes.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const compoundAggregationResponse of client.compoundAggregations.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: CompoundAggregationListParams,
@@ -105,6 +143,12 @@ export class CompoundAggregations extends APIResource {
    * a specific Organization. Useful when you need to remove an existing
    * CompoundAggregation that is no longer required, such as when changing pricing or
    * planning models.
+   *
+   * @example
+   * ```ts
+   * const compoundAggregationResponse =
+   *   await client.compoundAggregations.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -133,16 +177,6 @@ export interface CompoundAggregationResponse {
    */
   id: string;
 
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
   accountingProductId?: string;
 
   /**
@@ -162,7 +196,7 @@ export interface CompoundAggregationResponse {
    */
   createdBy?: string;
 
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The date and time _(in ISO-8601 format)_ when the CompoundAggregation was
@@ -239,7 +273,7 @@ export interface CompoundAggregationResponse {
    * Contains the values that are to be used as the segments, read from the fields in
    * the meter pointed at by `segmentedFields`.
    */
-  segments?: Array<Record<string, string>>;
+  segments?: Array<{ [key: string]: string }>;
 
   /**
    * User defined or following the _Unified Code for Units of Measure_ (UCUM).
@@ -248,12 +282,21 @@ export interface CompoundAggregationResponse {
    * charged for.
    */
   unit?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CompoundAggregationCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -329,7 +372,7 @@ export interface CompoundAggregationCreateParams {
   /**
    * Body param:
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: Boolean True / False flag:
@@ -371,16 +414,14 @@ export interface CompoundAggregationCreateParams {
 
 export interface CompoundAggregationRetrieveParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CompoundAggregationUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -456,7 +497,7 @@ export interface CompoundAggregationUpdateParams {
   /**
    * Body param:
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: Boolean True / False flag:
@@ -498,8 +539,7 @@ export interface CompoundAggregationUpdateParams {
 
 export interface CompoundAggregationListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -524,8 +564,7 @@ export interface CompoundAggregationListParams extends CursorParams {
 
 export interface CompoundAggregationDeleteParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

@@ -10,6 +10,12 @@ export class Jobs extends APIResource {
    * Get the file upload job response using the UUID of the file upload job.
    *
    * Part of the file upload service for measurements ingest.
+   *
+   * @example
+   * ```ts
+   * const fileUploadJobResponse =
+   *   await client.usage.fileUploads.jobs.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -38,6 +44,14 @@ export class Jobs extends APIResource {
    *   this call.
    * - If `dateCreatedStart` and `dateCreatedEnd` Query parameters are not used, then
    *   all File Upload jobs are returned.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const fileUploadJobResponse of client.usage.fileUploads.jobs.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: JobListParams,
@@ -68,6 +82,14 @@ export class Jobs extends APIResource {
    *   retrieve the file you originally uploaded.
    *
    * Part of the file upload service for submitting measurements data files.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.usage.fileUploads.jobs.getOriginalDownloadURL(
+   *     'id',
+   *   );
+   * ```
    */
   getOriginalDownloadURL(
     id: string,
@@ -151,7 +173,7 @@ export interface JobGetOriginalDownloadURLResponse {
   /**
    * The headers
    */
-  headers?: Record<string, string>;
+  headers?: { [key: string]: string };
 
   /**
    * UUID of the download job
@@ -166,14 +188,14 @@ export interface JobGetOriginalDownloadURLResponse {
 
 export interface JobRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface JobListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -197,7 +219,7 @@ export interface JobListParams extends CursorParams {
 
 export interface JobGetOriginalDownloadURLParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

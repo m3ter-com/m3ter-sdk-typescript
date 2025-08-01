@@ -42,7 +42,7 @@ describe('resource customFields', () => {
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.customFields.update({});
+    const responsePromise = client.customFields.update();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -59,6 +59,7 @@ describe('resource customFields', () => {
       accountPlan: { foo: 'string' },
       aggregation: { foo: 'string' },
       compoundAggregation: { foo: 'string' },
+      contract: { foo: 'string' },
       meter: { foo: 'string' },
       organization: { foo: 'string' },
       plan: { foo: 'string' },
@@ -66,5 +67,35 @@ describe('resource customFields', () => {
       product: { foo: 'string' },
       version: 0,
     });
+  });
+
+  test('update: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.customFields.update({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      M3ter.NotFoundError,
+    );
+  });
+
+  test('update: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.customFields.update(
+        {
+          orgId: 'orgId',
+          account: { foo: 'string' },
+          accountPlan: { foo: 'string' },
+          aggregation: { foo: 'string' },
+          compoundAggregation: { foo: 'string' },
+          contract: { foo: 'string' },
+          meter: { foo: 'string' },
+          organization: { foo: 'string' },
+          plan: { foo: 'string' },
+          planTemplate: { foo: 'string' },
+          product: { foo: 'string' },
+          version: 0,
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(M3ter.NotFoundError);
   });
 });

@@ -14,7 +14,7 @@ const client = new M3ter({
 describe('resource meters', () => {
   test('create: only required params', async () => {
     const responsePromise = client.meters.create({
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       dataFields: [{ category: 'WHO', code: '{1{}}_', name: 'x' }],
       derivedFields: [{ category: 'WHO', code: '{1{}}_', name: 'x', calculation: 'x' }],
       name: 'x',
@@ -31,7 +31,7 @@ describe('resource meters', () => {
   test('create: required and optional params', async () => {
     const response = await client.meters.create({
       orgId: 'orgId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       dataFields: [{ category: 'WHO', code: '{1{}}_', name: 'x', unit: 'x' }],
       derivedFields: [{ category: 'WHO', code: '{1{}}_', name: 'x', unit: 'x', calculation: 'x' }],
       name: 'x',
@@ -73,7 +73,7 @@ describe('resource meters', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.meters.update('id', {
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       dataFields: [{ category: 'WHO', code: '{1{}}_', name: 'x' }],
       derivedFields: [{ category: 'WHO', code: '{1{}}_', name: 'x', calculation: 'x' }],
       name: 'x',
@@ -90,7 +90,7 @@ describe('resource meters', () => {
   test('update: required and optional params', async () => {
     const response = await client.meters.update('id', {
       orgId: 'orgId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       dataFields: [{ category: 'WHO', code: '{1{}}_', name: 'x', unit: 'x' }],
       derivedFields: [{ category: 'WHO', code: '{1{}}_', name: 'x', unit: 'x', calculation: 'x' }],
       name: 'x',

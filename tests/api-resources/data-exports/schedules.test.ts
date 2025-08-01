@@ -15,7 +15,7 @@ describe('resource schedules', () => {
   test('create: only required params', async () => {
     const responsePromise = client.dataExports.schedules.create({
       operationalDataTypes: ['BILLS'],
-      sourceType: 'USAGE',
+      sourceType: 'OPERATIONAL',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -30,7 +30,7 @@ describe('resource schedules', () => {
     const response = await client.dataExports.schedules.create({
       orgId: 'orgId',
       operationalDataTypes: ['BILLS'],
-      sourceType: 'USAGE',
+      sourceType: 'OPERATIONAL',
       version: 0,
     });
   });
@@ -67,7 +67,7 @@ describe('resource schedules', () => {
   test('update: only required params', async () => {
     const responsePromise = client.dataExports.schedules.update('id', {
       operationalDataTypes: ['BILLS'],
-      sourceType: 'USAGE',
+      sourceType: 'OPERATIONAL',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -82,7 +82,7 @@ describe('resource schedules', () => {
     const response = await client.dataExports.schedules.update('id', {
       orgId: 'orgId',
       operationalDataTypes: ['BILLS'],
-      sourceType: 'USAGE',
+      sourceType: 'OPERATIONAL',
       version: 0,
     });
   });

@@ -230,6 +230,7 @@ import {
 } from './resources/notification-configurations';
 import {
   OrganizationConfig,
+  OrganizationConfigRequest,
   OrganizationConfigResponse,
   OrganizationConfigRetrieveParams,
   OrganizationConfigUpdateParams,
@@ -363,14 +364,11 @@ import {
   M3terSignedCredentialsResponse,
   Webhook,
   WebhookCreateParams,
-  WebhookCreateResponse,
   WebhookDeleteParams,
   WebhookListParams,
   WebhookRetrieveParams,
   WebhookSetActiveParams,
-  WebhookSetActiveResponse,
   WebhookUpdateParams,
-  WebhookUpdateResponse,
   Webhooks,
   WebhooksCursor,
 } from './resources/webhooks';
@@ -403,9 +401,20 @@ import {
   AdHocOperationalDataRequest,
   AdHocResponse,
   AdHocUsageDataRequest,
+  DataExplorerAccountGroup,
+  DataExplorerDimensionGroup,
+  DataExplorerGroup,
+  DataExplorerTimeGroup,
   DataExportCreateAdhocParams,
   DataExports,
 } from './resources/data-exports/data-exports';
+import {
+  ObjectURLResponse,
+  StatementCreateCsvParams,
+  StatementGetCsvParams,
+  StatementGetJsonParams,
+  Statements,
+} from './resources/statements/statements';
 import {
   DownloadURLResponse,
   MeasurementRequest,
@@ -465,6 +474,8 @@ export interface ClientOptions {
    *
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
+   *
+   * @unit milliseconds
    */
   timeout?: number | undefined;
 
@@ -588,6 +599,7 @@ export class M3ter extends Core.APIClient {
 
     super({
       baseURL: options.baseURL!,
+      baseURLOverridden: baseURL ? baseURL !== 'https://api.m3ter.com' : false,
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -636,10 +648,18 @@ export class M3ter extends Core.APIClient {
   products: API.Products = new API.Products(this);
   resourceGroups: API.ResourceGroups = new API.ResourceGroups(this);
   scheduledEventConfigurations: API.ScheduledEventConfigurations = new API.ScheduledEventConfigurations(this);
+  statements: API.Statements = new API.Statements(this);
   transactionTypes: API.TransactionTypes = new API.TransactionTypes(this);
   usage: API.Usage = new API.Usage(this);
   users: API.Users = new API.Users(this);
   webhooks: API.Webhooks = new API.Webhooks(this);
+
+  /**
+   * Check whether the base URL is set to its default.
+   */
+  #baseURLOverridden(): boolean {
+    return this.baseURL !== 'https://api.m3ter.com';
+  }
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -798,6 +818,7 @@ M3ter.ResourceGroupResponsesCursor = ResourceGroupResponsesCursor;
 M3ter.ResourceGroupListContentsResponsesCursor = ResourceGroupListContentsResponsesCursor;
 M3ter.ScheduledEventConfigurations = ScheduledEventConfigurations;
 M3ter.ScheduledEventConfigurationResponsesCursor = ScheduledEventConfigurationResponsesCursor;
+M3ter.Statements = Statements;
 M3ter.TransactionTypes = TransactionTypes;
 M3ter.TransactionTypeResponsesCursor = TransactionTypeResponsesCursor;
 M3ter.Usage = Usage;
@@ -1006,6 +1027,10 @@ export declare namespace M3ter {
     type AdHocOperationalDataRequest as AdHocOperationalDataRequest,
     type AdHocResponse as AdHocResponse,
     type AdHocUsageDataRequest as AdHocUsageDataRequest,
+    type DataExplorerAccountGroup as DataExplorerAccountGroup,
+    type DataExplorerDimensionGroup as DataExplorerDimensionGroup,
+    type DataExplorerGroup as DataExplorerGroup,
+    type DataExplorerTimeGroup as DataExplorerTimeGroup,
     type DataExportCreateAdhocParams as DataExportCreateAdhocParams,
   };
 
@@ -1089,6 +1114,7 @@ export declare namespace M3ter {
 
   export {
     OrganizationConfig as OrganizationConfig,
+    type OrganizationConfigRequest as OrganizationConfigRequest,
     type OrganizationConfigResponse as OrganizationConfigResponse,
     type OrganizationConfigRetrieveParams as OrganizationConfigRetrieveParams,
     type OrganizationConfigUpdateParams as OrganizationConfigUpdateParams,
@@ -1218,6 +1244,14 @@ export declare namespace M3ter {
   };
 
   export {
+    Statements as Statements,
+    type ObjectURLResponse as ObjectURLResponse,
+    type StatementCreateCsvParams as StatementCreateCsvParams,
+    type StatementGetCsvParams as StatementGetCsvParams,
+    type StatementGetJsonParams as StatementGetJsonParams,
+  };
+
+  export {
     TransactionTypes as TransactionTypes,
     type TransactionTypeResponse as TransactionTypeResponse,
     TransactionTypeResponsesCursor as TransactionTypeResponsesCursor,
@@ -1259,9 +1293,6 @@ export declare namespace M3ter {
     type M3terSignedCredentialsRequest as M3terSignedCredentialsRequest,
     type M3terSignedCredentialsResponse as M3terSignedCredentialsResponse,
     type Webhook as Webhook,
-    type WebhookCreateResponse as WebhookCreateResponse,
-    type WebhookUpdateResponse as WebhookUpdateResponse,
-    type WebhookSetActiveResponse as WebhookSetActiveResponse,
     WebhooksCursor as WebhooksCursor,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookRetrieveParams as WebhookRetrieveParams,

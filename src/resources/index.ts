@@ -179,6 +179,10 @@ export {
   type AdHocOperationalDataRequest,
   type AdHocResponse,
   type AdHocUsageDataRequest,
+  type DataExplorerAccountGroup,
+  type DataExplorerDimensionGroup,
+  type DataExplorerGroup,
+  type DataExplorerTimeGroup,
   type DataExportCreateAdhocParams,
 } from './data-exports/data-exports';
 export {
@@ -255,6 +259,7 @@ export {
 } from './notification-configurations';
 export {
   OrganizationConfig,
+  type OrganizationConfigRequest,
   type OrganizationConfigResponse,
   type OrganizationConfigRetrieveParams,
   type OrganizationConfigUpdateParams,
@@ -374,6 +379,13 @@ export {
   type ScheduledEventConfigurationDeleteParams,
 } from './scheduled-event-configurations';
 export {
+  Statements,
+  type ObjectURLResponse,
+  type StatementCreateCsvParams,
+  type StatementGetCsvParams,
+  type StatementGetJsonParams,
+} from './statements/statements';
+export {
   TransactionTypeResponsesCursor,
   TransactionTypes,
   type TransactionTypeResponse,
@@ -413,9 +425,6 @@ export {
   type M3terSignedCredentialsRequest,
   type M3terSignedCredentialsResponse,
   type Webhook,
-  type WebhookCreateResponse,
-  type WebhookUpdateResponse,
-  type WebhookSetActiveResponse,
   type WebhookCreateParams,
   type WebhookRetrieveParams,
   type WebhookUpdateParams,

@@ -120,6 +120,7 @@ describe('resource counterAdjustments', () => {
       endDateStart: 'endDateStart',
       nextToken: 'nextToken',
       pageSize: 1,
+      sortOrder: 'sortOrder',
     });
   });
 
@@ -145,6 +146,7 @@ describe('resource counterAdjustments', () => {
           endDateStart: 'endDateStart',
           nextToken: 'nextToken',
           pageSize: 1,
+          sortOrder: 'sortOrder',
         },
         { path: '/_stainless_unknown_path' },
       ),

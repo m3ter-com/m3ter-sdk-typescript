@@ -146,16 +146,6 @@ export interface ContractResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The unique identifier (UUID) of the Account associated with this Contract.
    */
   accountId?: string;
@@ -182,7 +172,7 @@ export interface ContractResponse {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The description of the Contract, which provides context and information.
@@ -225,6 +215,16 @@ export interface ContractResponse {
    * meaning the Contract is active from this date onward.
    */
   startDate?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface ContractEndDateBillingEntitiesResponse {
@@ -282,8 +282,7 @@ export namespace ContractEndDateBillingEntitiesResponse {
 
 export interface ContractCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -327,7 +326,7 @@ export interface ContractCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The description of the Contract, which provides context and
@@ -355,16 +354,14 @@ export interface ContractCreateParams {
 
 export interface ContractRetrieveParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface ContractUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -408,7 +405,7 @@ export interface ContractUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The description of the Contract, which provides context and
@@ -436,8 +433,7 @@ export interface ContractUpdateParams {
 
 export interface ContractListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -461,16 +457,14 @@ export interface ContractListParams extends CursorParams {
 
 export interface ContractDeleteParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface ContractEndDateBillingEntitiesParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

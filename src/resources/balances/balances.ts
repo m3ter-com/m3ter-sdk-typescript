@@ -69,6 +69,10 @@ export class Balances extends APIResource {
    * This endpoint returns a list of all Balances associated with your organization.
    * You can filter the Balances by the end customer's Account UUID and end dates,
    * and paginate through them using the `pageSize` and `nextToken` parameters.
+   *
+   * **NOTE:** If a Balance has a rollover amount configured and you want to use the
+   * `endDateStart` or `endDateEnd` query parameters, the `rolloverEndDate` is used
+   * as the end date for the Balance.
    */
   list(params?: BalanceListParams, options?: Core.RequestOptions): Core.PagePromise<BalancesCursor, Balance>;
   list(options?: Core.RequestOptions): Core.PagePromise<BalancesCursor, Balance>;
@@ -112,16 +116,6 @@ export interface Balance {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The unique identifier (UUID) for the end customer Account the Balance belongs
    * to.
    */
@@ -145,6 +139,8 @@ export interface Balance {
 
   consumptionsAccountingProductId?: string;
 
+  contractId?: string;
+
   /**
    * The unique identifier (UUID) for the user who created the Balance.
    */
@@ -154,6 +150,20 @@ export interface Balance {
    * The currency code used for the Balance amount. For example: USD, GBP or EUR.
    */
   currency?: string;
+
+  /**
+   * User defined fields enabling you to attach custom data. The value for a custom
+   * field can be either a string or a number.
+   *
+   * If `customFields` can also be defined for this entity at the Organizational
+   * level,`customField` values defined at individual level override values of
+   * `customFields` with the same name defined at Organization level.
+   *
+   * See
+   * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
+   * in the m3ter documentation for more information.
+   */
+  customFields?: { [key: string]: string | number };
 
   /**
    * A description of the Balance.
@@ -234,12 +244,21 @@ export interface Balance {
    * The date _(in ISO 8601 format)_ when the Balance becomes active.
    */
   startDate?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface BalanceCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -285,6 +304,25 @@ export interface BalanceCreateParams {
    * to for accounting purposes
    */
   consumptionsAccountingProductId?: string;
+
+  /**
+   * Body param:
+   */
+  contractId?: string;
+
+  /**
+   * Body param: User defined fields enabling you to attach custom data. The value
+   * for a custom field can be either a string or a number.
+   *
+   * If `customFields` can also be defined for this entity at the Organizational
+   * level, `customField` values defined at individual level override values of
+   * `customFields` with the same name defined at Organization level.
+   *
+   * See
+   * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
+   * in the m3ter documentation for more information.
+   */
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: A description of the Balance.
@@ -391,16 +429,14 @@ export interface BalanceCreateParams {
 
 export interface BalanceRetrieveParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface BalanceUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -446,6 +482,25 @@ export interface BalanceUpdateParams {
    * to for accounting purposes
    */
   consumptionsAccountingProductId?: string;
+
+  /**
+   * Body param:
+   */
+  contractId?: string;
+
+  /**
+   * Body param: User defined fields enabling you to attach custom data. The value
+   * for a custom field can be either a string or a number.
+   *
+   * If `customFields` can also be defined for this entity at the Organizational
+   * level, `customField` values defined at individual level override values of
+   * `customFields` with the same name defined at Organization level.
+   *
+   * See
+   * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
+   * in the m3ter documentation for more information.
+   */
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: A description of the Balance.
@@ -552,8 +607,7 @@ export interface BalanceUpdateParams {
 
 export interface BalanceListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -563,21 +617,28 @@ export interface BalanceListParams extends CursorParams {
   accountId?: string;
 
   /**
-   * Query param: Only include Balances with end dates earlier than this date.
+   * Query param:
+   */
+  contract?: string | null;
+
+  /**
+   * Query param: Only include Balances with end dates earlier than this date. If a
+   * Balance has a rollover amount configured, then the `rolloverEndDate` will be
+   * used as the end date.
    */
   endDateEnd?: string;
 
   /**
    * Query param: Only include Balances with end dates equal to or later than this
-   * date.
+   * date. If a Balance has a rollover amount configured, then the `rolloverEndDate`
+   * will be used as the end date.
    */
   endDateStart?: string;
 }
 
 export interface BalanceDeleteParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

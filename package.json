@@ -1,6 +1,6 @@
 {
   "name": "m3ter-sdk",
-  "version": "0.1.0-alpha",
+  "version": "0.2.0",
   "description": "The official TypeScript library for the M3ter API",
   "author": "M3ter <sdks@m3ter.com>",
   "types": "dist/index.d.ts",
@@ -58,10 +58,6 @@
     "./shims/web.js",
     "./shims/web.mjs"
   ],
-  "imports": {
-    "m3ter-sdk": ".",
-    "m3ter-sdk/*": "./src/*"
-  },
   "exports": {
     "./_shims/auto/*": {
       "deno": {

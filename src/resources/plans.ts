@@ -96,16 +96,6 @@ export interface PlanResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * _(Optional)_. The Account ID for which this plan was created as custom/bespoke.
    * A custom/bespoke Plan can only be attached to the specified Account.
    */
@@ -139,7 +129,7 @@ export interface PlanResponse {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The DateTime _(in ISO-8601 format)_ when the plan was created.
@@ -238,12 +228,21 @@ export interface PlanResponse {
    * Standing charge description _(displayed on the bill line item)_.
    */
   standingChargeDescription?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface PlanCreateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -295,7 +294,7 @@ export interface PlanCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The product minimum spend amount per billing cycle for end customer
@@ -383,16 +382,14 @@ export interface PlanCreateParams {
 
 export interface PlanRetrieveParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PlanUpdateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -444,7 +441,7 @@ export interface PlanUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The product minimum spend amount per billing cycle for end customer
@@ -532,8 +529,7 @@ export interface PlanUpdateParams {
 
 export interface PlanListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -555,8 +551,7 @@ export interface PlanListParams extends CursorParams {
 
 export interface PlanDeleteParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

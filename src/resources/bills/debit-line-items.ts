@@ -158,16 +158,6 @@ export interface DebitLineItemResponse {
   servicePeriodStartDate: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The id of the user who created this debit line item.
    */
   createdBy?: string;
@@ -191,14 +181,28 @@ export interface DebitLineItemResponse {
    * The id of the user who last modified this debit line item.
    */
   lastModifiedBy?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface DebitLineItemCreateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Body param:
+   */
+  accountingProductId: string;
 
   /**
    * Body param: The amount for the line item.
@@ -285,18 +289,21 @@ export interface DebitLineItemCreateParams {
 
 export interface DebitLineItemRetrieveParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface DebitLineItemUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Body param:
+   */
+  accountingProductId: string;
 
   /**
    * Body param: The amount for the line item.
@@ -383,16 +390,14 @@ export interface DebitLineItemUpdateParams {
 
 export interface DebitLineItemListParams extends CursorParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface DebitLineItemDeleteParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

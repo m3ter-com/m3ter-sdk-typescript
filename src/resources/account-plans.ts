@@ -74,16 +74,9 @@ export class AccountPlans extends APIResource {
   }
 
   /**
-   * Retrieve a list of AccountPlan and AccountPlanGroup entities for the specified
-   * Organization.
-   *
-   * This endpoint retrieves a list of AccountPlans and AccountPlanGroups for a
-   * specific Organization. The list can be paginated for easier management, and
-   * supports filtering with various parameters.
-   *
-   * **NOTE:** You cannot use the `product` query parameter as a single filter
-   * condition, but must always use it in combination with the `account` query
-   * parameter.
+   * Retrieves a list of AccountPlan and AccountPlanGroup entities for the specified
+   * Organization. The list can be paginated for easier management, and supports
+   * filtering with various query parameters.
    */
   list(
     params?: AccountPlanListParams,
@@ -136,16 +129,6 @@ export interface AccountPlanResponse {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * The unique identifier (UUID) for the Account to which the AccountPlan or
@@ -204,7 +187,7 @@ export interface AccountPlanResponse {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * The date and time _(in ISO 8601 format)_ when the AccountPlan or
@@ -256,12 +239,21 @@ export interface AccountPlanResponse {
    * AccountPlanGroup starts to be active for the Account.
    */
   startDate?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface AccountPlanCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -330,7 +322,7 @@ export interface AccountPlanCreateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The end date _(in ISO-8601 format)_ for when the AccountPlan or
@@ -372,16 +364,14 @@ export interface AccountPlanCreateParams {
 
 export interface AccountPlanRetrieveParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface AccountPlanUpdateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -450,7 +440,7 @@ export interface AccountPlanUpdateParams {
    * [Working with Custom Fields](https://www.m3ter.com/docs/guides/creating-and-managing-products/working-with-custom-fields)
    * in the m3ter documentation for more information.
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
    * Body param: The end date _(in ISO-8601 format)_ for when the AccountPlan or
@@ -492,25 +482,35 @@ export interface AccountPlanUpdateParams {
 
 export interface AccountPlanListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
   /**
    * Query param: The unique identifier (UUID) for the Account whose AccountPlans and
    * AccountPlanGroups you want to retrieve.
+   *
+   * **NOTE:** Only returns the currently active AccountPlans and AccountPlanGroups
+   * for the specified Account. Use in combination with the `includeall` query
+   * parameter to return both active and inactive.
    */
   account?: string;
 
   /**
-   * Query param:
+   * Query param: The unique identifier (UUID) of the Contract which the AccountPlans
+   * you want to retrieve have been linked to.
+   *
+   * **NOTE:** Does not return AccountPlanGroups that have been linked to the
+   * Contract.
    */
   contract?: string | null;
 
   /**
-   * Query param: The specific date for which you want to retrieve active
-   * AccountPlans and AccountPlanGroups.
+   * Query param: The specific date for which you want to retrieve AccountPlans and
+   * AccountPlanGroups.
+   *
+   * **NOTE:** Returns both active and inactive AccountPlans and AccountPlanGroups
+   * for the specified date.
    */
   date?: string;
 
@@ -532,8 +532,10 @@ export interface AccountPlanListParams extends CursorParams {
   includeall?: boolean;
 
   /**
-   * Query param: The unique identifier (UUID) for the Plan or Plan Group whose
-   * associated AccountPlans or AccountPlanGroups you want to retrieve.
+   * Query param: The unique identifier (UUID) for the Plan whose associated
+   * AccountPlans you want to retrieve.
+   *
+   * **NOTE:** Does not return AccountPlanGroups if you use a `planGroupId`.
    */
   plan?: string;
 
@@ -550,8 +552,7 @@ export interface AccountPlanListParams extends CursorParams {
 
 export interface AccountPlanDeleteParams {
   /**
-   * The unique identifier (UUID) of your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

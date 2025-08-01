@@ -8,6 +8,17 @@ import { Cursor, type CursorParams } from '../pagination';
 export class ScheduledEventConfigurations extends APIResource {
   /**
    * Create a new ScheduledEventConfiguration.
+   *
+   * @example
+   * ```ts
+   * const scheduledEventConfigurationResponse =
+   *   await client.scheduledEventConfigurations.create({
+   *     entity: 'Bill',
+   *     field: 'endDate',
+   *     name: 'scheduled.bill.enddateEvent',
+   *     offset: 5,
+   *   });
+   * ```
    */
   create(
     params: ScheduledEventConfigurationCreateParams,
@@ -19,6 +30,12 @@ export class ScheduledEventConfigurations extends APIResource {
 
   /**
    * Retrieve a ScheduledEventConfiguration for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const scheduledEventConfigurationResponse =
+   *   await client.scheduledEventConfigurations.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -40,6 +57,17 @@ export class ScheduledEventConfigurations extends APIResource {
 
   /**
    * Update a ScheduledEventConfiguration for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const scheduledEventConfigurationResponse =
+   *   await client.scheduledEventConfigurations.update('id', {
+   *     entity: 'Bill',
+   *     field: 'endDate',
+   *     name: 'scheduled.bill.enddateEvent',
+   *     offset: 5,
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -55,6 +83,14 @@ export class ScheduledEventConfigurations extends APIResource {
 
   /**
    * Retrieve a list of ScheduledEventConfiguration entities
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const scheduledEventConfigurationResponse of client.scheduledEventConfigurations.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: ScheduledEventConfigurationListParams,
@@ -80,6 +116,12 @@ export class ScheduledEventConfigurations extends APIResource {
 
   /**
    * Delete the ScheduledEventConfiguration for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const scheduledEventConfigurationResponse =
+   *   await client.scheduledEventConfigurations.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -132,16 +174,6 @@ export interface ScheduledEventConfigurationResponse {
   offset: number;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The ID of the user who created this item.
    */
   createdBy?: string;
@@ -160,11 +192,21 @@ export interface ScheduledEventConfigurationResponse {
    * The ID of the user who last modified this item.
    */
   lastModifiedBy?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface ScheduledEventConfigurationCreateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -214,14 +256,14 @@ export interface ScheduledEventConfigurationCreateParams {
 
 export interface ScheduledEventConfigurationRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface ScheduledEventConfigurationUpdateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -271,7 +313,7 @@ export interface ScheduledEventConfigurationUpdateParams {
 
 export interface ScheduledEventConfigurationListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -283,7 +325,7 @@ export interface ScheduledEventConfigurationListParams extends CursorParams {
 
 export interface ScheduledEventConfigurationDeleteParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

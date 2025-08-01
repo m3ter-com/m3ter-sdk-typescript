@@ -1,5 +1,67 @@
 # Changelog
 
+## 0.2.0 (2025-08-01)
+
+Full Changelog: [v0.1.0-alpha...v0.2.0](https://github.com/m3ter-com/m3ter-sdk-node/compare/v0.1.0-alpha...v0.2.0)
+
+### Features
+
+* **api:** add aggregationId query param to ListPricings ([adf80bc](https://github.com/m3ter-com/m3ter-sdk-node/commit/adf80bca981e4b661fd2de680bf9bd0de600bf2d))
+* **api:** add statements ([451568b](https://github.com/m3ter-com/m3ter-sdk-node/commit/451568ba8d3cc07580a565f21fb7a23173d05a14))
+* **api:** Introduce OrganizationConfigRequest model ([5016ed3](https://github.com/m3ter-com/m3ter-sdk-node/commit/5016ed3274b5d5efd817e8d58a8502aa793de0b8))
+* **api:** mark `version` attribute as computed in Terraform ([c880758](https://github.com/m3ter-com/m3ter-sdk-node/commit/c8807588fb1f44c38ec9203cd0f3a8d8c3d2dbd1))
+* **api:** OpenAPI spec update ([514a75f](https://github.com/m3ter-com/m3ter-sdk-node/commit/514a75f904ea99602c013a49fd3f0317a93727e3))
+* **api:** remove audit fields from Terraform provider ([ac61682](https://github.com/m3ter-com/m3ter-sdk-node/commit/ac61682d3995f9e1bf8420c4287318dd8faa486a))
+* **api:** Set "version" attribute to "computed_optional" in Terraform ([3b87e79](https://github.com/m3ter-com/m3ter-sdk-node/commit/3b87e794db13cc8bb99f6b9e8682212621cb720b))
+* **api:** Spec fixes ([2be2d73](https://github.com/m3ter-com/m3ter-sdk-node/commit/2be2d73b3c0b44b76fc15718edd69a6658028cff))
+* **api:** update open api spec ([0aa5bca](https://github.com/m3ter-com/m3ter-sdk-node/commit/0aa5bca8e58957b83aeb2de0ff2ecd05b03925d4))
+* **api:** update OpenAPI spec + associated fixes ([bcac5e1](https://github.com/m3ter-com/m3ter-sdk-node/commit/bcac5e1c4f7d15b78e976e580bcfbb95609ba428))
+* **client:** add support for endpoint-specific base URLs ([a099c62](https://github.com/m3ter-com/m3ter-sdk-node/commit/a099c62152f98e48a240b40cc4c18569e90a018f))
+
+
+### Bug Fixes
+
+* **api:** terraform release readiness ([159826d](https://github.com/m3ter-com/m3ter-sdk-node/commit/159826d4a9a4e4702f5a6efae1e260db89b45994))
+* **api:** use WebhookDestinationResponse in webhook endpoint response schemas ([f33c431](https://github.com/m3ter-com/m3ter-sdk-node/commit/f33c431ffa08c99e4a7692dd0b1e104ccd8cb0af))
+* **ci:** release-doctor — report correct token name ([c11d948](https://github.com/m3ter-com/m3ter-sdk-node/commit/c11d94811c1408194bc1d4b1c1ed386e757e7a2d))
+* **client:** don't send `Content-Type` for bodyless methods ([1d09074](https://github.com/m3ter-com/m3ter-sdk-node/commit/1d0907476d8e038a3ede04120031843bdfd51eb0))
+* publish script — handle NPM errors correctly ([4f0373c](https://github.com/m3ter-com/m3ter-sdk-node/commit/4f0373c964530fa91bf40f13868651852939b2d1))
+
+
+### Chores
+
+* **ci:** add timeout thresholds for CI jobs ([81d1fb9](https://github.com/m3ter-com/m3ter-sdk-node/commit/81d1fb92397812a486af42a638518cfd31220daa))
+* **ci:** bump node version for release workflows ([7121d83](https://github.com/m3ter-com/m3ter-sdk-node/commit/7121d83eef3d0cc7c7c97674cb57142ab126297c))
+* **ci:** enable for pull requests ([836c364](https://github.com/m3ter-com/m3ter-sdk-node/commit/836c3640e459dd4874dfc43ca49c2fbfda7abcb8))
+* **ci:** only run for pushes and fork pull requests ([e3ac5b6](https://github.com/m3ter-com/m3ter-sdk-node/commit/e3ac5b6db7a83fcde84c74c16e2366ac7457af2b))
+* **ci:** only use depot for staging repos ([1b05902](https://github.com/m3ter-com/m3ter-sdk-node/commit/1b05902870713d5d0874a229ce14791cd9b07782))
+* **ci:** run on more branches and use depot runners ([a3ddaad](https://github.com/m3ter-com/m3ter-sdk-node/commit/a3ddaad109d25f67f59d0ab7fce52027d6d3468b))
+* **client:** minor internal fixes ([21166b1](https://github.com/m3ter-com/m3ter-sdk-node/commit/21166b19fcf1b1fe1a9498d2d4ae28d92b0cbfff))
+* **docs:** add missing deprecation warnings ([087ac8e](https://github.com/m3ter-com/m3ter-sdk-node/commit/087ac8e3a051670f5b66ec603c068880b071a6ff))
+* **docs:** grammar improvements ([c0c9bdd](https://github.com/m3ter-com/m3ter-sdk-node/commit/c0c9bdd193a6eaa604840e48cffae2ee2123a74d))
+* **docs:** use top-level-await in example snippets ([4e2459b](https://github.com/m3ter-com/m3ter-sdk-node/commit/4e2459bdfd7e92bb887c8eab5a7e58d17c6e0785))
+* improve publish-npm script --latest tag logic ([c9a73a1](https://github.com/m3ter-com/m3ter-sdk-node/commit/c9a73a1490150ef69fa060e4a9cd137ee5234414))
+* **internal:** codegen related update ([1fb9821](https://github.com/m3ter-com/m3ter-sdk-node/commit/1fb9821e361584223ac9098611d2ec7787ad7c95))
+* **internal:** codegen related update ([e420e63](https://github.com/m3ter-com/m3ter-sdk-node/commit/e420e6395c507b0d2198d288c1a9be112d35f5cf))
+* **internal:** make base APIResource abstract ([c4498dc](https://github.com/m3ter-com/m3ter-sdk-node/commit/c4498dce8edf119af29a88f01eb33f57d42fd5e3))
+* **internal:** remove redundant imports config ([ada0ea1](https://github.com/m3ter-com/m3ter-sdk-node/commit/ada0ea1dc6f8d0d36a1cab4d71d542afe8995651))
+* **internal:** updates ([3a0321a](https://github.com/m3ter-com/m3ter-sdk-node/commit/3a0321a9e639e286f3866a07836249545c7da53d))
+* make more param objects optional ([e03cd61](https://github.com/m3ter-com/m3ter-sdk-node/commit/e03cd61739dab323284dfeda55b7499a45b4b3eb))
+* make some internal functions async ([83861c6](https://github.com/m3ter-com/m3ter-sdk-node/commit/83861c63ee11bcea2cb309229e0c77b41e110654))
+* mention unit type in timeout docs ([4b79df9](https://github.com/m3ter-com/m3ter-sdk-node/commit/4b79df9dce7a00237a170e046826cd1fd2a65b6d))
+
+
+### Documentation
+
+* add examples to tsdocs ([540c6ae](https://github.com/m3ter-com/m3ter-sdk-node/commit/540c6aefb87504f0edba9fa48efb71047f93a889))
+* **pagination:** improve naming ([69aa917](https://github.com/m3ter-com/m3ter-sdk-node/commit/69aa91778dbea77de10b485389d65ef050d0bece))
+* **readme:** fix typo ([b83639b](https://github.com/m3ter-com/m3ter-sdk-node/commit/b83639b8f232cf6cd6ae5255e25826a8e90200b4))
+
+
+### Refactors
+
+* **types:** replace Record with mapped types ([d7f8a5f](https://github.com/m3ter-com/m3ter-sdk-node/commit/d7f8a5fec2bd9612a3f9aa9499b88151174928ad))
+
 ## 0.1.0-alpha (2025-04-10)
 
 Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha](https://github.com/m3ter-com/m3ter-sdk-node/compare/v0.1.0-alpha.9...v0.1.0-alpha)

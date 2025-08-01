@@ -103,16 +103,6 @@ export interface PlanGroupLinkResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * The id of the user who created this plan group link.
    */
   createdBy?: string;
@@ -141,11 +131,21 @@ export interface PlanGroupLinkResponse {
    * ID of the linked Plan
    */
   planId?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface PlanGroupLinkCreateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -174,14 +174,14 @@ export interface PlanGroupLinkCreateParams {
 
 export interface PlanGroupLinkRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PlanGroupLinkUpdateParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -210,7 +210,7 @@ export interface PlanGroupLinkUpdateParams {
 
 export interface PlanGroupLinkListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -232,7 +232,7 @@ export interface PlanGroupLinkListParams extends CursorParams {
 
 export interface PlanGroupLinkDeleteParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

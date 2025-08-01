@@ -3,7 +3,9 @@
 export {
   DataExportDestinationResponsesCursor,
   Destinations,
+  type DataExportDestinationGoogleCloudStorageRequest,
   type DataExportDestinationResponse,
+  type DataExportDestinationS3Request,
   type DestinationCreateResponse,
   type DestinationRetrieveResponse,
   type DestinationUpdateResponse,
@@ -28,6 +30,10 @@ export {
   type AdHocOperationalDataRequest,
   type AdHocResponse,
   type AdHocUsageDataRequest,
+  type DataExplorerAccountGroup,
+  type DataExplorerDimensionGroup,
+  type DataExplorerGroup,
+  type DataExplorerTimeGroup,
   type DataExportCreateAdhocParams,
 } from './data-exports';
 export {

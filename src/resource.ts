@@ -2,7 +2,7 @@
 
 import type { M3ter } from './index';
 
-export class APIResource {
+export abstract class APIResource {
   protected _client: M3ter;
 
   constructor(client: M3ter) {

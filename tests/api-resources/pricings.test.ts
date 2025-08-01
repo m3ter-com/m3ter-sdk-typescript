@@ -33,7 +33,7 @@ describe('resource pricings', () => {
       startDate: '2019-12-27T18:11:19.117Z',
       accountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       aggregationId: 'aggregationId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       compoundAggregationId: 'compoundAggregationId',
       cumulative: true,
       description: 'description',
@@ -103,7 +103,7 @@ describe('resource pricings', () => {
       startDate: '2019-12-27T18:11:19.117Z',
       accountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       aggregationId: 'aggregationId',
-      code: 'JS!?Q0]r] ]$]',
+      code: 'S?oC"$]C] ]]]]]5]',
       compoundAggregationId: 'compoundAggregationId',
       cumulative: true,
       description: 'description',
@@ -137,6 +137,7 @@ describe('resource pricings', () => {
   test('list: required and optional params', async () => {
     const response = await client.pricings.list({
       orgId: 'orgId',
+      aggregationId: 'aggregationId',
       date: 'date',
       ids: ['string'],
       nextToken: 'nextToken',
@@ -159,6 +160,7 @@ describe('resource pricings', () => {
       client.pricings.list(
         {
           orgId: 'orgId',
+          aggregationId: 'aggregationId',
           date: 'date',
           ids: ['string'],
           nextToken: 'nextToken',

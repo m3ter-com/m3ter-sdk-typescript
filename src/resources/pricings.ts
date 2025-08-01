@@ -109,16 +109,6 @@ export interface PricingResponse {
    */
   id: string;
 
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
   accountingProductId?: string;
 
   /**
@@ -234,7 +224,7 @@ export interface PricingResponse {
    * For each segment in a segmented aggregation, make a separate call using
    * `aggregationId` parameter to update a Pricing.
    */
-  segment?: Record<string, string>;
+  segment?: { [key: string]: string };
 
   segmentString?: string;
 
@@ -270,12 +260,21 @@ export interface PricingResponse {
    *   might include other Products the Account consumes.
    */
   type?: 'DEBIT' | 'PRODUCT_CREDIT' | 'GLOBAL_CREDIT';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface PricingCreateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -401,7 +400,7 @@ export interface PricingCreateParams {
    * [Using API Call to Create Segmented Pricings](https://www.m3ter.com/docs/guides/plans-and-pricing/pricing-plans/pricing-plans-using-segmented-aggregations#using-api-call-to-create-a-segmented-pricing)
    * in our User Documentation.
    */
-  segment?: Record<string, string>;
+  segment?: { [key: string]: string };
 
   /**
    * Body param: The default value is **FALSE**.
@@ -445,16 +444,14 @@ export interface PricingCreateParams {
 
 export interface PricingRetrieveParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface PricingUpdateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -580,7 +577,7 @@ export interface PricingUpdateParams {
    * [Using API Call to Create Segmented Pricings](https://www.m3ter.com/docs/guides/plans-and-pricing/pricing-plans/pricing-plans-using-segmented-aggregations#using-api-call-to-create-a-segmented-pricing)
    * in our User Documentation.
    */
-  segment?: Record<string, string>;
+  segment?: { [key: string]: string };
 
   /**
    * Body param: The default value is **FALSE**.
@@ -624,10 +621,14 @@ export interface PricingUpdateParams {
 
 export interface PricingListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: UUID of the Aggregation to retrieve pricings for
+   */
+  aggregationId?: string;
 
   /**
    * Query param: Date on which to retrieve active Pricings.
@@ -652,8 +653,7 @@ export interface PricingListParams extends CursorParams {
 
 export interface PricingDeleteParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

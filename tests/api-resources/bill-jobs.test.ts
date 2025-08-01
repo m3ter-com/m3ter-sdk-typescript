@@ -13,7 +13,7 @@ const client = new M3ter({
 
 describe('resource billJobs', () => {
   test('create: only required params', async () => {
-    const responsePromise = client.billJobs.create({});
+    const responsePromise = client.billJobs.create();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -42,6 +42,40 @@ describe('resource billJobs', () => {
       weekEpoch: '2019-12-27',
       yearEpoch: '2019-12-27',
     });
+  });
+
+  test('create: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.billJobs.create({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      M3ter.NotFoundError,
+    );
+  });
+
+  test('create: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.billJobs.create(
+        {
+          orgId: 'orgId',
+          accountIds: ['string'],
+          billDate: '2019-12-27',
+          billFrequencyInterval: 0,
+          billingFrequency: 'DAILY',
+          currencyConversions: [{ from: 'EUR', to: 'USD', multiplier: 1.12 }],
+          dayEpoch: '2019-12-27',
+          dueDate: '2019-12-27',
+          externalInvoiceDate: '2019-12-27',
+          lastDateInBillingPeriod: '2019-12-27',
+          monthEpoch: '2019-12-27',
+          targetCurrency: 'xxx',
+          timezone: 'UTC',
+          version: 0,
+          weekEpoch: '2019-12-27',
+          yearEpoch: '2019-12-27',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(M3ter.NotFoundError);
   });
 
   test('retrieve: only required params', async () => {

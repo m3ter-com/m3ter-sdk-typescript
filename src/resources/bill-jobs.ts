@@ -36,14 +36,34 @@ export class BillJobs extends APIResource {
    *   running, and try to create another one, you'll get an HTTP 429 response (Too
    *   many requests). When one of the existing BillJobs has completed, you'll be
    *   able to submit another job
+   *
+   * @example
+   * ```ts
+   * const billJobResponse = await client.billJobs.create();
+   * ```
    */
-  create(params: BillJobCreateParams, options?: Core.RequestOptions): Core.APIPromise<BillJobResponse> {
+  create(params?: BillJobCreateParams, options?: Core.RequestOptions): Core.APIPromise<BillJobResponse>;
+  create(options?: Core.RequestOptions): Core.APIPromise<BillJobResponse>;
+  create(
+    params: BillJobCreateParams | Core.RequestOptions = {},
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<BillJobResponse> {
+    if (isRequestOptions(params)) {
+      return this.create({}, params);
+    }
     const { orgId = this._client.orgId, ...body } = params;
     return this._client.post(`/organizations/${orgId}/billjobs`, { body, ...options });
   }
 
   /**
    * Retrieve a Bill Job for the given UUID.
+   *
+   * @example
+   * ```ts
+   * const billJobResponse = await client.billJobs.retrieve(
+   *   'id',
+   * );
+   * ```
    */
   retrieve(
     id: string,
@@ -70,6 +90,14 @@ export class BillJobs extends APIResource {
    * list can be paginated for easier management, and allows you to query and filter
    * based on various parameters, such as BillJob `status` and whether or not BillJob
    * remains `active`.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const billJobResponse of client.billJobs.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: BillJobListParams,
@@ -96,6 +124,11 @@ export class BillJobs extends APIResource {
    * This endpoint allows you to halt the processing of a specific BillJob, which
    * might be necessary if there are changes in billing requirements or other
    * operational considerations.
+   *
+   * @example
+   * ```ts
+   * const billJobResponse = await client.billJobs.cancel('id');
+   * ```
    */
   cancel(
     id: string,
@@ -131,6 +164,13 @@ export class BillJobs extends APIResource {
    *   that the response might not contain all of the parameters listed. If set to
    *   null,the parameter is hidden to help simplify the output as well as to reduce
    *   its size and improve performance.
+   *
+   * @example
+   * ```ts
+   * const billJobResponse = await client.billJobs.recalculate({
+   *   billIds: ['string'],
+   * });
+   * ```
    */
   recalculate(
     params: BillJobRecalculateParams,
@@ -148,16 +188,6 @@ export interface BillJobResponse {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * An array of UUIDs representing the end customer Accounts associated with the
@@ -314,6 +344,16 @@ export interface BillJobResponse {
   type?: 'CREATE' | 'RECALCULATE';
 
   /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
+
+  /**
    * The starting date _(epoch)_ for Weekly billing frequency _(in ISO 8601 format)_,
    * determining the first Bill date for weekly Bills.
    */
@@ -328,8 +368,7 @@ export interface BillJobResponse {
 
 export interface BillJobCreateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -471,15 +510,14 @@ export interface BillJobCreateParams {
 
 export interface BillJobRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface BillJobListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -509,16 +547,14 @@ export interface BillJobListParams extends CursorParams {
 
 export interface BillJobCancelParams {
   /**
-   * The unique identifier (UUID) for your Organization. The Organization represents
-   * your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface BillJobRecalculateParams {
   /**
-   * Path param: The unique identifier (UUID) for your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 

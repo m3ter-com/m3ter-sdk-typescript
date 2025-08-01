@@ -32,6 +32,16 @@ export class FileUploads extends APIResource {
    * - The upload URL is time limited - it is valid for **_one_** minute.
    *
    * Part of the file upload service for submitting measurements data files.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.usage.fileUploads.generateUploadURL({
+   *     contentLength: 1,
+   *     contentType: 'application/json',
+   *     fileName: 'x',
+   *   });
+   * ```
    */
   generateUploadURL(
     params: FileUploadGenerateUploadURLParams,
@@ -52,7 +62,7 @@ export interface FileUploadGenerateUploadURLResponse {
   /**
    * The headers
    */
-  headers?: Record<string, string>;
+  headers?: { [key: string]: string };
 
   /**
    * UUID of the upload job
@@ -67,10 +77,17 @@ export interface FileUploadGenerateUploadURLResponse {
 
 export interface FileUploadGenerateUploadURLParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter platform.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Body param: The size of the body in bytes. For example: `"contentLength": 485`,
+   * where 485 is the size in bytes of the file to upload.
+   *
+   * **NOTE:** Required.
+   */
+  contentLength: number;
 
   /**
    * Body param: The media type of the entity body sent, for example:
@@ -79,20 +96,12 @@ export interface FileUploadGenerateUploadURLParams {
    * **NOTE:** Currently only a JSON formatted file type is supported by the File
    * Upload Service.
    */
-  contentType: string;
+  contentType: 'application/json' | 'text/json';
 
   /**
    * Body param: The name of the measurements file to be uploaded.
    */
   fileName: string;
-
-  /**
-   * Body param: The size of the body in bytes. For example: `"contentLength": 485`,
-   * where 485 is the size in bytes of the file to upload.
-   *
-   * **NOTE:** Required.
-   */
-  contentLength?: number;
 }
 
 FileUploads.Jobs = Jobs;

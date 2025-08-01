@@ -8,6 +8,20 @@ import { Cursor, type CursorParams } from '../pagination';
 export class Aggregations extends APIResource {
   /**
    * Create a new Aggregation.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.aggregations.create({
+   *     aggregation: 'SUM',
+   *     meterId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *     name: 'x',
+   *     quantityPerUnit: 1,
+   *     rounding: 'UP',
+   *     targetField: 'x',
+   *     unit: 'x',
+   *   });
+   * ```
    */
   create(
     params: AggregationCreateParams,
@@ -19,6 +33,12 @@ export class Aggregations extends APIResource {
 
   /**
    * Retrieve the Aggregation with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.aggregations.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -45,6 +65,20 @@ export class Aggregations extends APIResource {
    * this endpoint to update the Aggregation use the `customFields` parameter to
    * preserve those Custom Fields. If you omit them from the update request, they
    * will be lost.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.aggregations.update('id', {
+   *     aggregation: 'SUM',
+   *     meterId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+   *     name: 'x',
+   *     quantityPerUnit: 1,
+   *     rounding: 'UP',
+   *     targetField: 'x',
+   *     unit: 'x',
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -58,6 +92,14 @@ export class Aggregations extends APIResource {
   /**
    * Retrieve a list of Aggregations that can be filtered by Product, Aggregation ID,
    * or Code.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const aggregationResponse of client.aggregations.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: AggregationListParams,
@@ -80,6 +122,12 @@ export class Aggregations extends APIResource {
 
   /**
    * Delete the Aggregation with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const aggregationResponse =
+   *   await client.aggregations.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -107,16 +155,6 @@ export interface AggregationResponse {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   accountingProductId?: string;
 
@@ -150,7 +188,7 @@ export interface AggregationResponse {
    * - **UNIQUE**. Uses unique values and returns a count of the number of unique
    *   values. Can be applied to a **Metadata** `targetField`.
    */
-  aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE' | 'CUSTOM_SQL';
+  aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
 
   /**
    * Code of the Aggregation. A unique short code to identify the Aggregation.
@@ -162,7 +200,7 @@ export interface AggregationResponse {
    */
   createdBy?: string;
 
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   customSql?: string;
 
@@ -253,7 +291,7 @@ export interface AggregationResponse {
    * Contains the values that are to be used as the segments, read from the fields in
    * the meter pointed at by `segmentedFields`.
    */
-  segments?: Array<Record<string, string>>;
+  segments?: Array<{ [key: string]: string }>;
 
   /**
    * `Code` of the target `dataField` or `derivedField` on the Meter used as the
@@ -268,12 +306,21 @@ export interface AggregationResponse {
    * charged for.
    */
   unit?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface AggregationCreateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -307,7 +354,7 @@ export interface AggregationCreateParams {
    * - **UNIQUE**. Uses unique values and returns a count of the number of unique
    *   values. Can be applied to a **Metadata** `targetField`.
    */
-  aggregation: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE' | 'CUSTOM_SQL';
+  aggregation: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
 
   /**
    * Body param: The UUID of the Meter used as the source of usage data for the
@@ -380,10 +427,12 @@ export interface AggregationCreateParams {
   /**
    * Body param:
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
-   * Body param:
+   * Body param: **NOTE:** The `customSql` Aggregation type is currently only
+   * available in Beta release and on request. If you are interested in using this
+   * feature, please get in touch with m3ter Support or your m3ter contact.
    */
   customSql?: string;
 
@@ -424,7 +473,7 @@ export interface AggregationCreateParams {
    * [Using Wildcards - API Calls](https://www.m3ter.com/docs/guides/setting-up-usage-data-meters-and-aggregations/segmented-aggregations#using-wildcards---api-calls)
    * in our main User Docs.
    */
-  segments?: Array<Record<string, string>>;
+  segments?: Array<{ [key: string]: string }>;
 
   /**
    * Body param: The version number of the entity:
@@ -441,16 +490,14 @@ export interface AggregationCreateParams {
 
 export interface AggregationRetrieveParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface AggregationUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -484,7 +531,7 @@ export interface AggregationUpdateParams {
    * - **UNIQUE**. Uses unique values and returns a count of the number of unique
    *   values. Can be applied to a **Metadata** `targetField`.
    */
-  aggregation: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE' | 'CUSTOM_SQL';
+  aggregation: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
 
   /**
    * Body param: The UUID of the Meter used as the source of usage data for the
@@ -557,10 +604,12 @@ export interface AggregationUpdateParams {
   /**
    * Body param:
    */
-  customFields?: Record<string, string | number>;
+  customFields?: { [key: string]: string | number };
 
   /**
-   * Body param:
+   * Body param: **NOTE:** The `customSql` Aggregation type is currently only
+   * available in Beta release and on request. If you are interested in using this
+   * feature, please get in touch with m3ter Support or your m3ter contact.
    */
   customSql?: string;
 
@@ -601,7 +650,7 @@ export interface AggregationUpdateParams {
    * [Using Wildcards - API Calls](https://www.m3ter.com/docs/guides/setting-up-usage-data-meters-and-aggregations/segmented-aggregations#using-wildcards---api-calls)
    * in our main User Docs.
    */
-  segments?: Array<Record<string, string>>;
+  segments?: Array<{ [key: string]: string }>;
 
   /**
    * Body param: The version number of the entity:
@@ -618,8 +667,7 @@ export interface AggregationUpdateParams {
 
 export interface AggregationListParams extends CursorParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -642,8 +690,7 @@ export interface AggregationListParams extends CursorParams {
 
 export interface AggregationDeleteParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

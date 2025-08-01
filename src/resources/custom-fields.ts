@@ -8,6 +8,12 @@ export class CustomFields extends APIResource {
   /**
    * Retrieve all Custom Fields added at Organizational level for the entities that
    * support them.
+   *
+   * @example
+   * ```ts
+   * const customFieldsResponse =
+   *   await client.customFields.retrieve();
+   * ```
    */
   retrieve(
     params?: CustomFieldRetrieveParams,
@@ -27,11 +33,25 @@ export class CustomFields extends APIResource {
 
   /**
    * Update Custom Fields added at Organization level to entities that support them.
+   *
+   * @example
+   * ```ts
+   * const customFieldsResponse =
+   *   await client.customFields.update();
+   * ```
    */
   update(
-    params: CustomFieldUpdateParams,
+    params?: CustomFieldUpdateParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<CustomFieldsResponse>;
+  update(options?: Core.RequestOptions): Core.APIPromise<CustomFieldsResponse>;
+  update(
+    params: CustomFieldUpdateParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
   ): Core.APIPromise<CustomFieldsResponse> {
+    if (isRequestOptions(params)) {
+      return this.update({}, params);
+    }
     const { orgId = this._client.orgId, ...body } = params;
     return this._client.put(`/organizations/${orgId}/customfields`, { body, ...options });
   }
@@ -44,34 +64,29 @@ export interface CustomFieldsResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * CustomFields added to Account entities.
    */
-  account?: Record<string, string | number>;
+  account?: { [key: string]: string | number };
 
   /**
    * CustomFields added to accountPlan entities.
    */
-  accountPlan?: Record<string, string | number>;
+  accountPlan?: { [key: string]: string | number };
 
   /**
    * CustomFields added to simple Aggregation entities.
    */
-  aggregation?: Record<string, string | number>;
+  aggregation?: { [key: string]: string | number };
 
   /**
    * CustomFields added to Compound Aggregation entities.
    */
-  compoundAggregation?: Record<string, string | number>;
+  compoundAggregation?: { [key: string]: string | number };
+
+  /**
+   * CustomFields added to Contract entities.
+   */
+  contract?: { [key: string]: string | number };
 
   /**
    * The id of the user who created this custom field.
@@ -97,88 +112,101 @@ export interface CustomFieldsResponse {
   /**
    * CustomFields added to Meter entities.
    */
-  meter?: Record<string, string | number>;
+  meter?: { [key: string]: string | number };
 
   /**
    * CustomFields added to the Organization.
    */
-  organization?: Record<string, string | number>;
+  organization?: { [key: string]: string | number };
 
   /**
    * CustomFields added to Plan entities.
    */
-  plan?: Record<string, string | number>;
+  plan?: { [key: string]: string | number };
 
   /**
    * CustomFields added to planTemplate entities.
    */
-  planTemplate?: Record<string, string | number>;
+  planTemplate?: { [key: string]: string | number };
 
   /**
    * CustomFields added to Product entities.
    */
-  product?: Record<string, string | number>;
+  product?: { [key: string]: string | number };
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CustomFieldRetrieveParams {
   /**
-   * UUID of the Organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CustomFieldUpdateParams {
   /**
-   * Path param: UUID of the Organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
   /**
    * Body param: Updates to Account entity CustomFields.
    */
-  account?: Record<string, string | number>;
+  account?: { [key: string]: string | number };
 
   /**
-   * Body param: Updates to accountPlan entity CustomFields.
+   * Body param: Updates to AccountPlan entity CustomFields.
    */
-  accountPlan?: Record<string, string | number>;
+  accountPlan?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to simple Aggregation entity CustomFields.
    */
-  aggregation?: Record<string, string | number>;
+  aggregation?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Compound Aggregation entity CustomFields.
    */
-  compoundAggregation?: Record<string, string | number>;
+  compoundAggregation?: { [key: string]: string | number };
+
+  /**
+   * Body param: Updates to Contract entity CustomFields.
+   */
+  contract?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Meter entity CustomFields.
    */
-  meter?: Record<string, string | number>;
+  meter?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Organization CustomFields.
    */
-  organization?: Record<string, string | number>;
+  organization?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Plan entity CustomFields.
    */
-  plan?: Record<string, string | number>;
+  plan?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to planTemplate entity CustomFields.
    */
-  planTemplate?: Record<string, string | number>;
+  planTemplate?: { [key: string]: string | number };
 
   /**
    * Body param: Updates to Product entity CustomFields.
    */
-  product?: Record<string, string | number>;
+  product?: { [key: string]: string | number };
 
   /**
    * Body param: The version number of the entity:

@@ -51,6 +51,8 @@ describe('resource transactions', () => {
   test('list: required and optional params', async () => {
     const response = await client.balances.transactions.list('balanceId', {
       orgId: 'orgId',
+      entityId: 'entityId',
+      entityType: 'BILL',
       nextToken: 'nextToken',
       pageSize: 1,
       transactionTypeId: 'transactionTypeId',
@@ -69,7 +71,14 @@ describe('resource transactions', () => {
     await expect(
       client.balances.transactions.list(
         'balanceId',
-        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1, transactionTypeId: 'transactionTypeId' },
+        {
+          orgId: 'orgId',
+          entityId: 'entityId',
+          entityType: 'BILL',
+          nextToken: 'nextToken',
+          pageSize: 1,
+          transactionTypeId: 'transactionTypeId',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(M3ter.NotFoundError);

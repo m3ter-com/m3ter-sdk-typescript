@@ -305,16 +305,6 @@ export namespace UserMeResponse {
      */
     id: string;
 
-    /**
-     * The version number:
-     *
-     * - **Create:** On initial Create to insert a new entity, the version is set at 1
-     *   in the response.
-     * - **Update:** On successful Update, the version is incremented by 1 in the
-     *   response.
-     */
-    version: number;
-
     addressLine1?: string;
 
     addressLine2?: string;
@@ -374,6 +364,16 @@ export namespace UserMeResponse {
     taxId?: string;
 
     type?: 'PRODUCTION' | 'SANDBOX';
+
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
+    version?: number;
   }
 
   export interface ServiceUser {
@@ -486,16 +486,14 @@ export namespace UserMeResponse {
 
 export interface UserRetrieveParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface UserUpdateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -529,8 +527,7 @@ export interface UserUpdateParams {
 
 export interface UserListParams extends CursorParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -542,8 +539,7 @@ export interface UserListParams extends CursorParams {
 
 export interface UserGetPermissionsParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -562,8 +558,7 @@ export interface UserGetPermissionsParams {
 
 export interface UserGetUserGroupsParams {
   /**
-   * Path param: The unique identifier (UUID) of your Organization. The Organization
-   * represents your company as a direct customer of our service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -581,15 +576,14 @@ export interface UserGetUserGroupsParams {
 
 export interface UserMeParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface UserResendPasswordParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

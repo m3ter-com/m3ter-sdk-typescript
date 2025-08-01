@@ -26,16 +26,13 @@ const client = new M3ter({
   apiKey: process.env['M3TER_API_KEY'], // This is the default and can be omitted
   apiSecret: process.env['M3TER_API_SECRET'], // This is the default and can be omitted
   orgId: process.env['M3TER_ORG_ID'], // This is the default and can be omitted
+  token: process.env['M3TER_API_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const page = await client.products.list();
-  const productResponse = page.data[0];
+const page = await client.products.list();
+const productResponse = page.data[0];
 
-  console.log(productResponse.id);
-}
-
-main();
+console.log(productResponse.id);
 ```
 
 ### Request & Response types
@@ -50,13 +47,10 @@ const client = new M3ter({
   apiKey: process.env['M3TER_API_KEY'], // This is the default and can be omitted
   apiSecret: process.env['M3TER_API_SECRET'], // This is the default and can be omitted
   orgId: process.env['M3TER_ORG_ID'], // This is the default and can be omitted
+  token: process.env['M3TER_API_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const [productResponse]: [M3ter.ProductResponse] = await client.products.list();
-}
-
-main();
+const [productResponse]: [M3ter.ProductResponse] = await client.products.list();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -69,22 +63,18 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const page = await client.products.list().catch(async (err) => {
-    if (err instanceof M3ter.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
-}
-
-main();
+const page = await client.products.list().catch(async (err) => {
+  if (err instanceof M3ter.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
-Error codes are as followed:
+Error codes are as follows:
 
 | Status Code | Error Type                 |
 | ----------- | -------------------------- |
@@ -109,10 +99,10 @@ You can use the `maxRetries` option to configure or disable this:
 ```js
 // Configure the default for all requests:
 const client = new M3ter({
-  maxRetries: 0, // default is 2
   apiKey: 'My API Key',
   apiSecret: 'My API Secret',
   orgId: 'My Org ID',
+  maxRetries: 0, // default is 2
 });
 
 // Or, configure per-request:
@@ -129,10 +119,10 @@ Requests time out after 1 minute by default. You can configure this with a `time
 ```ts
 // Configure the default for all requests:
 const client = new M3ter({
-  timeout: 20 * 1000, // 20 seconds (default is 1 minute)
   apiKey: 'My API Key',
   apiSecret: 'My API Secret',
   orgId: 'My Org ID',
+  timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
 // Override per-request:
@@ -151,13 +141,13 @@ List methods in the M3ter API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllProducts(params) {
-  const allProducts = [];
+async function fetchAllProductResponses(params) {
+  const allProductResponses = [];
   // Automatically fetches more pages as needed.
   for await (const productResponse of client.products.list()) {
-    allProducts.push(productResponse);
+    allProductResponses.push(productResponse);
   }
-  return allProducts;
+  return allProductResponses;
 }
 ```
 
@@ -296,10 +286,10 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
 const client = new M3ter({
-  httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
   apiKey: 'My API Key',
   apiSecret: 'My API Secret',
   orgId: 'My Org ID',
+  httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
 
 // Override per-request:

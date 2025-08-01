@@ -10,6 +10,12 @@ export class CreditReasons extends APIResource {
    * Create a new Credit Reason for your Organization. When you've created a Credit
    * Reason, it becomes available as a credit type for adding Credit line items to
    * Bills. See [Credits](https://www.m3ter.com/docs/api#tag/Credits).
+   *
+   * @example
+   * ```ts
+   * const creditReasonResponse =
+   *   await client.creditReasons.create({ name: 'x' });
+   * ```
    */
   create(
     params: CreditReasonCreateParams,
@@ -21,6 +27,12 @@ export class CreditReasons extends APIResource {
 
   /**
    * Retrieve the Credit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const creditReasonResponse =
+   *   await client.creditReasons.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -42,6 +54,12 @@ export class CreditReasons extends APIResource {
 
   /**
    * Update the Credit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const creditReasonResponse =
+   *   await client.creditReasons.update('id', { name: 'x' });
+   * ```
    */
   update(
     id: string,
@@ -56,6 +74,14 @@ export class CreditReasons extends APIResource {
    * Retrieve a list of the Credit Reason entities created for your Organization. You
    * can filter the list returned for the call by Credit Reason ID, Credit Reason
    * short code, or by Archive status.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const creditReasonResponse of client.creditReasons.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: CreditReasonListParams,
@@ -79,6 +105,12 @@ export class CreditReasons extends APIResource {
 
   /**
    * Delete the Credit Reason with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const creditReasonResponse =
+   *   await client.creditReasons.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -106,16 +138,6 @@ export interface CreditReasonResponse {
    * The UUID of the entity.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * TRUE / FALSE flag indicating whether the data entity is archived. An entity can
@@ -152,12 +174,21 @@ export interface CreditReasonResponse {
    * The name of the data entity.
    */
   name?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface CreditReasonCreateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -195,16 +226,14 @@ export interface CreditReasonCreateParams {
 
 export interface CreditReasonRetrieveParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface CreditReasonUpdateParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -242,8 +271,7 @@ export interface CreditReasonUpdateParams {
 
 export interface CreditReasonListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization. The Organization represents your company
-   * as a direct customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -269,8 +297,7 @@ export interface CreditReasonListParams extends CursorParams {
 
 export interface CreditReasonDeleteParams {
   /**
-   * UUID of the organization. The Organization represents your company as a direct
-   * customer of the m3ter service.
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

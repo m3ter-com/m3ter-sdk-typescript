@@ -102,16 +102,6 @@ export interface DataExportJobResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * When the data Export Job was created.
    */
   dateCreated?: string;
@@ -129,6 +119,16 @@ export interface DataExportJobResponse {
   startedAt?: string;
 
   status?: 'PENDING' | 'RUNNING' | 'SUCCEEDED' | 'FAILED';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 /**
@@ -148,14 +148,14 @@ export interface JobGetDownloadURLResponse {
 
 export interface JobRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
 
 export interface JobListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -189,7 +189,7 @@ export interface JobListParams extends CursorParams {
 
 export interface JobGetDownloadURLParams {
   /**
-   * UUID of the Organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

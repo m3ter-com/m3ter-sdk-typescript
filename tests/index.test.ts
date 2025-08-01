@@ -29,13 +29,13 @@ describe('instantiate client', () => {
       orgId: 'My Org ID',
     });
 
-    test('they are used in the request', () => {
-      const { req } = client.buildRequest({ path: '/foo', method: 'post' });
+    test('they are used in the request', async () => {
+      const { req } = await client.buildRequest({ path: '/foo', method: 'post' });
       expect((req.headers as Headers)['x-my-default-header']).toEqual('2');
     });
 
-    test('can ignore `undefined` and leave the default', () => {
-      const { req } = client.buildRequest({
+    test('can ignore `undefined` and leave the default', async () => {
+      const { req } = await client.buildRequest({
         path: '/foo',
         method: 'post',
         headers: { 'X-My-Default-Header': undefined },
@@ -43,8 +43,8 @@ describe('instantiate client', () => {
       expect((req.headers as Headers)['x-my-default-header']).toEqual('2');
     });
 
-    test('can be removed with `null`', () => {
-      const { req } = client.buildRequest({
+    test('can be removed with `null`', async () => {
+      const { req } = await client.buildRequest({
         path: '/foo',
         method: 'post',
         headers: { 'X-My-Default-Header': null },
@@ -242,6 +242,44 @@ describe('instantiate client', () => {
       });
       expect(client.baseURL).toEqual('https://api.m3ter.com');
     });
+
+    test('in request options', () => {
+      const client = new M3ter({
+        apiKey: 'My API Key',
+        apiSecret: 'My API Secret',
+        token: 'My Token',
+        orgId: 'My Org ID',
+      });
+      expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
+        'http://localhost:5000/option/foo',
+      );
+    });
+
+    test('in request options overridden by client options', () => {
+      const client = new M3ter({
+        apiKey: 'My API Key',
+        apiSecret: 'My API Secret',
+        token: 'My Token',
+        orgId: 'My Org ID',
+        baseURL: 'http://localhost:5000/client',
+      });
+      expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
+        'http://localhost:5000/client/foo',
+      );
+    });
+
+    test('in request options overridden by env variable', () => {
+      process.env['M3TER_BASE_URL'] = 'http://localhost:5000/env';
+      const client = new M3ter({
+        apiKey: 'My API Key',
+        apiSecret: 'My API Secret',
+        token: 'My Token',
+        orgId: 'My Org ID',
+      });
+      expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
+        'http://localhost:5000/env/foo',
+      );
+    });
   });
 
   test('maxRetries option is correctly set', () => {
@@ -305,20 +343,20 @@ describe('request building', () => {
   });
 
   describe('Content-Length', () => {
-    test('handles multi-byte characters', () => {
-      const { req } = client.buildRequest({ path: '/foo', method: 'post', body: { value: '—' } });
+    test('handles multi-byte characters', async () => {
+      const { req } = await client.buildRequest({ path: '/foo', method: 'post', body: { value: '—' } });
       expect((req.headers as Record<string, string>)['content-length']).toEqual('20');
     });
 
-    test('handles standard characters', () => {
-      const { req } = client.buildRequest({ path: '/foo', method: 'post', body: { value: 'hello' } });
+    test('handles standard characters', async () => {
+      const { req } = await client.buildRequest({ path: '/foo', method: 'post', body: { value: 'hello' } });
       expect((req.headers as Record<string, string>)['content-length']).toEqual('22');
     });
   });
 
   describe('custom headers', () => {
-    test('handles undefined', () => {
-      const { req } = client.buildRequest({
+    test('handles undefined', async () => {
+      const { req } = await client.buildRequest({
         path: '/foo',
         method: 'post',
         body: { value: 'hello' },

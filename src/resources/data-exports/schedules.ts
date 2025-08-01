@@ -3,6 +3,7 @@
 import { APIResource } from '../../resource';
 import { isRequestOptions } from '../../core';
 import * as Core from '../../core';
+import * as DataExportsAPI from './data-exports';
 import { Cursor, type CursorParams } from '../../pagination';
 
 export class Schedules extends APIResource {
@@ -23,17 +24,31 @@ export class Schedules extends APIResource {
    *
    * - Select the Meters and Accounts whose usage data you want to include in the
    *   export each time the Export Schedule runs.
-   * - If _don't want to aggregate_ the usage data collected by the selected Meters,
-   *   use **ORIGINAL** for `aggregationFrequency`, which is the _default_. This
-   *   means the raw usage data collected by any type of Data Fields and the values
-   *   for any Derived Fields on the selected Meters will be included in the export.
-   * - If you _do want to aggregate_ the usage data collected by the selected Meters,
-   *   use one of the other options for `aggregationFrequency`: **HOUR**, **DAY**,
-   *   **WEEK**, or **MONTH**. You _must_ then also specified an `aggregation` method
-   *   to be used on the usage data before export. Importantly, if you do aggregate
-   *   usage data, only the usage data collected by any numeric Data Fields on the
-   *   selected Meters - those of type **MEASURE**, **INCOME**, or **COST** - will be
-   *   included in the export each time the Export Schedule runs.
+   * - You can use the `dimensionFilters` parameter to filter the usage data returned
+   *   for export by adding specific values of non-numeric Dimension data fields on
+   *   included Meters. Only the data collected for the values you've added for the
+   *   selected Dimension fields will be included in the export.
+   * - You can use the `aggregations` to apply aggregation methods the usage data
+   *   returned for export. This restricts the range of usage data returned for
+   *   export to only the data collected by aggregated fields on selected Meters.
+   *   Nothing is returned for any non-aggregated fields on Meters. The usage data
+   *   for Meter fields is returned as the values resulting from applying the
+   *   selected aggregation method. See the
+   *   [Aggregations for Queries - Options and Consequences](https://www.m3ter.com/docs/guides/data-explorer/usage-data-explorer-v2#aggregations-for-queries---understanding-options-and-consequences)
+   *   for more details.
+   * - If you've applied `aggregations` to the usage returned for export, you can
+   *   then use the `groups` parameter to group the data by _Account_, _Dimension_,
+   *   or _Time_.
+   *
+   * Request and Response schema:
+   *
+   * - Use the selector under the `sourceType` parameter to expose the relevant
+   *   request and response schema for the source data type.
+   *
+   * Request and Response samples:
+   *
+   * - Use the **Example** selector to show the relevant request and response samples
+   *   for source data type.
    */
   create(
     params: ScheduleCreateParams,
@@ -82,17 +97,21 @@ export class Schedules extends APIResource {
    *
    * - Select the Meters and Accounts whose usage data you want to include in the
    *   export each time the Export Schedule runs.
-   * - If _don't want to aggregate_ the usage data collected by the selected Meters,
-   *   use **ORIGINAL** for `aggregationFrequency`, which is the _default_. This
-   *   means the raw usage data collected by any type of Data Fields and the values
-   *   for any Derived Fields on the selected Meters will be included in the export.
-   * - If you _do want to aggregate_ the usage data collected by the selected Meters,
-   *   use one of the other options for `aggregationFrequency`: **HOUR**, **DAY**,
-   *   **WEEK**, or **MONTH**. You _must_ then also specified an `aggregation` method
-   *   to be used on the usage data before export. Importantly, if you do aggregate
-   *   usage data, only the usage data collected by any numeric Data Fields on the
-   *   selected Meters - those of type **MEASURE**, **INCOME**, or **COST** - will be
-   *   included in the export each time the Export Schedule runs.
+   * - You can use the `dimensionFilters` parameter to filter the usage data returned
+   *   for export by adding specific values of non-numeric Dimension data fields on
+   *   included Meters. Only the data collected for the values you've added for the
+   *   selected Dimension fields will be included in the export.
+   * - You can use the `aggregations` to apply aggregation methods the usage data
+   *   returned for export. This restricts the range of usage data returned for
+   *   export to only the data collected by aggregated fields on selected Meters.
+   *   Nothing is returned for any non-aggregated fields on Meters. The usage data
+   *   for Meter fields is returned as the values resulting from applying the
+   *   selected aggregation method. See the
+   *   [Aggregations for Queries - Options and Consequences](https://www.m3ter.com/docs/guides/data-explorer/usage-data-explorer-v2#aggregations-for-queries---understanding-options-and-consequences)
+   *   for more details.
+   * - If you've applied `aggregations` to the usage returned for export, you can
+   *   then use the `groups` parameter to group the data by _Account_, _Dimension_,
+   *   or _Time_.
    */
   update(
     id: string,
@@ -178,9 +197,13 @@ export interface OperationalDataExportScheduleRequest {
     | 'PLAN_GROUP_LINKS'
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
+    | 'TRANSACTION_TYPES'
   >;
 
-  sourceType: 'USAGE' | 'OPERATIONAL';
+  /**
+   * The type of data to export. Possible values are: OPERATIONAL
+   */
+  sourceType: 'OPERATIONAL';
 
   /**
    * The version number of the entity:
@@ -200,16 +223,6 @@ export interface OperationalDataExportScheduleResponse {
    * The id of the schedule.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * A list of the entities whose operational data is included in the data export.
@@ -233,57 +246,55 @@ export interface OperationalDataExportScheduleResponse {
     | 'PLAN_GROUP_LINKS'
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
+    | 'TRANSACTION_TYPES'
   >;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface UsageDataExportScheduleRequest {
   /**
-   * Specifies the time period for the aggregation of usage data included each time
-   * the Data Export Schedule runs:
-   *
-   * - **ORIGINAL**. Usage data is _not aggregated_. If you select to not aggregate,
-   *   then raw usage data measurements collected by all Data Field types and any
-   *   Derived Fields on the selected Meters are included in the export. This is the
-   *   _Default_.
-   *
-   * If you want to aggregate usage data for the Export Schedule you must define an
-   * `aggregationFrequency`:
-   *
-   * - **HOUR**. Aggregated hourly.
-   * - **DAY**. Aggregated daily.
-   * - **WEEK**. Aggregated weekly.
-   * - **MONTH**. Aggregated monthly.
-   *
-   * - If you select to aggregate usage data for a Export Schedule, then only the
-   *   aggregated usage data collected by numeric Data Fields of type **MEASURE**,
-   *   **INCOME**, or **COST** on selected Meters are included in the export.
-   *
-   * **NOTE**: If you define an `aggregationFrequency` other than **ORIGINAL** and do
-   * not define an `aggregation` method, then you'll receive and error.
+   * The type of data to export. Possible values are: USAGE
    */
-  aggregationFrequency: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH';
-
-  sourceType: 'USAGE' | 'OPERATIONAL';
+  sourceType: 'USAGE';
 
   /**
    * Define a time period to control the range of usage data you want the data export
    * to contain when it runs:
    *
-   * - **TODAY**. Data collected for the current day up until the time the export
-   *   runs.
-   * - **YESTERDAY**. Data collected for the day before the export runs - that is,
-   *   the 24 hour period from midnight to midnight of the day before.
-   * - **WEEK_TO_DATE**. Data collected for the period covering the current week to
-   *   the date and time the export runs, and weeks run Monday to Monday.
-   * - **CURRENT_MONTH**. Data collected for the current month in which the export is
-   *   ran up to and including the date and time the export runs.
-   * - **LAST_30_DAYS**. Data collected for the 30 days prior to the date the export
-   *   is ran.
-   * - **LAST_35_DAYS**. Data collected for the 35 days prior to the date the export
-   *   is ran.
-   * - **PREVIOUS_WEEK**. Data collected for the previous full week period, and weeks
-   *   run Monday to Monday.
-   * - **PREVIOUS_MONTH**. Data collected for the previous full month period.
+   * - **TODAY**. Data collected for the current day up until the time the export is
+   *   scheduled to run.
+   * - **YESTERDAY**. Data collected for the day before the export runs under the
+   *   schedule - that is, the 24 hour period from midnight to midnight of the day
+   *   before.
+   * - **PREVIOUS_WEEK**, **PREVIOUS_MONTH**, **PREVIOUS_QUARTER**,
+   *   **PREVIOUS_YEAR**. Data collected for the previous full week, month, quarter,
+   *   or year period. For example if **PREVIOUS_WEEK**, weeks run Monday to Monday -
+   *   if the export is scheduled to run on June 12th 2024, which is a Wednesday, the
+   *   export will contain data for the period running from Monday, June 3rd 2024 to
+   *   midnight on Sunday, June 9th 2024.
+   * - **WEEK_TO_DATE**, **MONTH_TO_DATE**, or **YEAR_TO_DATE**. Data collected for
+   *   the period covering the current week, month, or year period. For example if
+   *   **WEEK_TO_DATE**, weeks run Monday to Monday - if the Export is scheduled to
+   *   run at 10 a.m. UTC on October 16th 2024, which is a Wednesday, it will contain
+   *   all usage data collected starting Monday October 14th 2024 through to the
+   *   Wednesday at 10 a.m. UTC of the current week.
+   * - **LAST_12_HOURS**. Data collected for the twelve hour period up to the start
+   *   of the hour in which the export is scheduled to run.
+   * - **LAST_7_DAYS**, **LAST_30_DAYS**, **LAST_35_DAYS**, **LAST_90_DAYS**,
+   *   **LAST_120_DAYS** **LAST_YEAR**. Data collected for the selected period prior
+   *   to the date the export is scheduled to run. For example if **LAST_30_DAYS**
+   *   and the export is scheduled to run for any time on June 15th 2024, it will
+   *   contain usage data collected for the previous 30 days - starting May 16th 2024
+   *   through to midnight on June 14th 2024
    *
    * For more details and examples, see the
    * [Time Period](https://www.m3ter.com/docs/guides/data-exports/creating-export-schedules#time-period)
@@ -293,34 +304,42 @@ export interface UsageDataExportScheduleRequest {
     | 'TODAY'
     | 'YESTERDAY'
     | 'WEEK_TO_DATE'
-    | 'CURRENT_MONTH'
+    | 'MONTH_TO_DATE'
+    | 'YEAR_TO_DATE'
+    | 'PREVIOUS_WEEK'
+    | 'PREVIOUS_MONTH'
+    | 'PREVIOUS_QUARTER'
+    | 'PREVIOUS_YEAR'
+    | 'LAST_12_HOURS'
+    | 'LAST_7_DAYS'
     | 'LAST_30_DAYS'
     | 'LAST_35_DAYS'
-    | 'PREVIOUS_WEEK'
-    | 'PREVIOUS_MONTH';
+    | 'LAST_90_DAYS'
+    | 'LAST_120_DAYS'
+    | 'LAST_YEAR';
 
   /**
-   * List of account IDs for which the usage data will be exported.
+   * List of account IDs to export
    */
   accountIds?: Array<string>;
 
   /**
-   * Specifies the aggregation method applied to usage data collected in the numeric
-   * Data Fields of Meters included for the Data Export Schedule - that is, Data
-   * Fields of type **MEASURE**, **INCOME**, or **COST**:
-   *
-   * - **SUM**. Adds the values.
-   * - **MIN**. Uses the minimum value.
-   * - **MAX**. Uses the maximum value.
-   * - **COUNT**. Counts the number of values.
-   * - **LATEST**. Uses the most recent value. Note: Based on the timestamp `ts`
-   *   value of usage data measurement submissions. If using this method, please
-   *   ensure _distinct_ `ts` values are used for usage data measurement submissions.
+   * List of aggregations to apply
    */
-  aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN';
+  aggregations?: Array<UsageDataExportScheduleRequest.Aggregation>;
 
   /**
-   * List of meter IDs for which the usage data will be exported.
+   * List of dimension filters to apply
+   */
+  dimensionFilters?: Array<UsageDataExportScheduleRequest.DimensionFilter>;
+
+  /**
+   * List of groups to apply
+   */
+  groups?: Array<DataExportsAPI.DataExplorerGroup>;
+
+  /**
+   * List of meter IDs to export
    */
   meterIds?: Array<string>;
 
@@ -337,21 +356,52 @@ export interface UsageDataExportScheduleRequest {
   version?: number;
 }
 
+export namespace UsageDataExportScheduleRequest {
+  export interface Aggregation {
+    /**
+     * Field code
+     */
+    fieldCode: string;
+
+    /**
+     * Type of field
+     */
+    fieldType: 'DIMENSION' | 'MEASURE';
+
+    /**
+     * Aggregation function
+     */
+    function: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
+
+    /**
+     * Meter ID
+     */
+    meterId: string;
+  }
+
+  export interface DimensionFilter {
+    /**
+     * Field code
+     */
+    fieldCode: string;
+
+    /**
+     * Meter ID
+     */
+    meterId: string;
+
+    /**
+     * Values to filter by
+     */
+    values: Array<string>;
+  }
+}
+
 export interface UsageDataExportScheduleResponse {
   /**
-   * The id of the schedule
+   * The id of the schedule configuration.
    */
   id: string;
-
-  /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
 
   /**
    * List of account IDs for which the usage data will be exported.
@@ -359,45 +409,19 @@ export interface UsageDataExportScheduleResponse {
   accountIds?: Array<string>;
 
   /**
-   * Specifies the aggregation method applied to usage data collected in the numeric
-   * Data Fields of Meters included for the Data Export Schedule - that is, Data
-   * Fields of type **MEASURE**, **INCOME**, or **COST**:
-   *
-   * - **SUM**. Adds the values.
-   * - **MIN**. Uses the minimum value.
-   * - **MAX**. Uses the maximum value.
-   * - **COUNT**. Counts the number of values.
-   * - **LATEST**. Uses the most recent value. Note: Based on the timestamp `ts`
-   *   value of usage data measurement submissions. If using this method, please
-   *   ensure _distinct_ `ts` values are used for usage data measurement submissions.
+   * List of aggregations to apply
    */
-  aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN';
+  aggregations?: Array<UsageDataExportScheduleResponse.Aggregation>;
 
   /**
-   * Specifies the time period for the aggregation of usage data included each time
-   * the Data Export Schedule runs:
-   *
-   * - **ORIGINAL**. Usage data is _not aggregated_. If you select to not aggregate,
-   *   then raw usage data measurements collected by all Data Field types and any
-   *   Derived Fields on the selected Meters are included in the export. This is the
-   *   _Default_.
-   *
-   * If you want to aggregate usage data for the Export Schedule you must define an
-   * `aggregationFrequency`:
-   *
-   * - **HOUR**. Aggregated hourly.
-   * - **DAY**. Aggregated daily.
-   * - **WEEK**. Aggregated weekly.
-   * - **MONTH**. Aggregated monthly.
-   *
-   * - If you select to aggregate usage data for a Export Schedule, then only the
-   *   aggregated usage data collected by numeric Data Fields of type **MEASURE**,
-   *   **INCOME**, or **COST** on selected Meters are included in the export.
-   *
-   * **NOTE**: If you define an `aggregationFrequency` other than **ORIGINAL** and do
-   * not define an `aggregation` method, then you'll receive and error.
+   * List of dimension filters to apply
    */
-  aggregationFrequency?: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH';
+  dimensionFilters?: Array<UsageDataExportScheduleResponse.DimensionFilter>;
+
+  /**
+   * List of groups to apply
+   */
+  groups?: Array<DataExportsAPI.DataExplorerGroup>;
 
   /**
    * List of meter IDs for which the usage data will be exported.
@@ -408,21 +432,31 @@ export interface UsageDataExportScheduleResponse {
    * Define a time period to control the range of usage data you want the data export
    * to contain when it runs:
    *
-   * - **TODAY**. Data collected for the current day up until the time the export
-   *   runs.
-   * - **YESTERDAY**. Data collected for the day before the export runs - that is,
-   *   the 24 hour period from midnight to midnight of the day before.
-   * - **WEEK_TO_DATE**. Data collected for the period covering the current week to
-   *   the date and time the export runs, and weeks run Monday to Monday.
-   * - **CURRENT_MONTH**. Data collected for the current month in which the export is
-   *   ran up to and including the date and time the export runs.
-   * - **LAST_30_DAYS**. Data collected for the 30 days prior to the date the export
-   *   is ran.
-   * - **LAST_35_DAYS**. Data collected for the 35 days prior to the date the export
-   *   is ran.
-   * - **PREVIOUS_WEEK**. Data collected for the previous full week period, and weeks
-   *   run Monday to Monday.
-   * - **PREVIOUS_MONTH**. Data collected for the previous full month period.
+   * - **TODAY**. Data collected for the current day up until the time the export is
+   *   scheduled to run.
+   * - **YESTERDAY**. Data collected for the day before the export runs under the
+   *   schedule - that is, the 24 hour period from midnight to midnight of the day
+   *   before.
+   * - **PREVIOUS_WEEK**, **PREVIOUS_MONTH**, **PREVIOUS_QUARTER**,
+   *   **PREVIOUS_YEAR**. Data collected for the previous full week, month, quarter,
+   *   or year period. For example if **PREVIOUS_WEEK**, weeks run Monday to Monday -
+   *   if the export is scheduled to run on June 12th 2024, which is a Wednesday, the
+   *   export will contain data for the period running from Monday, June 3rd 2024 to
+   *   midnight on Sunday, June 9th 2024.
+   * - **WEEK_TO_DATE**, **MONTH_TO_DATE**, or **YEAR_TO_DATE**. Data collected for
+   *   the period covering the current week, month, or year period. For example if
+   *   **WEEK_TO_DATE**, weeks run Monday to Monday - if the Export is scheduled to
+   *   run at 10 a.m. UTC on October 16th 2024, which is a Wednesday, it will contain
+   *   all usage data collected starting Monday October 14th 2024 through to the
+   *   Wednesday at 10 a.m. UTC of the current week.
+   * - **LAST_12_HOURS**. Data collected for the twelve hour period up to the start
+   *   of the hour in which the export is scheduled to run.
+   * - **LAST_7_DAYS**, **LAST_30_DAYS**, **LAST_35_DAYS**, **LAST_90_DAYS**,
+   *   **LAST_120_DAYS** **LAST_YEAR**. Data collected for the selected period prior
+   *   to the date the export is scheduled to run. For example if **LAST_30_DAYS**
+   *   and the export is scheduled to run for any time on June 15th 2024, it will
+   *   contain usage data collected for the previous 30 days - starting May 16th 2024
+   *   through to midnight on June 14th 2024
    *
    * For more details and examples, see the
    * [Time Period](https://www.m3ter.com/docs/guides/data-exports/creating-export-schedules#time-period)
@@ -432,11 +466,70 @@ export interface UsageDataExportScheduleResponse {
     | 'TODAY'
     | 'YESTERDAY'
     | 'WEEK_TO_DATE'
-    | 'CURRENT_MONTH'
+    | 'MONTH_TO_DATE'
+    | 'YEAR_TO_DATE'
+    | 'PREVIOUS_WEEK'
+    | 'PREVIOUS_MONTH'
+    | 'PREVIOUS_QUARTER'
+    | 'PREVIOUS_YEAR'
+    | 'LAST_12_HOURS'
+    | 'LAST_7_DAYS'
     | 'LAST_30_DAYS'
     | 'LAST_35_DAYS'
-    | 'PREVIOUS_WEEK'
-    | 'PREVIOUS_MONTH';
+    | 'LAST_90_DAYS'
+    | 'LAST_120_DAYS'
+    | 'LAST_YEAR';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
+}
+
+export namespace UsageDataExportScheduleResponse {
+  export interface Aggregation {
+    /**
+     * Field code
+     */
+    fieldCode: string;
+
+    /**
+     * Type of field
+     */
+    fieldType: 'DIMENSION' | 'MEASURE';
+
+    /**
+     * Aggregation function
+     */
+    function: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
+
+    /**
+     * Meter ID
+     */
+    meterId: string;
+  }
+
+  export interface DimensionFilter {
+    /**
+     * Field code
+     */
+    fieldCode: string;
+
+    /**
+     * Meter ID
+     */
+    meterId: string;
+
+    /**
+     * Values to filter by
+     */
+    values: Array<string>;
+  }
 }
 
 /**
@@ -463,16 +556,6 @@ export interface ScheduleListResponse {
   id: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * Unique short code of the Data Export Schedule.
    */
   code?: string;
@@ -497,7 +580,7 @@ export interface ScheduleListResponse {
    */
   dtLastModified?: string;
 
-  exportFileFormat?: 'CSV' | 'JSON';
+  exportFileFormat?: 'CSV' | 'JSON' | 'JSONL';
 
   /**
    * The id of the user who last modified this Data Export Schedule.
@@ -510,14 +593,24 @@ export interface ScheduleListResponse {
   name?: string;
 
   /**
-   * Defines the Schedule frequency for the Data Export to run in Hours or Days. Used
-   * in conjunction with the `scheduleType` parameter.
+   * Defines the Schedule frequency for the Data Export to run in Hours, Days, or
+   * Minutes. Used in conjunction with the `scheduleType` parameter.
    */
   period?: number;
 
-  scheduleType?: 'HOURLY' | 'DAILY' | 'AD_HOC';
+  scheduleType?: 'HOUR' | 'DAY' | 'MINUTE' | 'AD_HOC';
 
   sourceType?: 'USAGE' | 'OPERATIONAL';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 /**
@@ -532,7 +625,7 @@ export type ScheduleCreateParams =
 export declare namespace ScheduleCreateParams {
   export interface OperationalDataExportScheduleRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -559,12 +652,13 @@ export declare namespace ScheduleCreateParams {
       | 'PLAN_GROUP_LINKS'
       | 'PLAN_TEMPLATES'
       | 'BALANCE_TRANSACTIONS'
+      | 'TRANSACTION_TYPES'
     >;
 
     /**
-     * Body param:
+     * Body param: The type of data to export. Possible values are: OPERATIONAL
      */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'OPERATIONAL';
 
     /**
      * Body param: The version number of the entity:
@@ -581,60 +675,44 @@ export declare namespace ScheduleCreateParams {
 
   export interface UsageDataExportScheduleRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
     /**
-     * Body param: Specifies the time period for the aggregation of usage data included
-     * each time the Data Export Schedule runs:
-     *
-     * - **ORIGINAL**. Usage data is _not aggregated_. If you select to not aggregate,
-     *   then raw usage data measurements collected by all Data Field types and any
-     *   Derived Fields on the selected Meters are included in the export. This is the
-     *   _Default_.
-     *
-     * If you want to aggregate usage data for the Export Schedule you must define an
-     * `aggregationFrequency`:
-     *
-     * - **HOUR**. Aggregated hourly.
-     * - **DAY**. Aggregated daily.
-     * - **WEEK**. Aggregated weekly.
-     * - **MONTH**. Aggregated monthly.
-     *
-     * - If you select to aggregate usage data for a Export Schedule, then only the
-     *   aggregated usage data collected by numeric Data Fields of type **MEASURE**,
-     *   **INCOME**, or **COST** on selected Meters are included in the export.
-     *
-     * **NOTE**: If you define an `aggregationFrequency` other than **ORIGINAL** and do
-     * not define an `aggregation` method, then you'll receive and error.
+     * Body param: The type of data to export. Possible values are: USAGE
      */
-    aggregationFrequency: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH';
-
-    /**
-     * Body param:
-     */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'USAGE';
 
     /**
      * Body param: Define a time period to control the range of usage data you want the
      * data export to contain when it runs:
      *
-     * - **TODAY**. Data collected for the current day up until the time the export
-     *   runs.
-     * - **YESTERDAY**. Data collected for the day before the export runs - that is,
-     *   the 24 hour period from midnight to midnight of the day before.
-     * - **WEEK_TO_DATE**. Data collected for the period covering the current week to
-     *   the date and time the export runs, and weeks run Monday to Monday.
-     * - **CURRENT_MONTH**. Data collected for the current month in which the export is
-     *   ran up to and including the date and time the export runs.
-     * - **LAST_30_DAYS**. Data collected for the 30 days prior to the date the export
-     *   is ran.
-     * - **LAST_35_DAYS**. Data collected for the 35 days prior to the date the export
-     *   is ran.
-     * - **PREVIOUS_WEEK**. Data collected for the previous full week period, and weeks
-     *   run Monday to Monday.
-     * - **PREVIOUS_MONTH**. Data collected for the previous full month period.
+     * - **TODAY**. Data collected for the current day up until the time the export is
+     *   scheduled to run.
+     * - **YESTERDAY**. Data collected for the day before the export runs under the
+     *   schedule - that is, the 24 hour period from midnight to midnight of the day
+     *   before.
+     * - **PREVIOUS_WEEK**, **PREVIOUS_MONTH**, **PREVIOUS_QUARTER**,
+     *   **PREVIOUS_YEAR**. Data collected for the previous full week, month, quarter,
+     *   or year period. For example if **PREVIOUS_WEEK**, weeks run Monday to Monday -
+     *   if the export is scheduled to run on June 12th 2024, which is a Wednesday, the
+     *   export will contain data for the period running from Monday, June 3rd 2024 to
+     *   midnight on Sunday, June 9th 2024.
+     * - **WEEK_TO_DATE**, **MONTH_TO_DATE**, or **YEAR_TO_DATE**. Data collected for
+     *   the period covering the current week, month, or year period. For example if
+     *   **WEEK_TO_DATE**, weeks run Monday to Monday - if the Export is scheduled to
+     *   run at 10 a.m. UTC on October 16th 2024, which is a Wednesday, it will contain
+     *   all usage data collected starting Monday October 14th 2024 through to the
+     *   Wednesday at 10 a.m. UTC of the current week.
+     * - **LAST_12_HOURS**. Data collected for the twelve hour period up to the start
+     *   of the hour in which the export is scheduled to run.
+     * - **LAST_7_DAYS**, **LAST_30_DAYS**, **LAST_35_DAYS**, **LAST_90_DAYS**,
+     *   **LAST_120_DAYS** **LAST_YEAR**. Data collected for the selected period prior
+     *   to the date the export is scheduled to run. For example if **LAST_30_DAYS**
+     *   and the export is scheduled to run for any time on June 15th 2024, it will
+     *   contain usage data collected for the previous 30 days - starting May 16th 2024
+     *   through to midnight on June 14th 2024
      *
      * For more details and examples, see the
      * [Time Period](https://www.m3ter.com/docs/guides/data-exports/creating-export-schedules#time-period)
@@ -644,34 +722,42 @@ export declare namespace ScheduleCreateParams {
       | 'TODAY'
       | 'YESTERDAY'
       | 'WEEK_TO_DATE'
-      | 'CURRENT_MONTH'
+      | 'MONTH_TO_DATE'
+      | 'YEAR_TO_DATE'
+      | 'PREVIOUS_WEEK'
+      | 'PREVIOUS_MONTH'
+      | 'PREVIOUS_QUARTER'
+      | 'PREVIOUS_YEAR'
+      | 'LAST_12_HOURS'
+      | 'LAST_7_DAYS'
       | 'LAST_30_DAYS'
       | 'LAST_35_DAYS'
-      | 'PREVIOUS_WEEK'
-      | 'PREVIOUS_MONTH';
+      | 'LAST_90_DAYS'
+      | 'LAST_120_DAYS'
+      | 'LAST_YEAR';
 
     /**
-     * Body param: List of account IDs for which the usage data will be exported.
+     * Body param: List of account IDs to export
      */
     accountIds?: Array<string>;
 
     /**
-     * Body param: Specifies the aggregation method applied to usage data collected in
-     * the numeric Data Fields of Meters included for the Data Export Schedule - that
-     * is, Data Fields of type **MEASURE**, **INCOME**, or **COST**:
-     *
-     * - **SUM**. Adds the values.
-     * - **MIN**. Uses the minimum value.
-     * - **MAX**. Uses the maximum value.
-     * - **COUNT**. Counts the number of values.
-     * - **LATEST**. Uses the most recent value. Note: Based on the timestamp `ts`
-     *   value of usage data measurement submissions. If using this method, please
-     *   ensure _distinct_ `ts` values are used for usage data measurement submissions.
+     * Body param: List of aggregations to apply
      */
-    aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN';
+    aggregations?: Array<UsageDataExportScheduleRequest.Aggregation>;
 
     /**
-     * Body param: List of meter IDs for which the usage data will be exported.
+     * Body param: List of dimension filters to apply
+     */
+    dimensionFilters?: Array<UsageDataExportScheduleRequest.DimensionFilter>;
+
+    /**
+     * Body param: List of groups to apply
+     */
+    groups?: Array<DataExportsAPI.DataExplorerGroup>;
+
+    /**
+     * Body param: List of meter IDs to export
      */
     meterIds?: Array<string>;
 
@@ -687,11 +773,52 @@ export declare namespace ScheduleCreateParams {
      */
     version?: number;
   }
+
+  export namespace UsageDataExportScheduleRequest {
+    export interface Aggregation {
+      /**
+       * Field code
+       */
+      fieldCode: string;
+
+      /**
+       * Type of field
+       */
+      fieldType: 'DIMENSION' | 'MEASURE';
+
+      /**
+       * Aggregation function
+       */
+      function: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
+
+      /**
+       * Meter ID
+       */
+      meterId: string;
+    }
+
+    export interface DimensionFilter {
+      /**
+       * Field code
+       */
+      fieldCode: string;
+
+      /**
+       * Meter ID
+       */
+      meterId: string;
+
+      /**
+       * Values to filter by
+       */
+      values: Array<string>;
+    }
+  }
 }
 
 export interface ScheduleRetrieveParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }
@@ -703,7 +830,7 @@ export type ScheduleUpdateParams =
 export declare namespace ScheduleUpdateParams {
   export interface OperationalDataExportScheduleRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
@@ -730,12 +857,13 @@ export declare namespace ScheduleUpdateParams {
       | 'PLAN_GROUP_LINKS'
       | 'PLAN_TEMPLATES'
       | 'BALANCE_TRANSACTIONS'
+      | 'TRANSACTION_TYPES'
     >;
 
     /**
-     * Body param:
+     * Body param: The type of data to export. Possible values are: OPERATIONAL
      */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'OPERATIONAL';
 
     /**
      * Body param: The version number of the entity:
@@ -752,60 +880,44 @@ export declare namespace ScheduleUpdateParams {
 
   export interface UsageDataExportScheduleRequest {
     /**
-     * Path param: UUID of the organization
+     * @deprecated the org id should be set at the client level instead
      */
     orgId?: string;
 
     /**
-     * Body param: Specifies the time period for the aggregation of usage data included
-     * each time the Data Export Schedule runs:
-     *
-     * - **ORIGINAL**. Usage data is _not aggregated_. If you select to not aggregate,
-     *   then raw usage data measurements collected by all Data Field types and any
-     *   Derived Fields on the selected Meters are included in the export. This is the
-     *   _Default_.
-     *
-     * If you want to aggregate usage data for the Export Schedule you must define an
-     * `aggregationFrequency`:
-     *
-     * - **HOUR**. Aggregated hourly.
-     * - **DAY**. Aggregated daily.
-     * - **WEEK**. Aggregated weekly.
-     * - **MONTH**. Aggregated monthly.
-     *
-     * - If you select to aggregate usage data for a Export Schedule, then only the
-     *   aggregated usage data collected by numeric Data Fields of type **MEASURE**,
-     *   **INCOME**, or **COST** on selected Meters are included in the export.
-     *
-     * **NOTE**: If you define an `aggregationFrequency` other than **ORIGINAL** and do
-     * not define an `aggregation` method, then you'll receive and error.
+     * Body param: The type of data to export. Possible values are: USAGE
      */
-    aggregationFrequency: 'ORIGINAL' | 'HOUR' | 'DAY' | 'WEEK' | 'MONTH';
-
-    /**
-     * Body param:
-     */
-    sourceType: 'USAGE' | 'OPERATIONAL';
+    sourceType: 'USAGE';
 
     /**
      * Body param: Define a time period to control the range of usage data you want the
      * data export to contain when it runs:
      *
-     * - **TODAY**. Data collected for the current day up until the time the export
-     *   runs.
-     * - **YESTERDAY**. Data collected for the day before the export runs - that is,
-     *   the 24 hour period from midnight to midnight of the day before.
-     * - **WEEK_TO_DATE**. Data collected for the period covering the current week to
-     *   the date and time the export runs, and weeks run Monday to Monday.
-     * - **CURRENT_MONTH**. Data collected for the current month in which the export is
-     *   ran up to and including the date and time the export runs.
-     * - **LAST_30_DAYS**. Data collected for the 30 days prior to the date the export
-     *   is ran.
-     * - **LAST_35_DAYS**. Data collected for the 35 days prior to the date the export
-     *   is ran.
-     * - **PREVIOUS_WEEK**. Data collected for the previous full week period, and weeks
-     *   run Monday to Monday.
-     * - **PREVIOUS_MONTH**. Data collected for the previous full month period.
+     * - **TODAY**. Data collected for the current day up until the time the export is
+     *   scheduled to run.
+     * - **YESTERDAY**. Data collected for the day before the export runs under the
+     *   schedule - that is, the 24 hour period from midnight to midnight of the day
+     *   before.
+     * - **PREVIOUS_WEEK**, **PREVIOUS_MONTH**, **PREVIOUS_QUARTER**,
+     *   **PREVIOUS_YEAR**. Data collected for the previous full week, month, quarter,
+     *   or year period. For example if **PREVIOUS_WEEK**, weeks run Monday to Monday -
+     *   if the export is scheduled to run on June 12th 2024, which is a Wednesday, the
+     *   export will contain data for the period running from Monday, June 3rd 2024 to
+     *   midnight on Sunday, June 9th 2024.
+     * - **WEEK_TO_DATE**, **MONTH_TO_DATE**, or **YEAR_TO_DATE**. Data collected for
+     *   the period covering the current week, month, or year period. For example if
+     *   **WEEK_TO_DATE**, weeks run Monday to Monday - if the Export is scheduled to
+     *   run at 10 a.m. UTC on October 16th 2024, which is a Wednesday, it will contain
+     *   all usage data collected starting Monday October 14th 2024 through to the
+     *   Wednesday at 10 a.m. UTC of the current week.
+     * - **LAST_12_HOURS**. Data collected for the twelve hour period up to the start
+     *   of the hour in which the export is scheduled to run.
+     * - **LAST_7_DAYS**, **LAST_30_DAYS**, **LAST_35_DAYS**, **LAST_90_DAYS**,
+     *   **LAST_120_DAYS** **LAST_YEAR**. Data collected for the selected period prior
+     *   to the date the export is scheduled to run. For example if **LAST_30_DAYS**
+     *   and the export is scheduled to run for any time on June 15th 2024, it will
+     *   contain usage data collected for the previous 30 days - starting May 16th 2024
+     *   through to midnight on June 14th 2024
      *
      * For more details and examples, see the
      * [Time Period](https://www.m3ter.com/docs/guides/data-exports/creating-export-schedules#time-period)
@@ -815,34 +927,42 @@ export declare namespace ScheduleUpdateParams {
       | 'TODAY'
       | 'YESTERDAY'
       | 'WEEK_TO_DATE'
-      | 'CURRENT_MONTH'
+      | 'MONTH_TO_DATE'
+      | 'YEAR_TO_DATE'
+      | 'PREVIOUS_WEEK'
+      | 'PREVIOUS_MONTH'
+      | 'PREVIOUS_QUARTER'
+      | 'PREVIOUS_YEAR'
+      | 'LAST_12_HOURS'
+      | 'LAST_7_DAYS'
       | 'LAST_30_DAYS'
       | 'LAST_35_DAYS'
-      | 'PREVIOUS_WEEK'
-      | 'PREVIOUS_MONTH';
+      | 'LAST_90_DAYS'
+      | 'LAST_120_DAYS'
+      | 'LAST_YEAR';
 
     /**
-     * Body param: List of account IDs for which the usage data will be exported.
+     * Body param: List of account IDs to export
      */
     accountIds?: Array<string>;
 
     /**
-     * Body param: Specifies the aggregation method applied to usage data collected in
-     * the numeric Data Fields of Meters included for the Data Export Schedule - that
-     * is, Data Fields of type **MEASURE**, **INCOME**, or **COST**:
-     *
-     * - **SUM**. Adds the values.
-     * - **MIN**. Uses the minimum value.
-     * - **MAX**. Uses the maximum value.
-     * - **COUNT**. Counts the number of values.
-     * - **LATEST**. Uses the most recent value. Note: Based on the timestamp `ts`
-     *   value of usage data measurement submissions. If using this method, please
-     *   ensure _distinct_ `ts` values are used for usage data measurement submissions.
+     * Body param: List of aggregations to apply
      */
-    aggregation?: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN';
+    aggregations?: Array<UsageDataExportScheduleRequest.Aggregation>;
 
     /**
-     * Body param: List of meter IDs for which the usage data will be exported.
+     * Body param: List of dimension filters to apply
+     */
+    dimensionFilters?: Array<UsageDataExportScheduleRequest.DimensionFilter>;
+
+    /**
+     * Body param: List of groups to apply
+     */
+    groups?: Array<DataExportsAPI.DataExplorerGroup>;
+
+    /**
+     * Body param: List of meter IDs to export
      */
     meterIds?: Array<string>;
 
@@ -858,11 +978,52 @@ export declare namespace ScheduleUpdateParams {
      */
     version?: number;
   }
+
+  export namespace UsageDataExportScheduleRequest {
+    export interface Aggregation {
+      /**
+       * Field code
+       */
+      fieldCode: string;
+
+      /**
+       * Type of field
+       */
+      fieldType: 'DIMENSION' | 'MEASURE';
+
+      /**
+       * Aggregation function
+       */
+      function: 'SUM' | 'MIN' | 'MAX' | 'COUNT' | 'LATEST' | 'MEAN' | 'UNIQUE';
+
+      /**
+       * Meter ID
+       */
+      meterId: string;
+    }
+
+    export interface DimensionFilter {
+      /**
+       * Field code
+       */
+      fieldCode: string;
+
+      /**
+       * Meter ID
+       */
+      meterId: string;
+
+      /**
+       * Values to filter by
+       */
+      values: Array<string>;
+    }
+  }
 }
 
 export interface ScheduleListParams extends CursorParams {
   /**
-   * Path param: UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 
@@ -874,7 +1035,7 @@ export interface ScheduleListParams extends CursorParams {
 
 export interface ScheduleDeleteParams {
   /**
-   * UUID of the organization
+   * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
 }

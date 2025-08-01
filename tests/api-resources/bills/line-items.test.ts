@@ -24,7 +24,10 @@ describe('resource lineItems', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await client.bills.lineItems.retrieve('billId', 'id', { orgId: 'orgId' });
+    const response = await client.bills.lineItems.retrieve('billId', 'id', {
+      orgId: 'orgId',
+      additional: ['string'],
+    });
   });
 
   test('retrieve: request options instead of params are passed correctly', async () => {
@@ -40,7 +43,7 @@ describe('resource lineItems', () => {
       client.bills.lineItems.retrieve(
         'billId',
         'id',
-        { orgId: 'orgId' },
+        { orgId: 'orgId', additional: ['string'] },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(M3ter.NotFoundError);
@@ -60,6 +63,7 @@ describe('resource lineItems', () => {
   test('list: required and optional params', async () => {
     const response = await client.bills.lineItems.list('billId', {
       orgId: 'orgId',
+      additional: ['string'],
       nextToken: 'nextToken',
       pageSize: 1,
     });
@@ -77,7 +81,7 @@ describe('resource lineItems', () => {
     await expect(
       client.bills.lineItems.list(
         'billId',
-        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1 },
+        { orgId: 'orgId', additional: ['string'], nextToken: 'nextToken', pageSize: 1 },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(M3ter.NotFoundError);
