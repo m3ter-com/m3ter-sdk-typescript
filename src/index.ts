@@ -826,6 +826,7 @@ M3ter.Users = Users;
 M3ter.UserResponsesCursor = UserResponsesCursor;
 M3ter.Webhooks = Webhooks;
 M3ter.WebhooksCursor = WebhooksCursor;
+
 export declare namespace M3ter {
   export type RequestOptions = Core.RequestOptions;
 
