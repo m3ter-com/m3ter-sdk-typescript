@@ -14,14 +14,8 @@ const client = new M3ter({
 describe('resource integrationConfigurations', () => {
   test('create: only required params', async () => {
     const responsePromise = client.integrationConfigurations.create({
-      configData: { foo: 'bar' },
-      credentials: { type: 'HTTP_BASIC' },
-      destination: 'destination',
-      destinationId: 'destinationId',
-      entityId: 'entityId',
-      entityType: 'entityType',
-      integrationCredentialsId: 'integrationCredentialsId',
-      name: 'name',
+      destination: 'Stripe',
+      entityType: 'Bill',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -35,14 +29,20 @@ describe('resource integrationConfigurations', () => {
   test('create: required and optional params', async () => {
     const response = await client.integrationConfigurations.create({
       orgId: 'orgId',
+      destination: 'Stripe',
+      entityType: 'Bill',
       configData: { foo: 'bar' },
-      credentials: { type: 'HTTP_BASIC', destination: 'WEBHOOK', empty: true, name: 'name', version: 0 },
-      destination: 'destination',
-      destinationId: 'destinationId',
-      entityId: 'entityId',
-      entityType: 'entityType',
-      integrationCredentialsId: 'integrationCredentialsId',
-      name: 'name',
+      credentials: {
+        type: 'HTTP_BASIC',
+        destination: 'WEBHOOK',
+        empty: true,
+        name: 'Integration Credentials',
+        version: 0,
+      },
+      destinationId: '00000000-0000-0000-0000-000000000000',
+      entityId: '00000000-0000-0000-0000-000000000000',
+      integrationCredentialsId: '00000000-0000-0000-0000-000000000000',
+      name: 'My Integration',
       version: 0,
     });
   });
@@ -82,14 +82,8 @@ describe('resource integrationConfigurations', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.integrationConfigurations.update('id', {
-      configData: { foo: 'bar' },
-      credentials: { type: 'HTTP_BASIC' },
-      destination: 'destination',
-      destinationId: 'destinationId',
-      entityId: 'entityId',
-      entityType: 'entityType',
-      integrationCredentialsId: 'integrationCredentialsId',
-      name: 'name',
+      destination: 'Stripe',
+      entityType: 'Bill',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -103,14 +97,20 @@ describe('resource integrationConfigurations', () => {
   test('update: required and optional params', async () => {
     const response = await client.integrationConfigurations.update('id', {
       orgId: 'orgId',
+      destination: 'Stripe',
+      entityType: 'Bill',
       configData: { foo: 'bar' },
-      credentials: { type: 'HTTP_BASIC', destination: 'WEBHOOK', empty: true, name: 'name', version: 0 },
-      destination: 'destination',
-      destinationId: 'destinationId',
-      entityId: 'entityId',
-      entityType: 'entityType',
-      integrationCredentialsId: 'integrationCredentialsId',
-      name: 'name',
+      credentials: {
+        type: 'HTTP_BASIC',
+        destination: 'WEBHOOK',
+        empty: true,
+        name: 'Integration Credentials',
+        version: 0,
+      },
+      destinationId: '00000000-0000-0000-0000-000000000000',
+      entityId: '00000000-0000-0000-0000-000000000000',
+      integrationCredentialsId: '00000000-0000-0000-0000-000000000000',
+      name: 'My Integration',
       version: 0,
     });
   });
@@ -129,6 +129,7 @@ describe('resource integrationConfigurations', () => {
   test('list: required and optional params', async () => {
     const response = await client.integrationConfigurations.list({
       orgId: 'orgId',
+      destinationId: 'destinationId',
       nextToken: 'nextToken',
       pageSize: 1,
     });
@@ -145,7 +146,7 @@ describe('resource integrationConfigurations', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.integrationConfigurations.list(
-        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1 },
+        { orgId: 'orgId', destinationId: 'destinationId', nextToken: 'nextToken', pageSize: 1 },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(M3ter.NotFoundError);

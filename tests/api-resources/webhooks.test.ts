@@ -14,7 +14,7 @@ const client = new M3ter({
 describe('resource webhooks', () => {
   test('create: only required params', async () => {
     const responsePromise = client.webhooks.create({
-      credentials: { apiKey: 'x', secret: 'x', type: 'M3TER_SIGNED_REQUEST' },
+      credentials: { apiKey: 'api key', secret: 'api secret', type: 'M3TER_SIGNED_REQUEST' },
       description: 'x',
       name: 'x',
       url: 'x',
@@ -31,7 +31,13 @@ describe('resource webhooks', () => {
   test('create: required and optional params', async () => {
     const response = await client.webhooks.create({
       orgId: 'orgId',
-      credentials: { apiKey: 'x', secret: 'x', type: 'M3TER_SIGNED_REQUEST', empty: true, version: 0 },
+      credentials: {
+        apiKey: 'api key',
+        secret: 'api secret',
+        type: 'M3TER_SIGNED_REQUEST',
+        empty: true,
+        version: 0,
+      },
       description: 'x',
       name: 'x',
       url: 'x',
@@ -72,7 +78,7 @@ describe('resource webhooks', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.webhooks.update('id', {
-      credentials: { apiKey: 'x', secret: 'x', type: 'M3TER_SIGNED_REQUEST' },
+      credentials: { apiKey: 'api key', secret: 'api secret', type: 'M3TER_SIGNED_REQUEST' },
       description: 'x',
       name: 'x',
       url: 'x',
@@ -89,7 +95,13 @@ describe('resource webhooks', () => {
   test('update: required and optional params', async () => {
     const response = await client.webhooks.update('id', {
       orgId: 'orgId',
-      credentials: { apiKey: 'x', secret: 'x', type: 'M3TER_SIGNED_REQUEST', empty: true, version: 0 },
+      credentials: {
+        apiKey: 'api key',
+        secret: 'api secret',
+        type: 'M3TER_SIGNED_REQUEST',
+        empty: true,
+        version: 0,
+      },
       description: 'x',
       name: 'x',
       url: 'x',

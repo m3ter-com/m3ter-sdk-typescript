@@ -14,9 +14,9 @@ export class ScheduledEventConfigurations extends APIResource {
    * const scheduledEventConfigurationResponse =
    *   await client.scheduledEventConfigurations.create({
    *     entity: 'Bill',
-   *     field: 'endDate',
-   *     name: 'scheduled.bill.enddateEvent',
-   *     offset: 5,
+   *     field: 'dueDate',
+   *     name: '10 Days After Bill Due Date',
+   *     offset: 10,
    *   });
    * ```
    */
@@ -63,9 +63,9 @@ export class ScheduledEventConfigurations extends APIResource {
    * const scheduledEventConfigurationResponse =
    *   await client.scheduledEventConfigurations.update('id', {
    *     entity: 'Bill',
-   *     field: 'endDate',
-   *     name: 'scheduled.bill.enddateEvent',
-   *     offset: 5,
+   *     field: 'dueDate',
+   *     name: '10 Days After Bill Due Date',
+   *     offset: 10,
    *   });
    * ```
    */
@@ -243,11 +243,12 @@ export interface ScheduledEventConfigurationCreateParams {
   offset: number;
 
   /**
-   * Body param: The version number of the scheduled event configuration:
+   * Body param: The version number of the entity:
    *
-   * - **Create entity**: Not valid for initial insertion - do not use for Create. On
-   *   initial Create, version is set at 1 and listed in the response.
-   * - **Update Entity**: On Update, version is required and must match the existing
+   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
+   *   for Create_. On initial Create, version is set at 1 and listed in the
+   *   response.
+   * - **Update Entity:** On Update, version is required and must match the existing
    *   version because a check is performed to ensure sequential versioning is
    *   preserved. Version is incremented by 1 and listed in the response.
    */
@@ -300,11 +301,12 @@ export interface ScheduledEventConfigurationUpdateParams {
   offset: number;
 
   /**
-   * Body param: The version number of the scheduled event configuration:
+   * Body param: The version number of the entity:
    *
-   * - **Create entity**: Not valid for initial insertion - do not use for Create. On
-   *   initial Create, version is set at 1 and listed in the response.
-   * - **Update Entity**: On Update, version is required and must match the existing
+   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
+   *   for Create_. On initial Create, version is set at 1 and listed in the
+   *   response.
+   * - **Update Entity:** On Update, version is required and must match the existing
    *   version because a check is performed to ensure sequential versioning is
    *   preserved. Version is incremented by 1 and listed in the response.
    */

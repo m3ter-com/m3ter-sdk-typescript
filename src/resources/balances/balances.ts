@@ -203,6 +203,7 @@ export interface Balance {
     | 'MINIMUM_SPEND'
     | 'COUNTER_RUNNING_TOTAL_CHARGE'
     | 'COUNTER_ADJUSTMENT_DEBIT'
+    | 'AD_HOC'
   >;
 
   /**
@@ -354,6 +355,7 @@ export interface BalanceCreateParams {
     | 'MINIMUM_SPEND'
     | 'COUNTER_RUNNING_TOTAL_CHARGE'
     | 'COUNTER_ADJUSTMENT_DEBIT'
+    | 'AD_HOC'
   >;
 
   /**
@@ -532,6 +534,7 @@ export interface BalanceUpdateParams {
     | 'MINIMUM_SPEND'
     | 'COUNTER_RUNNING_TOTAL_CHARGE'
     | 'COUNTER_ADJUSTMENT_DEBIT'
+    | 'AD_HOC'
   >;
 
   /**
