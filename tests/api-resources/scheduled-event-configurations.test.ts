@@ -15,9 +15,9 @@ describe('resource scheduledEventConfigurations', () => {
   test('create: only required params', async () => {
     const responsePromise = client.scheduledEventConfigurations.create({
       entity: 'Bill',
-      field: 'endDate',
-      name: 'scheduled.bill.enddateEvent',
-      offset: 5,
+      field: 'dueDate',
+      name: '10 Days After Bill Due Date',
+      offset: 10,
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -32,9 +32,9 @@ describe('resource scheduledEventConfigurations', () => {
     const response = await client.scheduledEventConfigurations.create({
       orgId: 'orgId',
       entity: 'Bill',
-      field: 'endDate',
-      name: 'scheduled.bill.enddateEvent',
-      offset: 5,
+      field: 'dueDate',
+      name: '10 Days After Bill Due Date',
+      offset: 10,
       version: 0,
     });
   });
@@ -75,9 +75,9 @@ describe('resource scheduledEventConfigurations', () => {
   test('update: only required params', async () => {
     const responsePromise = client.scheduledEventConfigurations.update('id', {
       entity: 'Bill',
-      field: 'endDate',
-      name: 'scheduled.bill.enddateEvent',
-      offset: 5,
+      field: 'dueDate',
+      name: '10 Days After Bill Due Date',
+      offset: 10,
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -92,9 +92,9 @@ describe('resource scheduledEventConfigurations', () => {
     const response = await client.scheduledEventConfigurations.update('id', {
       orgId: 'orgId',
       entity: 'Bill',
-      field: 'endDate',
-      name: 'scheduled.bill.enddateEvent',
-      offset: 5,
+      field: 'dueDate',
+      name: '10 Days After Bill Due Date',
+      offset: 10,
       version: 0,
     });
   });

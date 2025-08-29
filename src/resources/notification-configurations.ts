@@ -12,6 +12,17 @@ export class NotificationConfigurations extends APIResource {
    * This endpoint enables you to create a new Event Notification for the specified
    * Organization. You need to supply a request body with the details of the new
    * Notification.
+   *
+   * @example
+   * ```ts
+   * const notificationConfigurationResponse =
+   *   await client.notificationConfigurations.create({
+   *     code: 'commitment_under_10_percent',
+   *     description: 'Commitment amount fell below 10%',
+   *     eventName: 'configuration.commitment.updated',
+   *     name: 'Commitment has under 10% remaining',
+   *   });
+   * ```
    */
   create(
     params: NotificationConfigurationCreateParams,
@@ -26,6 +37,12 @@ export class NotificationConfigurations extends APIResource {
    * Event the Notification is based on, and any calculation referencing the Event's
    * field and which defines further conditions that must be met to trigger the
    * Notification when the Event occurs.
+   *
+   * @example
+   * ```ts
+   * const notificationConfigurationResponse =
+   *   await client.notificationConfigurations.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -51,6 +68,17 @@ export class NotificationConfigurations extends APIResource {
    * This endpoint modifies the configuration details of an existing Notification.
    * You can change the Event that triggers the Notification and/or update the
    * conditions for sending the Notification.
+   *
+   * @example
+   * ```ts
+   * const notificationConfigurationResponse =
+   *   await client.notificationConfigurations.update('id', {
+   *     code: 'commitment_under_10_percent',
+   *     description: 'Commitment amount fell below 10%',
+   *     eventName: 'configuration.commitment.updated',
+   *     name: 'Commitment has under 10% remaining',
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -70,6 +98,14 @@ export class NotificationConfigurations extends APIResource {
    * This endpoint retrieves a list of all Event Notifications for the Organization
    * identified by its UUID. The list can be paginated for easier management. The
    * list also supports filtering by parameters such as Notification UUID.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const notificationConfigurationResponse of client.notificationConfigurations.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: NotificationConfigurationListParams,
@@ -98,6 +134,12 @@ export class NotificationConfigurations extends APIResource {
    *
    * This endpoint permanently removes a specified Notification and its
    * configuration. This action cannot be undone.
+   *
+   * @example
+   * ```ts
+   * const notificationConfigurationResponse =
+   *   await client.notificationConfigurations.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -288,13 +330,14 @@ export interface NotificationConfigurationCreateParams {
   calculation?: string;
 
   /**
-   * Body param: The version number for the Notification:
+   * Body param: The version number of the entity:
    *
-   * - **Create:** Not valid for initial insertion of new entity - _do not use for
-   *   Create_. On initial Create, version is set at 1 and listed in the response.
-   * - **Update:** On Update, version is required and must match the existing version
-   *   because a check is performed to ensure sequential versioning is preserved.
-   *   Version is incremented by 1 and listed in the response.
+   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
+   *   for Create_. On initial Create, version is set at 1 and listed in the
+   *   response.
+   * - **Update Entity:** On Update, version is required and must match the existing
+   *   version because a check is performed to ensure sequential versioning is
+   *   preserved. Version is incremented by 1 and listed in the response.
    */
   version?: number;
 }
@@ -376,13 +419,14 @@ export interface NotificationConfigurationUpdateParams {
   calculation?: string;
 
   /**
-   * Body param: The version number for the Notification:
+   * Body param: The version number of the entity:
    *
-   * - **Create:** Not valid for initial insertion of new entity - _do not use for
-   *   Create_. On initial Create, version is set at 1 and listed in the response.
-   * - **Update:** On Update, version is required and must match the existing version
-   *   because a check is performed to ensure sequential versioning is preserved.
-   *   Version is incremented by 1 and listed in the response.
+   * - **Create entity:** Not valid for initial insertion of new entity - _do not use
+   *   for Create_. On initial Create, version is set at 1 and listed in the
+   *   response.
+   * - **Update Entity:** On Update, version is required and must match the existing
+   *   version because a check is performed to ensure sequential versioning is
+   *   preserved. Version is incremented by 1 and listed in the response.
    */
   version?: number;
 }

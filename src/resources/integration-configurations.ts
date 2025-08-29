@@ -8,6 +8,15 @@ import { Cursor, type CursorParams } from '../pagination';
 export class IntegrationConfigurations extends APIResource {
   /**
    * Set the integration configuration for the entity.
+   *
+   * @example
+   * ```ts
+   * const integrationConfiguration =
+   *   await client.integrationConfigurations.create({
+   *     destination: 'Stripe',
+   *     entityType: 'Bill',
+   *   });
+   * ```
    */
   create(
     params: IntegrationConfigurationCreateParams,
@@ -23,6 +32,12 @@ export class IntegrationConfigurations extends APIResource {
    * This endpoint retrieves the configuration details of a specific integration
    * within an organization. It is useful for obtaining the settings and parameters
    * of an integration.
+   *
+   * @example
+   * ```ts
+   * const integrationConfigurationResponse =
+   *   await client.integrationConfigurations.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -48,6 +63,15 @@ export class IntegrationConfigurations extends APIResource {
    * This endpoint allows you to update the configuration of a specific integration
    * within your organization. It is used to modify settings or parameters of an
    * existing integration.
+   *
+   * @example
+   * ```ts
+   * const integrationConfiguration =
+   *   await client.integrationConfigurations.update('id', {
+   *     destination: 'Stripe',
+   *     entityType: 'Bill',
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -63,6 +87,14 @@ export class IntegrationConfigurations extends APIResource {
    *
    * This endpoint retrieves a list of all integration configurations for the
    * specified Organization. The list can be paginated for easier management.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const integrationConfigurationListResponse of client.integrationConfigurations.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: IntegrationConfigurationListParams,
@@ -92,6 +124,12 @@ export class IntegrationConfigurations extends APIResource {
    * Use this endpoint to delete the configuration of a specific integration within
    * your organization. It is intended for removing integration settings that are no
    * longer needed.
+   *
+   * @example
+   * ```ts
+   * const integrationConfiguration =
+   *   await client.integrationConfigurations.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -114,6 +152,12 @@ export class IntegrationConfigurations extends APIResource {
   /**
    * Enables a previously disabled integration configuration, allowing it to be
    * operational again.
+   *
+   * @example
+   * ```ts
+   * const response =
+   *   await client.integrationConfigurations.enable('id');
+   * ```
    */
   enable(
     id: string,
@@ -135,6 +179,14 @@ export class IntegrationConfigurations extends APIResource {
 
   /**
    * Retrieve the integration configuration for the entity
+   *
+   * @example
+   * ```ts
+   * const integrationConfigurationResponse =
+   *   await client.integrationConfigurations.getByEntity(
+   *     'entityType',
+   *   );
+   * ```
    */
   getByEntity(
     entityType: string,
@@ -197,6 +249,7 @@ export interface IntegrationConfigurationResponse {
     | 'ACCOUNTING_PERIOD_CLOSED'
     | 'INVOICE_ALREADY_PAID'
     | 'DISABLED'
+    | 'TIMEOUT_LIMIT_EXCEEDED'
     | 'RATE_LIMIT_RETRY';
 
   /**
@@ -272,16 +325,6 @@ export interface IntegrationConfigurationCreateResponse {
   entityType: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * A flag indicating whether the integration configuration is authorized.
    *
    * - TRUE - authorized.
@@ -348,6 +391,16 @@ export interface IntegrationConfigurationCreateResponse {
    * @deprecated Specifies the type of trigger for the integration.
    */
   triggerType?: 'EVENT' | 'SCHEDULE';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface IntegrationConfigurationUpdateResponse {
@@ -367,16 +420,6 @@ export interface IntegrationConfigurationUpdateResponse {
   entityType: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * A flag indicating whether the integration configuration is authorized.
    *
    * - TRUE - authorized.
@@ -443,6 +486,16 @@ export interface IntegrationConfigurationUpdateResponse {
    * @deprecated Specifies the type of trigger for the integration.
    */
   triggerType?: 'EVENT' | 'SCHEDULE';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface IntegrationConfigurationListResponse {
@@ -462,16 +515,6 @@ export interface IntegrationConfigurationListResponse {
   entityType: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * A flag indicating whether the integration configuration is authorized.
    *
    * - TRUE - authorized.
@@ -538,6 +581,16 @@ export interface IntegrationConfigurationListResponse {
    * @deprecated Specifies the type of trigger for the integration.
    */
   triggerType?: 'EVENT' | 'SCHEDULE';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface IntegrationConfigurationDeleteResponse {
@@ -557,16 +610,6 @@ export interface IntegrationConfigurationDeleteResponse {
   entityType: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * A flag indicating whether the integration configuration is authorized.
    *
    * - TRUE - authorized.
@@ -633,6 +676,16 @@ export interface IntegrationConfigurationDeleteResponse {
    * @deprecated Specifies the type of trigger for the integration.
    */
   triggerType?: 'EVENT' | 'SCHEDULE';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface IntegrationConfigurationEnableResponse {
@@ -652,16 +705,6 @@ export interface IntegrationConfigurationEnableResponse {
   entityType: string;
 
   /**
-   * The version number:
-   *
-   * - **Create:** On initial Create to insert a new entity, the version is set at 1
-   *   in the response.
-   * - **Update:** On successful Update, the version is incremented by 1 in the
-   *   response.
-   */
-  version: number;
-
-  /**
    * A flag indicating whether the integration configuration is authorized.
    *
    * - TRUE - authorized.
@@ -728,6 +771,16 @@ export interface IntegrationConfigurationEnableResponse {
    * @deprecated Specifies the type of trigger for the integration.
    */
   triggerType?: 'EVENT' | 'SCHEDULE';
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface IntegrationConfigurationCreateParams {
@@ -737,33 +790,10 @@ export interface IntegrationConfigurationCreateParams {
   orgId?: string;
 
   /**
-   * Body param: A flexible object to include any additional configuration data
-   * specific to the integration.
-   */
-  configData: { [key: string]: unknown };
-
-  /**
-   * Body param: Base model for defining integration credentials across different
-   * types of integrations.
-   */
-  credentials: IntegrationConfigurationCreateParams.Credentials;
-
-  /**
    * Body param: Denotes the integration destination. This field identifies the
    * target platform or service for the integration.
    */
   destination: string;
-
-  /**
-   * Body param: The unique identifier (UUID) for the integration destination.
-   */
-  destinationId: string;
-
-  /**
-   * Body param: The unique identifier (UUID) of the entity. This field is used to
-   * specify which entity's integration configuration you're updating.
-   */
-  entityId: string;
 
   /**
    * Body param: Specifies the type of entity for which the integration configuration
@@ -772,14 +802,37 @@ export interface IntegrationConfigurationCreateParams {
   entityType: string;
 
   /**
-   * Body param:
+   * Body param: A flexible object to include any additional configuration data
+   * specific to the integration.
    */
-  integrationCredentialsId: string;
+  configData?: { [key: string]: unknown };
+
+  /**
+   * Body param: Base model for defining integration credentials across different
+   * types of integrations.
+   */
+  credentials?: IntegrationConfigurationCreateParams.Credentials;
+
+  /**
+   * Body param: The unique identifier (UUID) for the integration destination.
+   */
+  destinationId?: string;
+
+  /**
+   * Body param: The unique identifier (UUID) of the entity. This field is used to
+   * specify which entity's integration configuration you're updating.
+   */
+  entityId?: string;
 
   /**
    * Body param:
    */
-  name: string;
+  integrationCredentialsId?: string;
+
+  /**
+   * Body param:
+   */
+  name?: string;
 
   /**
    * Body param: The version number of the entity:
@@ -812,7 +865,11 @@ export namespace IntegrationConfigurationCreateParams {
       | 'NETSUITE_AUTH'
       | 'CHARGEBEE_AUTH'
       | 'M3TER_SERVICE_USER'
-      | 'STRIPE_SIGNED_REQUEST';
+      | 'STRIPE_SIGNED_REQUEST'
+      | 'HUBSPOT_ACCESS_TOKEN'
+      | 'HUBSPOT_CLIENT_SECRET'
+      | 'OPSGENIE_KEY'
+      | 'SAP_BYD';
 
     destination?:
       | 'WEBHOOK'
@@ -870,33 +927,10 @@ export interface IntegrationConfigurationUpdateParams {
   orgId?: string;
 
   /**
-   * Body param: A flexible object to include any additional configuration data
-   * specific to the integration.
-   */
-  configData: { [key: string]: unknown };
-
-  /**
-   * Body param: Base model for defining integration credentials across different
-   * types of integrations.
-   */
-  credentials: IntegrationConfigurationUpdateParams.Credentials;
-
-  /**
    * Body param: Denotes the integration destination. This field identifies the
    * target platform or service for the integration.
    */
   destination: string;
-
-  /**
-   * Body param: The unique identifier (UUID) for the integration destination.
-   */
-  destinationId: string;
-
-  /**
-   * Body param: The unique identifier (UUID) of the entity. This field is used to
-   * specify which entity's integration configuration you're updating.
-   */
-  entityId: string;
 
   /**
    * Body param: Specifies the type of entity for which the integration configuration
@@ -905,14 +939,37 @@ export interface IntegrationConfigurationUpdateParams {
   entityType: string;
 
   /**
-   * Body param:
+   * Body param: A flexible object to include any additional configuration data
+   * specific to the integration.
    */
-  integrationCredentialsId: string;
+  configData?: { [key: string]: unknown };
+
+  /**
+   * Body param: Base model for defining integration credentials across different
+   * types of integrations.
+   */
+  credentials?: IntegrationConfigurationUpdateParams.Credentials;
+
+  /**
+   * Body param: The unique identifier (UUID) for the integration destination.
+   */
+  destinationId?: string;
+
+  /**
+   * Body param: The unique identifier (UUID) of the entity. This field is used to
+   * specify which entity's integration configuration you're updating.
+   */
+  entityId?: string;
 
   /**
    * Body param:
    */
-  name: string;
+  integrationCredentialsId?: string;
+
+  /**
+   * Body param:
+   */
+  name?: string;
 
   /**
    * Body param: The version number of the entity:
@@ -945,7 +1002,11 @@ export namespace IntegrationConfigurationUpdateParams {
       | 'NETSUITE_AUTH'
       | 'CHARGEBEE_AUTH'
       | 'M3TER_SERVICE_USER'
-      | 'STRIPE_SIGNED_REQUEST';
+      | 'STRIPE_SIGNED_REQUEST'
+      | 'HUBSPOT_ACCESS_TOKEN'
+      | 'HUBSPOT_CLIENT_SECRET'
+      | 'OPSGENIE_KEY'
+      | 'SAP_BYD';
 
     destination?:
       | 'WEBHOOK'
@@ -994,6 +1055,11 @@ export interface IntegrationConfigurationListParams extends CursorParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Query param: optional filter for a specific destination
+   */
+  destinationId?: string;
 }
 
 export interface IntegrationConfigurationDeleteParams {

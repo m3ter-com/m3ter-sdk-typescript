@@ -14,11 +14,11 @@ const client = new M3ter({
 describe('resource externalMappings', () => {
   test('create: only required params', async () => {
     const responsePromise = client.externalMappings.create({
-      externalId: 'S?oC"$]C] ]]]]]5]',
-      externalSystem: 'S?oC"$]C] ]]]]]5]',
-      externalTable: 'S?oC"$]C] ]]]]]5]',
-      m3terEntity: 'S?oC"$]C] ]]]]]5]',
-      m3terId: 'S?oC"$]C] ]]]]]5]',
+      externalId: 'cus_00000000000000',
+      externalSystem: 'Stripe',
+      externalTable: 'Customer',
+      m3terEntity: 'Account',
+      m3terId: '00000000-0000-0000-0000-000000000000',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -32,12 +32,12 @@ describe('resource externalMappings', () => {
   test('create: required and optional params', async () => {
     const response = await client.externalMappings.create({
       orgId: 'orgId',
-      externalId: 'S?oC"$]C] ]]]]]5]',
-      externalSystem: 'S?oC"$]C] ]]]]]5]',
-      externalTable: 'S?oC"$]C] ]]]]]5]',
-      m3terEntity: 'S?oC"$]C] ]]]]]5]',
-      m3terId: 'S?oC"$]C] ]]]]]5]',
-      integrationConfigId: 'integrationConfigId',
+      externalId: 'cus_00000000000000',
+      externalSystem: 'Stripe',
+      externalTable: 'Customer',
+      m3terEntity: 'Account',
+      m3terId: '00000000-0000-0000-0000-000000000000',
+      integrationConfigId: '00000000-0000-0000-0000-000000000000',
       version: 0,
     });
   });
@@ -73,11 +73,11 @@ describe('resource externalMappings', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.externalMappings.update('id', {
-      externalId: 'S?oC"$]C] ]]]]]5]',
-      externalSystem: 'S?oC"$]C] ]]]]]5]',
-      externalTable: 'S?oC"$]C] ]]]]]5]',
-      m3terEntity: 'S?oC"$]C] ]]]]]5]',
-      m3terId: 'S?oC"$]C] ]]]]]5]',
+      externalId: 'cus_00000000000000',
+      externalSystem: 'Stripe',
+      externalTable: 'Customer',
+      m3terEntity: 'Account',
+      m3terId: '00000000-0000-0000-0000-000000000000',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -91,12 +91,12 @@ describe('resource externalMappings', () => {
   test('update: required and optional params', async () => {
     const response = await client.externalMappings.update('id', {
       orgId: 'orgId',
-      externalId: 'S?oC"$]C] ]]]]]5]',
-      externalSystem: 'S?oC"$]C] ]]]]]5]',
-      externalTable: 'S?oC"$]C] ]]]]]5]',
-      m3terEntity: 'S?oC"$]C] ]]]]]5]',
-      m3terId: 'S?oC"$]C] ]]]]]5]',
-      integrationConfigId: 'integrationConfigId',
+      externalId: 'cus_00000000000000',
+      externalSystem: 'Stripe',
+      externalTable: 'Customer',
+      m3terEntity: 'Account',
+      m3terId: '00000000-0000-0000-0000-000000000000',
+      integrationConfigId: '00000000-0000-0000-0000-000000000000',
       version: 0,
     });
   });

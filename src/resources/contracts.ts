@@ -150,6 +150,8 @@ export interface ContractResponse {
    */
   accountId?: string;
 
+  billGroupingKey?: string;
+
   /**
    * The short code of the Contract.
    */

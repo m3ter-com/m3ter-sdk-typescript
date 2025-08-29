@@ -74,10 +74,19 @@ export interface LineItemResponse {
    */
   id: string;
 
+  /**
+   * The code of the Accounting Product associated with this line item.
+   */
   accountingProductCode?: string;
 
+  /**
+   * The unique identifier (UUID) for the associated Accounting Product.
+   */
   accountingProductId?: string;
 
+  /**
+   * The name of the Accounting Product associated with this line item.
+   */
   accountingProductName?: string;
 
   additional?: { [key: string]: unknown };
@@ -229,6 +238,9 @@ export interface LineItemResponse {
    */
   pricingId?: string;
 
+  /**
+   * The code of the Product associated with this line item.
+   */
   productCode?: string;
 
   /**

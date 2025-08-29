@@ -14,10 +14,10 @@ const client = new M3ter({
 describe('resource notificationConfigurations', () => {
   test('create: only required params', async () => {
     const responsePromise = client.notificationConfigurations.create({
-      code: 'x',
-      description: 'x',
-      eventName: 'x',
-      name: 'x',
+      code: 'commitment_under_10_percent',
+      description: 'Commitment amount fell below 10%',
+      eventName: 'configuration.commitment.updated',
+      name: 'Commitment has under 10% remaining',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -31,13 +31,14 @@ describe('resource notificationConfigurations', () => {
   test('create: required and optional params', async () => {
     const response = await client.notificationConfigurations.create({
       orgId: 'orgId',
-      code: 'x',
-      description: 'x',
-      eventName: 'x',
-      name: 'x',
+      code: 'commitment_under_10_percent',
+      description: 'Commitment amount fell below 10%',
+      eventName: 'configuration.commitment.updated',
+      name: 'Commitment has under 10% remaining',
       active: true,
-      alwaysFireEvent: true,
-      calculation: 'calculation',
+      alwaysFireEvent: false,
+      calculation:
+        '(new.amountSpent >= ((new.amount*90)/100)) \nAND ((old.amountSpent <= ((old.amount*90)/100)) OR (old.amountSpent == null))',
       version: 0,
     });
   });
@@ -77,10 +78,10 @@ describe('resource notificationConfigurations', () => {
 
   test('update: only required params', async () => {
     const responsePromise = client.notificationConfigurations.update('id', {
-      code: 'x',
-      description: 'x',
-      eventName: 'x',
-      name: 'x',
+      code: 'commitment_under_10_percent',
+      description: 'Commitment amount fell below 10%',
+      eventName: 'configuration.commitment.updated',
+      name: 'Commitment has under 10% remaining',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -94,13 +95,14 @@ describe('resource notificationConfigurations', () => {
   test('update: required and optional params', async () => {
     const response = await client.notificationConfigurations.update('id', {
       orgId: 'orgId',
-      code: 'x',
-      description: 'x',
-      eventName: 'x',
-      name: 'x',
+      code: 'commitment_under_10_percent',
+      description: 'Commitment amount fell below 10%',
+      eventName: 'configuration.commitment.updated',
+      name: 'Commitment has under 10% remaining',
       active: true,
-      alwaysFireEvent: true,
-      calculation: 'calculation',
+      alwaysFireEvent: false,
+      calculation:
+        '(new.amountSpent >= ((new.amount*90)/100)) \nAND ((old.amountSpent <= ((old.amount*90)/100)) OR (old.amountSpent == null))',
       version: 0,
     });
   });

@@ -12,6 +12,18 @@ export class ExternalMappings extends APIResource {
    * This endpoint enables you to create a new External Mapping for the specified
    * Organization. You need to supply a request body with the details of the new
    * External Mapping.
+   *
+   * @example
+   * ```ts
+   * const externalMappingResponse =
+   *   await client.externalMappings.create({
+   *     externalId: 'cus_00000000000000',
+   *     externalSystem: 'Stripe',
+   *     externalTable: 'Customer',
+   *     m3terEntity: 'Account',
+   *     m3terId: '00000000-0000-0000-0000-000000000000',
+   *   });
+   * ```
    */
   create(
     params: ExternalMappingCreateParams,
@@ -26,6 +38,12 @@ export class ExternalMappings extends APIResource {
    *
    * This endpoint enables you to retrieve the External Mapping with the specified
    * UUID for a specific Organization.
+   *
+   * @example
+   * ```ts
+   * const externalMappingResponse =
+   *   await client.externalMappings.retrieve('id');
+   * ```
    */
   retrieve(
     id: string,
@@ -51,6 +69,18 @@ export class ExternalMappings extends APIResource {
    * This endpoint enables you to update an existing External Mapping entity,
    * identified by its UUID. You must supply a request body with the new details for
    * the External Mapping.
+   *
+   * @example
+   * ```ts
+   * const externalMappingResponse =
+   *   await client.externalMappings.update('id', {
+   *     externalId: 'cus_00000000000000',
+   *     externalSystem: 'Stripe',
+   *     externalTable: 'Customer',
+   *     m3terEntity: 'Account',
+   *     m3terId: '00000000-0000-0000-0000-000000000000',
+   *   });
+   * ```
    */
   update(
     id: string,
@@ -67,6 +97,14 @@ export class ExternalMappings extends APIResource {
    * This endpoint retrieves a list of all External Mapping entities for a specific
    * Organization. The list can be paginated for better management, and supports
    * filtering using the external system.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const externalMappingResponse of client.externalMappings.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     params?: ExternalMappingListParams,
@@ -92,6 +130,12 @@ export class ExternalMappings extends APIResource {
 
   /**
    * Delete an External Mapping with the given UUID.
+   *
+   * @example
+   * ```ts
+   * const externalMappingResponse =
+   *   await client.externalMappings.delete('id');
+   * ```
    */
   delete(
     id: string,
@@ -118,6 +162,18 @@ export class ExternalMappings extends APIResource {
    * Use this endpoint to retrieve a list of External Mapping entities associated
    * with a specific external system entity. The list can be paginated for easier
    * management.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const externalMappingResponse of client.externalMappings.listByExternalEntity(
+   *   'system',
+   *   'externalTable',
+   *   'externalId',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listByExternalEntity(
     system: string,
@@ -155,6 +211,17 @@ export class ExternalMappings extends APIResource {
    *
    * Use this endpoint to retrieve a list of External Mapping entities associated
    * with a specific m3ter entity. The list can be paginated for easier management.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const externalMappingResponse of client.externalMappings.listByM3terEntity(
+   *   'entity',
+   *   'm3terId',
+   * )) {
+   *   // ...
+   * }
+   * ```
    */
   listByM3terEntity(
     entity: string,
