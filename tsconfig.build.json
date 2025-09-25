@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "m3ter-sdk/*": ["dist/src/*"],
-      "m3ter-sdk": ["dist/src/index.ts"],
+      "m3ter-sdk/*": ["./dist/src/*"],
+      "m3ter-sdk": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,
