@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Currencies extends APIResource {
   /**
@@ -18,9 +19,9 @@ export class Currencies extends APIResource {
    * });
    * ```
    */
-  create(params: CurrencyCreateParams, options?: Core.RequestOptions): Core.APIPromise<CurrencyResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/picklists/currency`, { body, ...options });
+  create(params: CurrencyCreateParams, options?: RequestOptions): APIPromise<CurrencyResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/picklists/currency`, { body, ...options });
   }
 
   /**
@@ -36,20 +37,11 @@ export class Currencies extends APIResource {
    */
   retrieve(
     id: string,
-    params?: CurrencyRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CurrencyResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<CurrencyResponse>;
-  retrieve(
-    id: string,
-    params: CurrencyRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CurrencyResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/picklists/currency/${id}`, options);
+    params: CurrencyRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CurrencyResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/picklists/currency/${id}`, options);
   }
 
   /**
@@ -66,13 +58,9 @@ export class Currencies extends APIResource {
    * );
    * ```
    */
-  update(
-    id: string,
-    params: CurrencyUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CurrencyResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/picklists/currency/${id}`, { body, ...options });
+  update(id: string, params: CurrencyUpdateParams, options?: RequestOptions): APIPromise<CurrencyResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/picklists/currency/${id}`, { body, ...options });
   }
 
   /**
@@ -91,22 +79,15 @@ export class Currencies extends APIResource {
    * ```
    */
   list(
-    params?: CurrencyListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CurrencyResponsesCursor, CurrencyResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<CurrencyResponsesCursor, CurrencyResponse>;
-  list(
-    params: CurrencyListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CurrencyResponsesCursor, CurrencyResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/picklists/currency`, CurrencyResponsesCursor, {
-      query,
-      ...options,
-    });
+    params: CurrencyListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CurrencyResponsesCursor, CurrencyResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(
+      path`/organizations/${orgId}/picklists/currency`,
+      Cursor<CurrencyResponse>,
+      { query, ...options },
+    );
   }
 
   /**
@@ -124,24 +105,15 @@ export class Currencies extends APIResource {
    */
   delete(
     id: string,
-    params?: CurrencyDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CurrencyResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<CurrencyResponse>;
-  delete(
-    id: string,
-    params: CurrencyDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CurrencyResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/picklists/currency/${id}`, options);
+    params: CurrencyDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CurrencyResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/picklists/currency/${id}`, options);
   }
 }
 
-export class CurrencyResponsesCursor extends Cursor<CurrencyResponse> {}
+export type CurrencyResponsesCursor = Cursor<CurrencyResponse>;
 
 export interface CurrencyResponse {
   /**
@@ -343,12 +315,10 @@ export interface CurrencyDeleteParams {
   orgId?: string;
 }
 
-Currencies.CurrencyResponsesCursor = CurrencyResponsesCursor;
-
 export declare namespace Currencies {
   export {
     type CurrencyResponse as CurrencyResponse,
-    CurrencyResponsesCursor as CurrencyResponsesCursor,
+    type CurrencyResponsesCursor as CurrencyResponsesCursor,
     type CurrencyCreateParams as CurrencyCreateParams,
     type CurrencyRetrieveParams as CurrencyRetrieveParams,
     type CurrencyUpdateParams as CurrencyUpdateParams,

@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class TransactionTypes extends APIResource {
   /**
@@ -16,12 +17,9 @@ export class TransactionTypes extends APIResource {
    *   await client.transactionTypes.create({ name: 'x' });
    * ```
    */
-  create(
-    params: TransactionTypeCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionTypeResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/picklists/transactiontypes`, { body, ...options });
+  create(params: TransactionTypeCreateParams, options?: RequestOptions): APIPromise<TransactionTypeResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/picklists/transactiontypes`, { body, ...options });
   }
 
   /**
@@ -36,20 +34,11 @@ export class TransactionTypes extends APIResource {
    */
   retrieve(
     id: string,
-    params?: TransactionTypeRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionTypeResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<TransactionTypeResponse>;
-  retrieve(
-    id: string,
-    params: TransactionTypeRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionTypeResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/picklists/transactiontypes/${id}`, options);
+    params: TransactionTypeRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<TransactionTypeResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/picklists/transactiontypes/${id}`, options);
   }
 
   /**
@@ -66,10 +55,13 @@ export class TransactionTypes extends APIResource {
   update(
     id: string,
     params: TransactionTypeUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionTypeResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/picklists/transactiontypes/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<TransactionTypeResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/picklists/transactiontypes/${id}`, {
+      body,
+      ...options,
+    });
   }
 
   /**
@@ -86,23 +78,13 @@ export class TransactionTypes extends APIResource {
    * ```
    */
   list(
-    params?: TransactionTypeListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<TransactionTypeResponsesCursor, TransactionTypeResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<TransactionTypeResponsesCursor, TransactionTypeResponse>;
-  list(
-    params: TransactionTypeListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<TransactionTypeResponsesCursor, TransactionTypeResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: TransactionTypeListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<TransactionTypeResponsesCursor, TransactionTypeResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/picklists/transactiontypes`,
-      TransactionTypeResponsesCursor,
+      path`/organizations/${orgId}/picklists/transactiontypes`,
+      Cursor<TransactionTypeResponse>,
       { query, ...options },
     );
   }
@@ -118,24 +100,15 @@ export class TransactionTypes extends APIResource {
    */
   delete(
     id: string,
-    params?: TransactionTypeDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionTypeResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<TransactionTypeResponse>;
-  delete(
-    id: string,
-    params: TransactionTypeDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionTypeResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/picklists/transactiontypes/${id}`, options);
+    params: TransactionTypeDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<TransactionTypeResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/picklists/transactiontypes/${id}`, options);
   }
 }
 
-export class TransactionTypeResponsesCursor extends Cursor<TransactionTypeResponse> {}
+export type TransactionTypeResponsesCursor = Cursor<TransactionTypeResponse>;
 
 export interface TransactionTypeResponse {
   /**
@@ -307,12 +280,10 @@ export interface TransactionTypeDeleteParams {
   orgId?: string;
 }
 
-TransactionTypes.TransactionTypeResponsesCursor = TransactionTypeResponsesCursor;
-
 export declare namespace TransactionTypes {
   export {
     type TransactionTypeResponse as TransactionTypeResponse,
-    TransactionTypeResponsesCursor as TransactionTypeResponsesCursor,
+    type TransactionTypeResponsesCursor as TransactionTypeResponsesCursor,
     type TransactionTypeCreateParams as TransactionTypeCreateParams,
     type TransactionTypeRetrieveParams as TransactionTypeRetrieveParams,
     type TransactionTypeUpdateParams as TransactionTypeUpdateParams,

@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as TransactionsAPI from './transactions';
 import {
   TransactionCreateParams,
@@ -13,7 +11,10 @@ import {
   TransactionSummaryResponse,
   Transactions,
 } from './transactions';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Balances extends APIResource {
   transactions: TransactionsAPI.Transactions = new TransactionsAPI.Transactions(this._client);
@@ -24,9 +25,9 @@ export class Balances extends APIResource {
    * This endpoint allows you to create a new Balance for a specific end customer
    * Account. The Balance details should be provided in the request body.
    */
-  create(params: BalanceCreateParams, options?: Core.RequestOptions): Core.APIPromise<Balance> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/balances`, { body, ...options });
+  create(params: BalanceCreateParams, options?: RequestOptions): APIPromise<Balance> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/balances`, { body, ...options });
   }
 
   /**
@@ -36,20 +37,11 @@ export class Balances extends APIResource {
    */
   retrieve(
     id: string,
-    params?: BalanceRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Balance>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Balance>;
-  retrieve(
-    id: string,
-    params: BalanceRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Balance> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/balances/${id}`, options);
+    params: BalanceRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Balance> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/balances/${id}`, options);
   }
 
   /**
@@ -58,9 +50,9 @@ export class Balances extends APIResource {
    * This endpoint allows you to update the details of a specific Balance. The
    * updated Balance details should be provided in the request body.
    */
-  update(id: string, params: BalanceUpdateParams, options?: Core.RequestOptions): Core.APIPromise<Balance> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/balances/${id}`, { body, ...options });
+  update(id: string, params: BalanceUpdateParams, options?: RequestOptions): APIPromise<Balance> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/balances/${id}`, { body, ...options });
   }
 
   /**
@@ -74,17 +66,15 @@ export class Balances extends APIResource {
    * `endDateStart` or `endDateEnd` query parameters, the `rolloverEndDate` is used
    * as the end date for the Balance.
    */
-  list(params?: BalanceListParams, options?: Core.RequestOptions): Core.PagePromise<BalancesCursor, Balance>;
-  list(options?: Core.RequestOptions): Core.PagePromise<BalancesCursor, Balance>;
   list(
-    params: BalanceListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BalancesCursor, Balance> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/balances`, BalancesCursor, { query, ...options });
+    params: BalanceListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<BalancesCursor, Balance> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/balances`, Cursor<Balance>, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -92,22 +82,17 @@ export class Balances extends APIResource {
    *
    * This endpoint allows you to delete a specific Balance with the given UUID.
    */
-  delete(id: string, params?: BalanceDeleteParams, options?: Core.RequestOptions): Core.APIPromise<Balance>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<Balance>;
   delete(
     id: string,
-    params: BalanceDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Balance> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/balances/${id}`, options);
+    params: BalanceDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Balance> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/balances/${id}`, options);
   }
 }
 
-export class BalancesCursor extends Cursor<Balance> {}
+export type BalancesCursor = Cursor<Balance>;
 
 export interface Balance {
   /**
@@ -646,14 +631,12 @@ export interface BalanceDeleteParams {
   orgId?: string;
 }
 
-Balances.BalancesCursor = BalancesCursor;
 Balances.Transactions = Transactions;
-Balances.TransactionResponsesCursor = TransactionResponsesCursor;
 
 export declare namespace Balances {
   export {
     type Balance as Balance,
-    BalancesCursor as BalancesCursor,
+    type BalancesCursor as BalancesCursor,
     type BalanceCreateParams as BalanceCreateParams,
     type BalanceRetrieveParams as BalanceRetrieveParams,
     type BalanceUpdateParams as BalanceUpdateParams,
@@ -665,7 +648,7 @@ export declare namespace Balances {
     Transactions as Transactions,
     type TransactionResponse as TransactionResponse,
     type TransactionSummaryResponse as TransactionSummaryResponse,
-    TransactionResponsesCursor as TransactionResponsesCursor,
+    type TransactionResponsesCursor as TransactionResponsesCursor,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionSummaryParams as TransactionSummaryParams,

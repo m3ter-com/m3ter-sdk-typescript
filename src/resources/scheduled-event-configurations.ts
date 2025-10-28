@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class ScheduledEventConfigurations extends APIResource {
   /**
@@ -22,10 +23,13 @@ export class ScheduledEventConfigurations extends APIResource {
    */
   create(
     params: ScheduledEventConfigurationCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduledEventConfigurationResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/scheduledevents/configurations`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<ScheduledEventConfigurationResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/scheduledevents/configurations`, {
+      body,
+      ...options,
+    });
   }
 
   /**
@@ -39,20 +43,11 @@ export class ScheduledEventConfigurations extends APIResource {
    */
   retrieve(
     id: string,
-    params?: ScheduledEventConfigurationRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduledEventConfigurationResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<ScheduledEventConfigurationResponse>;
-  retrieve(
-    id: string,
-    params: ScheduledEventConfigurationRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduledEventConfigurationResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/scheduledevents/configurations/${id}`, options);
+    params: ScheduledEventConfigurationRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ScheduledEventConfigurationResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/scheduledevents/configurations/${id}`, options);
   }
 
   /**
@@ -72,10 +67,10 @@ export class ScheduledEventConfigurations extends APIResource {
   update(
     id: string,
     params: ScheduledEventConfigurationUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduledEventConfigurationResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/scheduledevents/configurations/${id}`, {
+    options?: RequestOptions,
+  ): APIPromise<ScheduledEventConfigurationResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/scheduledevents/configurations/${id}`, {
       body,
       ...options,
     });
@@ -93,23 +88,13 @@ export class ScheduledEventConfigurations extends APIResource {
    * ```
    */
   list(
-    params?: ScheduledEventConfigurationListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ScheduledEventConfigurationResponsesCursor, ScheduledEventConfigurationResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ScheduledEventConfigurationResponsesCursor, ScheduledEventConfigurationResponse>;
-  list(
-    params: ScheduledEventConfigurationListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ScheduledEventConfigurationResponsesCursor, ScheduledEventConfigurationResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: ScheduledEventConfigurationListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<ScheduledEventConfigurationResponsesCursor, ScheduledEventConfigurationResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/scheduledevents/configurations`,
-      ScheduledEventConfigurationResponsesCursor,
+      path`/organizations/${orgId}/scheduledevents/configurations`,
+      Cursor<ScheduledEventConfigurationResponse>,
       { query, ...options },
     );
   }
@@ -125,24 +110,15 @@ export class ScheduledEventConfigurations extends APIResource {
    */
   delete(
     id: string,
-    params?: ScheduledEventConfigurationDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduledEventConfigurationResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<ScheduledEventConfigurationResponse>;
-  delete(
-    id: string,
-    params: ScheduledEventConfigurationDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduledEventConfigurationResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/scheduledevents/configurations/${id}`, options);
+    params: ScheduledEventConfigurationDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ScheduledEventConfigurationResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/scheduledevents/configurations/${id}`, options);
   }
 }
 
-export class ScheduledEventConfigurationResponsesCursor extends Cursor<ScheduledEventConfigurationResponse> {}
+export type ScheduledEventConfigurationResponsesCursor = Cursor<ScheduledEventConfigurationResponse>;
 
 export interface ScheduledEventConfigurationResponse {
   /**
@@ -332,13 +308,10 @@ export interface ScheduledEventConfigurationDeleteParams {
   orgId?: string;
 }
 
-ScheduledEventConfigurations.ScheduledEventConfigurationResponsesCursor =
-  ScheduledEventConfigurationResponsesCursor;
-
 export declare namespace ScheduledEventConfigurations {
   export {
     type ScheduledEventConfigurationResponse as ScheduledEventConfigurationResponse,
-    ScheduledEventConfigurationResponsesCursor as ScheduledEventConfigurationResponsesCursor,
+    type ScheduledEventConfigurationResponsesCursor as ScheduledEventConfigurationResponsesCursor,
     type ScheduledEventConfigurationCreateParams as ScheduledEventConfigurationCreateParams,
     type ScheduledEventConfigurationRetrieveParams as ScheduledEventConfigurationRetrieveParams,
     type ScheduledEventConfigurationUpdateParams as ScheduledEventConfigurationUpdateParams,

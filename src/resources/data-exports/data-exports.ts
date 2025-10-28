@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as DestinationsAPI from './destinations';
 import {
   DataExportDestinationGoogleCloudStorageRequest,
@@ -48,6 +47,9 @@ import {
   UsageDataExportScheduleRequest,
   UsageDataExportScheduleResponse,
 } from './schedules';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class DataExports extends APIResource {
   destinations: DestinationsAPI.Destinations = new DestinationsAPI.Destinations(this._client);
@@ -107,12 +109,9 @@ export class DataExports extends APIResource {
    * [ExportJob](https://www.m3ter.com/docs/api#tag/ExportJob) section of this API
    * Reference.
    */
-  createAdhoc(
-    params: DataExportCreateAdhocParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AdHocResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/dataexports/adhoc`, { body, ...options });
+  createAdhoc(params: DataExportCreateAdhocParams, options?: RequestOptions): APIPromise<AdHocResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/dataexports/adhoc`, { body, ...options });
   }
 }
 
@@ -454,11 +453,8 @@ export declare namespace DataExportCreateAdhocParams {
 }
 
 DataExports.Destinations = Destinations;
-DataExports.DataExportDestinationResponsesCursor = DataExportDestinationResponsesCursor;
 DataExports.Jobs = Jobs;
-DataExports.DataExportJobResponsesCursor = DataExportJobResponsesCursor;
 DataExports.Schedules = Schedules;
-DataExports.ScheduleListResponsesCursor = ScheduleListResponsesCursor;
 
 export declare namespace DataExports {
   export {
@@ -481,7 +477,7 @@ export declare namespace DataExports {
     type DestinationRetrieveResponse as DestinationRetrieveResponse,
     type DestinationUpdateResponse as DestinationUpdateResponse,
     type DestinationDeleteResponse as DestinationDeleteResponse,
-    DataExportDestinationResponsesCursor as DataExportDestinationResponsesCursor,
+    type DataExportDestinationResponsesCursor as DataExportDestinationResponsesCursor,
     type DestinationCreateParams as DestinationCreateParams,
     type DestinationRetrieveParams as DestinationRetrieveParams,
     type DestinationUpdateParams as DestinationUpdateParams,
@@ -493,7 +489,7 @@ export declare namespace DataExports {
     Jobs as Jobs,
     type DataExportJobResponse as DataExportJobResponse,
     type JobGetDownloadURLResponse as JobGetDownloadURLResponse,
-    DataExportJobResponsesCursor as DataExportJobResponsesCursor,
+    type DataExportJobResponsesCursor as DataExportJobResponsesCursor,
     type JobRetrieveParams as JobRetrieveParams,
     type JobListParams as JobListParams,
     type JobGetDownloadURLParams as JobGetDownloadURLParams,
@@ -510,7 +506,7 @@ export declare namespace DataExports {
     type ScheduleUpdateResponse as ScheduleUpdateResponse,
     type ScheduleListResponse as ScheduleListResponse,
     type ScheduleDeleteResponse as ScheduleDeleteResponse,
-    ScheduleListResponsesCursor as ScheduleListResponsesCursor,
+    type ScheduleListResponsesCursor as ScheduleListResponsesCursor,
     type ScheduleCreateParams as ScheduleCreateParams,
     type ScheduleRetrieveParams as ScheduleRetrieveParams,
     type ScheduleUpdateParams as ScheduleUpdateParams,

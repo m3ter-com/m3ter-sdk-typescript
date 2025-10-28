@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as DataExportsAPI from '../data-exports/data-exports';
 import * as FileUploadsAPI from './file-uploads/file-uploads';
 import {
@@ -10,6 +8,9 @@ import {
   FileUploadGenerateUploadURLResponse,
   FileUploads,
 } from './file-uploads/file-uploads';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Usage extends APIResource {
   fileUploads: FileUploadsAPI.FileUploads = new FileUploadsAPI.FileUploads(this._client);
@@ -48,19 +49,11 @@ export class Usage extends APIResource {
    * ```
    */
   getFailedIngestDownloadURL(
-    params?: UsageGetFailedIngestDownloadURLParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DownloadURLResponse>;
-  getFailedIngestDownloadURL(options?: Core.RequestOptions): Core.APIPromise<DownloadURLResponse>;
-  getFailedIngestDownloadURL(
-    params: UsageGetFailedIngestDownloadURLParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DownloadURLResponse> {
-    if (isRequestOptions(params)) {
-      return this.getFailedIngestDownloadURL({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/measurements/failedIngest/getDownloadUrl`, {
+    params: UsageGetFailedIngestDownloadURLParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<DownloadURLResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/measurements/failedIngest/getDownloadUrl`, {
       query,
       ...options,
     });
@@ -94,17 +87,12 @@ export class Usage extends APIResource {
    * const usageQueryResponse = await client.usage.query();
    * ```
    */
-  query(params?: UsageQueryParams, options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse>;
-  query(options?: Core.RequestOptions): Core.APIPromise<UsageQueryResponse>;
   query(
-    params: UsageQueryParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<UsageQueryResponse> {
-    if (isRequestOptions(params)) {
-      return this.query({}, params);
-    }
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/usage/query`, { body, ...options });
+    params: UsageQueryParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<UsageQueryResponse> {
+    const { orgId = this._client.orgID, ...body } = params ?? {};
+    return this._client.post(path`/organizations/${orgId}/usage/query`, { body, ...options });
   }
 
   /**
@@ -161,12 +149,9 @@ export class Usage extends APIResource {
    *   });
    * ```
    */
-  submit(
-    params: UsageSubmitParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<SubmitMeasurementsResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/measurements`, {
+  submit(params: UsageSubmitParams, options?: RequestOptions): APIPromise<SubmitMeasurementsResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/measurements`, {
       body,
       defaultBaseURL: 'https://ingest.m3ter.com',
       ...options,

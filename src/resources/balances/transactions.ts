@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Transactions extends APIResource {
   /**
@@ -25,12 +26,12 @@ export class Transactions extends APIResource {
    * where the customer actually paid you 50 units in virtual currency X.
    */
   create(
-    balanceId: string,
+    balanceID: string,
     params: TransactionCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/balances/${balanceId}/transactions`, {
+    options?: RequestOptions,
+  ): APIPromise<TransactionResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/balances/${balanceID}/transactions`, {
       body,
       ...options,
     });
@@ -44,26 +45,14 @@ export class Transactions extends APIResource {
    * `nextToken` parameters.
    */
   list(
-    balanceId: string,
-    params?: TransactionListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<TransactionResponsesCursor, TransactionResponse>;
-  list(
-    balanceId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<TransactionResponsesCursor, TransactionResponse>;
-  list(
-    balanceId: string,
-    params: TransactionListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<TransactionResponsesCursor, TransactionResponse> {
-    if (isRequestOptions(params)) {
-      return this.list(balanceId, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    balanceID: string,
+    params: TransactionListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<TransactionResponsesCursor, TransactionResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/balances/${balanceId}/transactions`,
-      TransactionResponsesCursor,
+      path`/organizations/${orgId}/balances/${balanceID}/transactions`,
+      Cursor<TransactionResponse>,
       { query, ...options },
     );
   }
@@ -94,25 +83,19 @@ export class Transactions extends APIResource {
    *   after which it will be unchanged.
    */
   summary(
-    balanceId: string,
-    params?: TransactionSummaryParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionSummaryResponse>;
-  summary(balanceId: string, options?: Core.RequestOptions): Core.APIPromise<TransactionSummaryResponse>;
-  summary(
-    balanceId: string,
-    params: TransactionSummaryParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<TransactionSummaryResponse> {
-    if (isRequestOptions(params)) {
-      return this.summary(balanceId, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/balances/${balanceId}/transactions/summary`, options);
+    balanceID: string,
+    params: TransactionSummaryParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<TransactionSummaryResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(
+      path`/organizations/${orgId}/balances/${balanceID}/transactions/summary`,
+      options,
+    );
   }
 }
 
-export class TransactionResponsesCursor extends Cursor<TransactionResponse> {}
+export type TransactionResponsesCursor = Cursor<TransactionResponse>;
 
 export interface TransactionResponse {
   /**
@@ -318,13 +301,11 @@ export interface TransactionSummaryParams {
   orgId?: string;
 }
 
-Transactions.TransactionResponsesCursor = TransactionResponsesCursor;
-
 export declare namespace Transactions {
   export {
     type TransactionResponse as TransactionResponse,
     type TransactionSummaryResponse as TransactionSummaryResponse,
-    TransactionResponsesCursor as TransactionResponsesCursor,
+    type TransactionResponsesCursor as TransactionResponsesCursor,
     type TransactionCreateParams as TransactionCreateParams,
     type TransactionListParams as TransactionListParams,
     type TransactionSummaryParams as TransactionSummaryParams,

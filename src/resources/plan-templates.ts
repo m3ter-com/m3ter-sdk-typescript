@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class PlanTemplates extends APIResource {
   /**
@@ -25,12 +26,9 @@ export class PlanTemplates extends APIResource {
    *   });
    * ```
    */
-  create(
-    params: PlanTemplateCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanTemplateResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/plantemplates`, { body, ...options });
+  create(params: PlanTemplateCreateParams, options?: RequestOptions): APIPromise<PlanTemplateResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/plantemplates`, { body, ...options });
   }
 
   /**
@@ -47,20 +45,11 @@ export class PlanTemplates extends APIResource {
    */
   retrieve(
     id: string,
-    params?: PlanTemplateRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanTemplateResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<PlanTemplateResponse>;
-  retrieve(
-    id: string,
-    params: PlanTemplateRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanTemplateResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/plantemplates/${id}`, options);
+    params: PlanTemplateRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PlanTemplateResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/plantemplates/${id}`, options);
   }
 
   /**
@@ -90,10 +79,10 @@ export class PlanTemplates extends APIResource {
   update(
     id: string,
     params: PlanTemplateUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanTemplateResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/plantemplates/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<PlanTemplateResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/plantemplates/${id}`, { body, ...options });
   }
 
   /**
@@ -112,22 +101,15 @@ export class PlanTemplates extends APIResource {
    * ```
    */
   list(
-    params?: PlanTemplateListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanTemplateResponsesCursor, PlanTemplateResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<PlanTemplateResponsesCursor, PlanTemplateResponse>;
-  list(
-    params: PlanTemplateListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanTemplateResponsesCursor, PlanTemplateResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/plantemplates`, PlanTemplateResponsesCursor, {
-      query,
-      ...options,
-    });
+    params: PlanTemplateListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PlanTemplateResponsesCursor, PlanTemplateResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(
+      path`/organizations/${orgId}/plantemplates`,
+      Cursor<PlanTemplateResponse>,
+      { query, ...options },
+    );
   }
 
   /**
@@ -144,24 +126,15 @@ export class PlanTemplates extends APIResource {
    */
   delete(
     id: string,
-    params?: PlanTemplateDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanTemplateResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<PlanTemplateResponse>;
-  delete(
-    id: string,
-    params: PlanTemplateDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanTemplateResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/plantemplates/${id}`, options);
+    params: PlanTemplateDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PlanTemplateResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/plantemplates/${id}`, options);
   }
 }
 
-export class PlanTemplateResponsesCursor extends Cursor<PlanTemplateResponse> {}
+export type PlanTemplateResponsesCursor = Cursor<PlanTemplateResponse>;
 
 export interface PlanTemplateResponse {
   /**
@@ -687,12 +660,10 @@ export interface PlanTemplateDeleteParams {
   orgId?: string;
 }
 
-PlanTemplates.PlanTemplateResponsesCursor = PlanTemplateResponsesCursor;
-
 export declare namespace PlanTemplates {
   export {
     type PlanTemplateResponse as PlanTemplateResponse,
-    PlanTemplateResponsesCursor as PlanTemplateResponsesCursor,
+    type PlanTemplateResponsesCursor as PlanTemplateResponsesCursor,
     type PlanTemplateCreateParams as PlanTemplateCreateParams,
     type PlanTemplateRetrieveParams as PlanTemplateRetrieveParams,
     type PlanTemplateUpdateParams as PlanTemplateUpdateParams,

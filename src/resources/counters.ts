@@ -1,17 +1,18 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Counters extends APIResource {
   /**
    * Create a new Counter.
    */
-  create(params: CounterCreateParams, options?: Core.RequestOptions): Core.APIPromise<CounterResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/counters`, { body, ...options });
+  create(params: CounterCreateParams, options?: RequestOptions): APIPromise<CounterResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/counters`, { body, ...options });
   }
 
   /**
@@ -19,32 +20,19 @@ export class Counters extends APIResource {
    */
   retrieve(
     id: string,
-    params?: CounterRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<CounterResponse>;
-  retrieve(
-    id: string,
-    params: CounterRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/counters/${id}`, options);
+    params: CounterRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CounterResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/counters/${id}`, options);
   }
 
   /**
    * Update Counter for the given UUID.
    */
-  update(
-    id: string,
-    params: CounterUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/counters/${id}`, { body, ...options });
+  update(id: string, params: CounterUpdateParams, options?: RequestOptions): APIPromise<CounterResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/counters/${id}`, { body, ...options });
   }
 
   /**
@@ -52,19 +40,11 @@ export class Counters extends APIResource {
    * or Codes.
    */
   list(
-    params?: CounterListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CounterResponsesCursor, CounterResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<CounterResponsesCursor, CounterResponse>;
-  list(
-    params: CounterListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CounterResponsesCursor, CounterResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/counters`, CounterResponsesCursor, {
+    params: CounterListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CounterResponsesCursor, CounterResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/counters`, Cursor<CounterResponse>, {
       query,
       ...options,
     });
@@ -75,24 +55,15 @@ export class Counters extends APIResource {
    */
   delete(
     id: string,
-    params?: CounterDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<CounterResponse>;
-  delete(
-    id: string,
-    params: CounterDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/counters/${id}`, options);
+    params: CounterDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CounterResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/counters/${id}`, options);
   }
 }
 
-export class CounterResponsesCursor extends Cursor<CounterResponse> {}
+export type CounterResponsesCursor = Cursor<CounterResponse>;
 
 export interface CounterResponse {
   /**
@@ -275,12 +246,10 @@ export interface CounterDeleteParams {
   orgId?: string;
 }
 
-Counters.CounterResponsesCursor = CounterResponsesCursor;
-
 export declare namespace Counters {
   export {
     type CounterResponse as CounterResponse,
-    CounterResponsesCursor as CounterResponsesCursor,
+    type CounterResponsesCursor as CounterResponsesCursor,
     type CounterCreateParams as CounterCreateParams,
     type CounterRetrieveParams as CounterRetrieveParams,
     type CounterUpdateParams as CounterUpdateParams,

@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Aggregations extends APIResource {
   /**
@@ -23,12 +24,9 @@ export class Aggregations extends APIResource {
    *   });
    * ```
    */
-  create(
-    params: AggregationCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AggregationResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/aggregations`, { body, ...options });
+  create(params: AggregationCreateParams, options?: RequestOptions): APIPromise<AggregationResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/aggregations`, { body, ...options });
   }
 
   /**
@@ -42,20 +40,11 @@ export class Aggregations extends APIResource {
    */
   retrieve(
     id: string,
-    params?: AggregationRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AggregationResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<AggregationResponse>;
-  retrieve(
-    id: string,
-    params: AggregationRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AggregationResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/aggregations/${id}`, options);
+    params: AggregationRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AggregationResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/aggregations/${id}`, options);
   }
 
   /**
@@ -83,10 +72,10 @@ export class Aggregations extends APIResource {
   update(
     id: string,
     params: AggregationUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AggregationResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/aggregations/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<AggregationResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/aggregations/${id}`, { body, ...options });
   }
 
   /**
@@ -102,19 +91,11 @@ export class Aggregations extends APIResource {
    * ```
    */
   list(
-    params?: AggregationListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AggregationResponsesCursor, AggregationResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<AggregationResponsesCursor, AggregationResponse>;
-  list(
-    params: AggregationListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AggregationResponsesCursor, AggregationResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/aggregations`, AggregationResponsesCursor, {
+    params: AggregationListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AggregationResponsesCursor, AggregationResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/aggregations`, Cursor<AggregationResponse>, {
       query,
       ...options,
     });
@@ -131,24 +112,15 @@ export class Aggregations extends APIResource {
    */
   delete(
     id: string,
-    params?: AggregationDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AggregationResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<AggregationResponse>;
-  delete(
-    id: string,
-    params: AggregationDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AggregationResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/aggregations/${id}`, options);
+    params: AggregationDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AggregationResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/aggregations/${id}`, options);
   }
 }
 
-export class AggregationResponsesCursor extends Cursor<AggregationResponse> {}
+export type AggregationResponsesCursor = Cursor<AggregationResponse>;
 
 export interface AggregationResponse {
   /**
@@ -695,12 +667,10 @@ export interface AggregationDeleteParams {
   orgId?: string;
 }
 
-Aggregations.AggregationResponsesCursor = AggregationResponsesCursor;
-
 export declare namespace Aggregations {
   export {
     type AggregationResponse as AggregationResponse,
-    AggregationResponsesCursor as AggregationResponsesCursor,
+    type AggregationResponsesCursor as AggregationResponsesCursor,
     type AggregationCreateParams as AggregationCreateParams,
     type AggregationRetrieveParams as AggregationRetrieveParams,
     type AggregationUpdateParams as AggregationUpdateParams,

@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class LineItems extends APIResource {
   /**
@@ -13,23 +14,15 @@ export class LineItems extends APIResource {
    * a specific Bill.
    */
   retrieve(
-    billId: string,
     id: string,
-    params?: LineItemRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<LineItemResponse>;
-  retrieve(billId: string, id: string, options?: Core.RequestOptions): Core.APIPromise<LineItemResponse>;
-  retrieve(
-    billId: string,
-    id: string,
-    params: LineItemRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<LineItemResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(billId, id, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${billId}/lineitems/${id}`, { query, ...options });
+    params: LineItemRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<LineItemResponse> {
+    const { orgId = this._client.orgID, billId, ...query } = params;
+    return this._client.get(path`/organizations/${orgId}/bills/${billId}/lineitems/${id}`, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -41,32 +34,20 @@ export class LineItems extends APIResource {
    * adjustments within a Bill.
    */
   list(
-    billId: string,
-    params?: LineItemListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<LineItemResponsesCursor, LineItemResponse>;
-  list(
-    billId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<LineItemResponsesCursor, LineItemResponse>;
-  list(
-    billId: string,
-    params: LineItemListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<LineItemResponsesCursor, LineItemResponse> {
-    if (isRequestOptions(params)) {
-      return this.list(billId, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    billID: string,
+    params: LineItemListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<LineItemResponsesCursor, LineItemResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/bills/${billId}/lineitems`,
-      LineItemResponsesCursor,
+      path`/organizations/${orgId}/bills/${billID}/lineitems`,
+      Cursor<LineItemResponse>,
       { query, ...options },
     );
   }
 }
 
-export class LineItemResponsesCursor extends Cursor<LineItemResponse> {}
+export type LineItemResponsesCursor = Cursor<LineItemResponse>;
 
 export interface LineItemResponse {
   /**
@@ -392,6 +373,11 @@ export interface LineItemRetrieveParams {
   orgId?: string;
 
   /**
+   * Path param: The unique identifier (UUID) of the Bill containing the line item.
+   */
+  billId: string;
+
+  /**
    * Query param: Comma separated list of additional fields.
    */
   additional?: Array<string>;
@@ -409,12 +395,10 @@ export interface LineItemListParams extends CursorParams {
   additional?: Array<string>;
 }
 
-LineItems.LineItemResponsesCursor = LineItemResponsesCursor;
-
 export declare namespace LineItems {
   export {
     type LineItemResponse as LineItemResponse,
-    LineItemResponsesCursor as LineItemResponsesCursor,
+    type LineItemResponsesCursor as LineItemResponsesCursor,
     type LineItemRetrieveParams as LineItemRetrieveParams,
     type LineItemListParams as LineItemListParams,
   };

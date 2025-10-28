@@ -1,8 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class CustomFields extends APIResource {
   /**
@@ -16,19 +17,11 @@ export class CustomFields extends APIResource {
    * ```
    */
   retrieve(
-    params?: CustomFieldRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldsResponse>;
-  retrieve(options?: Core.RequestOptions): Core.APIPromise<CustomFieldsResponse>;
-  retrieve(
-    params: CustomFieldRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldsResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve({}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/customfields`, options);
+    params: CustomFieldRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CustomFieldsResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/customfields`, options);
   }
 
   /**
@@ -41,19 +34,11 @@ export class CustomFields extends APIResource {
    * ```
    */
   update(
-    params?: CustomFieldUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldsResponse>;
-  update(options?: Core.RequestOptions): Core.APIPromise<CustomFieldsResponse>;
-  update(
-    params: CustomFieldUpdateParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CustomFieldsResponse> {
-    if (isRequestOptions(params)) {
-      return this.update({}, params);
-    }
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/customfields`, { body, ...options });
+    params: CustomFieldUpdateParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CustomFieldsResponse> {
+    const { orgId = this._client.orgID, ...body } = params ?? {};
+    return this._client.put(path`/organizations/${orgId}/customfields`, { body, ...options });
   }
 }
 

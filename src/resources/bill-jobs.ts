@@ -1,10 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as Shared from './shared';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class BillJobs extends APIResource {
   /**
@@ -42,17 +43,12 @@ export class BillJobs extends APIResource {
    * const billJobResponse = await client.billJobs.create();
    * ```
    */
-  create(params?: BillJobCreateParams, options?: Core.RequestOptions): Core.APIPromise<BillJobResponse>;
-  create(options?: Core.RequestOptions): Core.APIPromise<BillJobResponse>;
   create(
-    params: BillJobCreateParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.create({}, params);
-    }
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/billjobs`, { body, ...options });
+    params: BillJobCreateParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillJobResponse> {
+    const { orgId = this._client.orgID, ...body } = params ?? {};
+    return this._client.post(path`/organizations/${orgId}/billjobs`, { body, ...options });
   }
 
   /**
@@ -67,20 +63,11 @@ export class BillJobs extends APIResource {
    */
   retrieve(
     id: string,
-    params?: BillJobRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillJobResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<BillJobResponse>;
-  retrieve(
-    id: string,
-    params: BillJobRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/billjobs/${id}`, options);
+    params: BillJobRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillJobResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/billjobs/${id}`, options);
   }
 
   /**
@@ -100,19 +87,11 @@ export class BillJobs extends APIResource {
    * ```
    */
   list(
-    params?: BillJobListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillJobResponsesCursor, BillJobResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<BillJobResponsesCursor, BillJobResponse>;
-  list(
-    params: BillJobListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillJobResponsesCursor, BillJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/billjobs`, BillJobResponsesCursor, {
+    params: BillJobListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<BillJobResponsesCursor, BillJobResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/billjobs`, Cursor<BillJobResponse>, {
       query,
       ...options,
     });
@@ -132,20 +111,11 @@ export class BillJobs extends APIResource {
    */
   cancel(
     id: string,
-    params?: BillJobCancelParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillJobResponse>;
-  cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<BillJobResponse>;
-  cancel(
-    id: string,
-    params: BillJobCancelParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.cancel(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.post(`/organizations/${orgId}/billjobs/${id}/cancel`, options);
+    params: BillJobCancelParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillJobResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.post(path`/organizations/${orgId}/billjobs/${id}/cancel`, options);
   }
 
   /**
@@ -172,16 +142,13 @@ export class BillJobs extends APIResource {
    * });
    * ```
    */
-  recalculate(
-    params: BillJobRecalculateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillJobResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/billjobs/recalculate`, { body, ...options });
+  recalculate(params: BillJobRecalculateParams, options?: RequestOptions): APIPromise<BillJobResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/billjobs/recalculate`, { body, ...options });
   }
 }
 
-export class BillJobResponsesCursor extends Cursor<BillJobResponse> {}
+export type BillJobResponsesCursor = Cursor<BillJobResponse>;
 
 export interface BillJobResponse {
   /**
@@ -577,12 +544,10 @@ export interface BillJobRecalculateParams {
   version?: number;
 }
 
-BillJobs.BillJobResponsesCursor = BillJobResponsesCursor;
-
 export declare namespace BillJobs {
   export {
     type BillJobResponse as BillJobResponse,
-    BillJobResponsesCursor as BillJobResponsesCursor,
+    type BillJobResponsesCursor as BillJobResponsesCursor,
     type BillJobCreateParams as BillJobCreateParams,
     type BillJobRetrieveParams as BillJobRetrieveParams,
     type BillJobListParams as BillJobListParams,

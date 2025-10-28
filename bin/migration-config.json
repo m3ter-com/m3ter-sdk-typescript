@@ -1,0 +1,604 @@
+{
+  "pkg": "m3ter-sdk",
+  "githubRepo": "https://github.com/stainless-sdks/m3ter-sdk-typescript",
+  "clientClass": "M3ter",
+  "methods": [
+    {
+      "base": "bills.creditLineItems",
+      "name": "retrieve",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "billId",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "bills.creditLineItems",
+      "name": "update",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "billId",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "bills.creditLineItems",
+      "name": "delete",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "billId",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "bills.debitLineItems",
+      "name": "retrieve",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "billId",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "bills.debitLineItems",
+      "name": "update",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "billId",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "bills.debitLineItems",
+      "name": "delete",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "billId",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "bills.lineItems",
+      "name": "retrieve",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "billId",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "externalMappings",
+      "name": "listByExternalEntity",
+      "params": [
+        {
+          "type": "param",
+          "key": "externalId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "system",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "externalTable",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "externalId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "externalMappings",
+      "name": "listByM3terEntity",
+      "params": [
+        {
+          "type": "param",
+          "key": "m3terId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "entity",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "m3terId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "resourceGroups",
+      "name": "retrieve",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "type",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "resourceGroups",
+      "name": "update",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "type",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "resourceGroups",
+      "name": "delete",
+      "params": [
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "type",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "resourceGroups",
+      "name": "addResource",
+      "params": [
+        {
+          "type": "param",
+          "key": "resourceGroupId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "type",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "resourceGroupId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "resourceGroups",
+      "name": "listContents",
+      "params": [
+        {
+          "type": "param",
+          "key": "resourceGroupId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "type",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "resourceGroupId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "resourceGroups",
+      "name": "listPermissions",
+      "params": [
+        {
+          "type": "param",
+          "key": "resourceGroupId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "type",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "resourceGroupId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "resourceGroups",
+      "name": "removeResource",
+      "params": [
+        {
+          "type": "param",
+          "key": "resourceGroupId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "type",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "resourceGroupId",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    }
+  ]
+}

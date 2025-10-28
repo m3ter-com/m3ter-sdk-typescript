@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import * as Core from '../../../core';
+import { APIResource } from '../../../core/resource';
 import * as JobsAPI from './jobs';
 import {
   FileUploadJobResponse,
@@ -12,6 +11,9 @@ import {
   JobRetrieveParams,
   Jobs,
 } from './jobs';
+import { APIPromise } from '../../../core/api-promise';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class FileUploads extends APIResource {
   jobs: JobsAPI.Jobs = new JobsAPI.Jobs(this._client);
@@ -45,10 +47,10 @@ export class FileUploads extends APIResource {
    */
   generateUploadURL(
     params: FileUploadGenerateUploadURLParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<FileUploadGenerateUploadURLResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/fileuploads/measurements/generateUploadUrl`, {
+    options?: RequestOptions,
+  ): APIPromise<FileUploadGenerateUploadURLResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/fileuploads/measurements/generateUploadUrl`, {
       body,
       ...options,
     });
@@ -105,7 +107,6 @@ export interface FileUploadGenerateUploadURLParams {
 }
 
 FileUploads.Jobs = Jobs;
-FileUploads.FileUploadJobResponsesCursor = FileUploadJobResponsesCursor;
 
 export declare namespace FileUploads {
   export {
@@ -117,7 +118,7 @@ export declare namespace FileUploads {
     Jobs as Jobs,
     type FileUploadJobResponse as FileUploadJobResponse,
     type JobGetOriginalDownloadURLResponse as JobGetOriginalDownloadURLResponse,
-    FileUploadJobResponsesCursor as FileUploadJobResponsesCursor,
+    type FileUploadJobResponsesCursor as FileUploadJobResponsesCursor,
     type JobRetrieveParams as JobRetrieveParams,
     type JobListParams as JobListParams,
     type JobGetOriginalDownloadURLParams as JobGetOriginalDownloadURLParams,

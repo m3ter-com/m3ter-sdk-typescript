@@ -1,13 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import M3ter from 'm3ter-sdk';
-import { Response } from 'node-fetch';
 
 const client = new M3ter({
   apiKey: 'My API Key',
   apiSecret: 'My API Secret',
   token: 'My Token',
-  orgId: 'My Org ID',
+  orgID: 'My Org ID',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -28,7 +27,7 @@ describe('resource resourceGroups', () => {
   });
 
   test('retrieve: only required params', async () => {
-    const responsePromise = client.resourceGroups.retrieve('type', 'id');
+    const responsePromise = client.resourceGroups.retrieve('id', { type: 'type' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -39,25 +38,11 @@ describe('resource resourceGroups', () => {
   });
 
   test('retrieve: required and optional params', async () => {
-    const response = await client.resourceGroups.retrieve('type', 'id', { orgId: 'orgId' });
-  });
-
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.resourceGroups.retrieve('type', 'id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
-  test('retrieve: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.resourceGroups.retrieve('type', 'id', { orgId: 'orgId' }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
+    const response = await client.resourceGroups.retrieve('id', { orgId: 'orgId', type: 'type' });
   });
 
   test('update: only required params', async () => {
-    const responsePromise = client.resourceGroups.update('type', 'id', { name: 'x' });
+    const responsePromise = client.resourceGroups.update('id', { type: 'type', name: 'x' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -68,8 +53,9 @@ describe('resource resourceGroups', () => {
   });
 
   test('update: required and optional params', async () => {
-    const response = await client.resourceGroups.update('type', 'id', {
+    const response = await client.resourceGroups.update('id', {
       orgId: 'orgId',
+      type: 'type',
       name: 'x',
       version: 0,
     });
@@ -94,13 +80,6 @@ describe('resource resourceGroups', () => {
     });
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.resourceGroups.list('type', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
-  });
-
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -113,7 +92,7 @@ describe('resource resourceGroups', () => {
   });
 
   test('delete: only required params', async () => {
-    const responsePromise = client.resourceGroups.delete('type', 'id');
+    const responsePromise = client.resourceGroups.delete('id', { type: 'type' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -124,25 +103,12 @@ describe('resource resourceGroups', () => {
   });
 
   test('delete: required and optional params', async () => {
-    const response = await client.resourceGroups.delete('type', 'id', { orgId: 'orgId' });
-  });
-
-  test('delete: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.resourceGroups.delete('type', 'id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
-  test('delete: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.resourceGroups.delete('type', 'id', { orgId: 'orgId' }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
+    const response = await client.resourceGroups.delete('id', { orgId: 'orgId', type: 'type' });
   });
 
   test('addResource: only required params', async () => {
-    const responsePromise = client.resourceGroups.addResource('type', 'resourceGroupId', {
+    const responsePromise = client.resourceGroups.addResource('resourceGroupId', {
+      type: 'type',
       targetId: '06f6b50c-a868-4ca6-XXXX-448e507d5248',
       targetType: 'ITEM',
     });
@@ -156,8 +122,9 @@ describe('resource resourceGroups', () => {
   });
 
   test('addResource: required and optional params', async () => {
-    const response = await client.resourceGroups.addResource('type', 'resourceGroupId', {
+    const response = await client.resourceGroups.addResource('resourceGroupId', {
       orgId: 'orgId',
+      type: 'type',
       targetId: '06f6b50c-a868-4ca6-XXXX-448e507d5248',
       targetType: 'ITEM',
       version: 0,
@@ -165,7 +132,7 @@ describe('resource resourceGroups', () => {
   });
 
   test('listContents: only required params', async () => {
-    const responsePromise = client.resourceGroups.listContents('type', 'resourceGroupId');
+    const responsePromise = client.resourceGroups.listContents('resourceGroupId', { type: 'type' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -176,34 +143,16 @@ describe('resource resourceGroups', () => {
   });
 
   test('listContents: required and optional params', async () => {
-    const response = await client.resourceGroups.listContents('type', 'resourceGroupId', {
+    const response = await client.resourceGroups.listContents('resourceGroupId', {
       orgId: 'orgId',
+      type: 'type',
       nextToken: 'nextToken',
       pageSize: 1,
     });
   });
 
-  test('listContents: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.resourceGroups.listContents('type', 'resourceGroupId', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
-  test('listContents: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.resourceGroups.listContents(
-        'type',
-        'resourceGroupId',
-        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1 },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
   test('listPermissions: only required params', async () => {
-    const responsePromise = client.resourceGroups.listPermissions('type', 'resourceGroupId');
+    const responsePromise = client.resourceGroups.listPermissions('resourceGroupId', { type: 'type' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -214,34 +163,17 @@ describe('resource resourceGroups', () => {
   });
 
   test('listPermissions: required and optional params', async () => {
-    const response = await client.resourceGroups.listPermissions('type', 'resourceGroupId', {
+    const response = await client.resourceGroups.listPermissions('resourceGroupId', {
       orgId: 'orgId',
+      type: 'type',
       nextToken: 'nextToken',
       pageSize: 1,
     });
   });
 
-  test('listPermissions: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.resourceGroups.listPermissions('type', 'resourceGroupId', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
-  test('listPermissions: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.resourceGroups.listPermissions(
-        'type',
-        'resourceGroupId',
-        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1 },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
   test('removeResource: only required params', async () => {
-    const responsePromise = client.resourceGroups.removeResource('type', 'resourceGroupId', {
+    const responsePromise = client.resourceGroups.removeResource('resourceGroupId', {
+      type: 'type',
       targetId: '06f6b50c-a868-4ca6-XXXX-448e507d5248',
       targetType: 'ITEM',
     });
@@ -255,8 +187,9 @@ describe('resource resourceGroups', () => {
   });
 
   test('removeResource: required and optional params', async () => {
-    const response = await client.resourceGroups.removeResource('type', 'resourceGroupId', {
+    const response = await client.resourceGroups.removeResource('resourceGroupId', {
       orgId: 'orgId',
+      type: 'type',
       targetId: '06f6b50c-a868-4ca6-XXXX-448e507d5248',
       targetType: 'ITEM',
       version: 0,

@@ -1,11 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as PermissionPoliciesAPI from './permission-policies';
 import { PermissionPolicyResponsesCursor } from './permission-policies';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class ResourceGroups extends APIResource {
   /**
@@ -20,10 +21,10 @@ export class ResourceGroups extends APIResource {
   create(
     type: string,
     params: ResourceGroupCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/resourcegroups/${type}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<ResourceGroupResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/resourcegroups/${type}`, { body, ...options });
   }
 
   /**
@@ -32,27 +33,18 @@ export class ResourceGroups extends APIResource {
    * @example
    * ```ts
    * const resourceGroupResponse =
-   *   await client.resourceGroups.retrieve('type', 'id');
+   *   await client.resourceGroups.retrieve('id', {
+   *     type: 'type',
+   *   });
    * ```
    */
   retrieve(
-    type: string,
     id: string,
-    params?: ResourceGroupRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupResponse>;
-  retrieve(type: string, id: string, options?: Core.RequestOptions): Core.APIPromise<ResourceGroupResponse>;
-  retrieve(
-    type: string,
-    id: string,
-    params: ResourceGroupRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(type, id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/resourcegroups/${type}/${id}`, options);
+    params: ResourceGroupRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<ResourceGroupResponse> {
+    const { orgId = this._client.orgID, type } = params;
+    return this._client.get(path`/organizations/${orgId}/resourcegroups/${type}/${id}`, options);
   }
 
   /**
@@ -61,19 +53,19 @@ export class ResourceGroups extends APIResource {
    * @example
    * ```ts
    * const resourceGroupResponse =
-   *   await client.resourceGroups.update('type', 'id', {
+   *   await client.resourceGroups.update('id', {
+   *     type: 'type',
    *     name: 'x',
    *   });
    * ```
    */
   update(
-    type: string,
     id: string,
     params: ResourceGroupUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/resourcegroups/${type}/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<ResourceGroupResponse> {
+    const { orgId = this._client.orgID, type, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/resourcegroups/${type}/${id}`, { body, ...options });
   }
 
   /**
@@ -91,25 +83,13 @@ export class ResourceGroups extends APIResource {
    */
   list(
     type: string,
-    params?: ResourceGroupListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ResourceGroupResponsesCursor, ResourceGroupResponse>;
-  list(
-    type: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ResourceGroupResponsesCursor, ResourceGroupResponse>;
-  list(
-    type: string,
-    params: ResourceGroupListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ResourceGroupResponsesCursor, ResourceGroupResponse> {
-    if (isRequestOptions(params)) {
-      return this.list(type, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: ResourceGroupListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<ResourceGroupResponsesCursor, ResourceGroupResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/resourcegroups/${type}`,
-      ResourceGroupResponsesCursor,
+      path`/organizations/${orgId}/resourcegroups/${type}`,
+      Cursor<ResourceGroupResponse>,
       { query, ...options },
     );
   }
@@ -120,27 +100,18 @@ export class ResourceGroups extends APIResource {
    * @example
    * ```ts
    * const resourceGroupResponse =
-   *   await client.resourceGroups.delete('type', 'id');
+   *   await client.resourceGroups.delete('id', {
+   *     type: 'type',
+   *   });
    * ```
    */
   delete(
-    type: string,
     id: string,
-    params?: ResourceGroupDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupResponse>;
-  delete(type: string, id: string, options?: Core.RequestOptions): Core.APIPromise<ResourceGroupResponse>;
-  delete(
-    type: string,
-    id: string,
-    params: ResourceGroupDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(type, id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/resourcegroups/${type}/${id}`, options);
+    params: ResourceGroupDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<ResourceGroupResponse> {
+    const { orgId = this._client.orgID, type } = params;
+    return this._client.delete(path`/organizations/${orgId}/resourcegroups/${type}/${id}`, options);
   }
 
   /**
@@ -150,9 +121,9 @@ export class ResourceGroups extends APIResource {
    * ```ts
    * const resourceGroupResponse =
    *   await client.resourceGroups.addResource(
-   *     'type',
    *     'resourceGroupId',
    *     {
+   *       type: 'type',
    *       targetId: '06f6b50c-a868-4ca6-XXXX-448e507d5248',
    *       targetType: 'ITEM',
    *     },
@@ -160,14 +131,13 @@ export class ResourceGroups extends APIResource {
    * ```
    */
   addResource(
-    type: string,
-    resourceGroupId: string,
+    resourceGroupID: string,
     params: ResourceGroupAddResourceParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
+    options?: RequestOptions,
+  ): APIPromise<ResourceGroupResponse> {
+    const { orgId = this._client.orgID, type, ...body } = params;
     return this._client.post(
-      `/organizations/${orgId}/resourcegroups/${type}/${resourceGroupId}/addresource`,
+      path`/organizations/${orgId}/resourcegroups/${type}/${resourceGroupID}/addresource`,
       { body, ...options },
     );
   }
@@ -179,37 +149,22 @@ export class ResourceGroups extends APIResource {
    * ```ts
    * // Automatically fetches more pages as needed.
    * for await (const resourceGroupListContentsResponse of client.resourceGroups.listContents(
-   *   'type',
    *   'resourceGroupId',
+   *   { type: 'type' },
    * )) {
    *   // ...
    * }
    * ```
    */
   listContents(
-    type: string,
-    resourceGroupId: string,
-    params?: ResourceGroupListContentsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ResourceGroupListContentsResponsesCursor, ResourceGroupListContentsResponse>;
-  listContents(
-    type: string,
-    resourceGroupId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ResourceGroupListContentsResponsesCursor, ResourceGroupListContentsResponse>;
-  listContents(
-    type: string,
-    resourceGroupId: string,
-    params: ResourceGroupListContentsParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ResourceGroupListContentsResponsesCursor, ResourceGroupListContentsResponse> {
-    if (isRequestOptions(params)) {
-      return this.listContents(type, resourceGroupId, {}, params);
-    }
-    const { orgId = this._client.orgId, nextToken, pageSize } = params;
+    resourceGroupID: string,
+    params: ResourceGroupListContentsParams,
+    options?: RequestOptions,
+  ): PagePromise<ResourceGroupListContentsResponsesCursor, ResourceGroupListContentsResponse> {
+    const { orgId = this._client.orgID, type, nextToken, pageSize } = params;
     return this._client.getAPIList(
-      `/organizations/${orgId}/resourcegroups/${type}/${resourceGroupId}/contents`,
-      ResourceGroupListContentsResponsesCursor,
+      path`/organizations/${orgId}/resourcegroups/${type}/${resourceGroupID}/contents`,
+      Cursor<ResourceGroupListContentsResponse>,
       { query: { nextToken, pageSize }, method: 'post', ...options },
     );
   }
@@ -221,37 +176,22 @@ export class ResourceGroups extends APIResource {
    * ```ts
    * // Automatically fetches more pages as needed.
    * for await (const permissionPolicyResponse of client.resourceGroups.listPermissions(
-   *   'type',
    *   'resourceGroupId',
+   *   { type: 'type' },
    * )) {
    *   // ...
    * }
    * ```
    */
   listPermissions(
-    type: string,
-    resourceGroupId: string,
-    params?: ResourceGroupListPermissionsParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PermissionPolicyResponsesCursor, PermissionPoliciesAPI.PermissionPolicyResponse>;
-  listPermissions(
-    type: string,
-    resourceGroupId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PermissionPolicyResponsesCursor, PermissionPoliciesAPI.PermissionPolicyResponse>;
-  listPermissions(
-    type: string,
-    resourceGroupId: string,
-    params: ResourceGroupListPermissionsParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PermissionPolicyResponsesCursor, PermissionPoliciesAPI.PermissionPolicyResponse> {
-    if (isRequestOptions(params)) {
-      return this.listPermissions(type, resourceGroupId, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    resourceGroupID: string,
+    params: ResourceGroupListPermissionsParams,
+    options?: RequestOptions,
+  ): PagePromise<PermissionPolicyResponsesCursor, PermissionPoliciesAPI.PermissionPolicyResponse> {
+    const { orgId = this._client.orgID, type, ...query } = params;
     return this._client.getAPIList(
-      `/organizations/${orgId}/resourcegroups/${type}/${resourceGroupId}/permissions`,
-      PermissionPolicyResponsesCursor,
+      path`/organizations/${orgId}/resourcegroups/${type}/${resourceGroupID}/permissions`,
+      Cursor<PermissionPoliciesAPI.PermissionPolicyResponse>,
       { query, ...options },
     );
   }
@@ -263,9 +203,9 @@ export class ResourceGroups extends APIResource {
    * ```ts
    * const resourceGroupResponse =
    *   await client.resourceGroups.removeResource(
-   *     'type',
    *     'resourceGroupId',
    *     {
+   *       type: 'type',
    *       targetId: '06f6b50c-a868-4ca6-XXXX-448e507d5248',
    *       targetType: 'ITEM',
    *     },
@@ -273,22 +213,21 @@ export class ResourceGroups extends APIResource {
    * ```
    */
   removeResource(
-    type: string,
-    resourceGroupId: string,
+    resourceGroupID: string,
     params: ResourceGroupRemoveResourceParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
+    options?: RequestOptions,
+  ): APIPromise<ResourceGroupResponse> {
+    const { orgId = this._client.orgID, type, ...body } = params;
     return this._client.post(
-      `/organizations/${orgId}/resourcegroups/${type}/${resourceGroupId}/removeresource`,
+      path`/organizations/${orgId}/resourcegroups/${type}/${resourceGroupID}/removeresource`,
       { body, ...options },
     );
   }
 }
 
-export class ResourceGroupResponsesCursor extends Cursor<ResourceGroupResponse> {}
+export type ResourceGroupResponsesCursor = Cursor<ResourceGroupResponse>;
 
-export class ResourceGroupListContentsResponsesCursor extends Cursor<ResourceGroupListContentsResponse> {}
+export type ResourceGroupListContentsResponsesCursor = Cursor<ResourceGroupListContentsResponse>;
 
 export interface ResourceGroupResponse {
   /**
@@ -379,6 +318,11 @@ export interface ResourceGroupRetrieveParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * The type of resource
+   */
+  type: string;
 }
 
 export interface ResourceGroupUpdateParams {
@@ -386,6 +330,11 @@ export interface ResourceGroupUpdateParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Path param: The type of resource
+   */
+  type: string;
 
   /**
    * Body param:
@@ -410,6 +359,11 @@ export interface ResourceGroupDeleteParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * The type of resource
+   */
+  type: string;
 }
 
 export interface ResourceGroupAddResourceParams {
@@ -417,6 +371,12 @@ export interface ResourceGroupAddResourceParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Path param: The type of resource the Resource Group is for, such as a Meter
+   * Resource Group.
+   */
+  type: string;
 
   /**
    * Body param: The id of the item or group you want to:
@@ -452,6 +412,11 @@ export interface ResourceGroupListContentsParams extends CursorParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Path param: The type of resource
+   */
+  type: string;
 }
 
 export interface ResourceGroupListPermissionsParams extends CursorParams {
@@ -459,6 +424,11 @@ export interface ResourceGroupListPermissionsParams extends CursorParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Path param: The type of resource
+   */
+  type: string;
 }
 
 export interface ResourceGroupRemoveResourceParams {
@@ -466,6 +436,11 @@ export interface ResourceGroupRemoveResourceParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Path param: The type of resource
+   */
+  type: string;
 
   /**
    * Body param: The id of the item or group you want to:
@@ -496,15 +471,12 @@ export interface ResourceGroupRemoveResourceParams {
   version?: number;
 }
 
-ResourceGroups.ResourceGroupResponsesCursor = ResourceGroupResponsesCursor;
-ResourceGroups.ResourceGroupListContentsResponsesCursor = ResourceGroupListContentsResponsesCursor;
-
 export declare namespace ResourceGroups {
   export {
     type ResourceGroupResponse as ResourceGroupResponse,
     type ResourceGroupListContentsResponse as ResourceGroupListContentsResponse,
-    ResourceGroupResponsesCursor as ResourceGroupResponsesCursor,
-    ResourceGroupListContentsResponsesCursor as ResourceGroupListContentsResponsesCursor,
+    type ResourceGroupResponsesCursor as ResourceGroupResponsesCursor,
+    type ResourceGroupListContentsResponsesCursor as ResourceGroupListContentsResponsesCursor,
     type ResourceGroupCreateParams as ResourceGroupCreateParams,
     type ResourceGroupRetrieveParams as ResourceGroupRetrieveParams,
     type ResourceGroupUpdateParams as ResourceGroupUpdateParams,
@@ -517,4 +489,4 @@ export declare namespace ResourceGroups {
   };
 }
 
-export { PermissionPolicyResponsesCursor };
+export { type PermissionPolicyResponsesCursor };

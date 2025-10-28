@@ -1,10 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as Shared from './shared';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Pricings extends APIResource {
   /**
@@ -14,9 +15,9 @@ export class Pricings extends APIResource {
    * for this call to be valid. If you omit both, then you will receive a validation
    * error.
    */
-  create(params: PricingCreateParams, options?: Core.RequestOptions): Core.APIPromise<PricingResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/pricings`, { body, ...options });
+  create(params: PricingCreateParams, options?: RequestOptions): APIPromise<PricingResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/pricings`, { body, ...options });
   }
 
   /**
@@ -24,20 +25,11 @@ export class Pricings extends APIResource {
    */
   retrieve(
     id: string,
-    params?: PricingRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PricingResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<PricingResponse>;
-  retrieve(
-    id: string,
-    params: PricingRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PricingResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/pricings/${id}`, options);
+    params: PricingRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PricingResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/pricings/${id}`, options);
   }
 
   /**
@@ -47,13 +39,9 @@ export class Pricings extends APIResource {
    * for this call to be valid. If you omit both, then you will receive a validation
    * error.
    */
-  update(
-    id: string,
-    params: PricingUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PricingResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/pricings/${id}`, { body, ...options });
+  update(id: string, params: PricingUpdateParams, options?: RequestOptions): APIPromise<PricingResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/pricings/${id}`, { body, ...options });
   }
 
   /**
@@ -61,19 +49,11 @@ export class Pricings extends APIResource {
    * Pricing ID.
    */
   list(
-    params?: PricingListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PricingResponsesCursor, PricingResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<PricingResponsesCursor, PricingResponse>;
-  list(
-    params: PricingListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PricingResponsesCursor, PricingResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/pricings`, PricingResponsesCursor, {
+    params: PricingListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PricingResponsesCursor, PricingResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/pricings`, Cursor<PricingResponse>, {
       query,
       ...options,
     });
@@ -84,24 +64,15 @@ export class Pricings extends APIResource {
    */
   delete(
     id: string,
-    params?: PricingDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PricingResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<PricingResponse>;
-  delete(
-    id: string,
-    params: PricingDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PricingResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/pricings/${id}`, options);
+    params: PricingDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PricingResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/pricings/${id}`, options);
   }
 }
 
-export class PricingResponsesCursor extends Cursor<PricingResponse> {}
+export type PricingResponsesCursor = Cursor<PricingResponse>;
 
 export interface PricingResponse {
   /**
@@ -658,12 +629,10 @@ export interface PricingDeleteParams {
   orgId?: string;
 }
 
-Pricings.PricingResponsesCursor = PricingResponsesCursor;
-
 export declare namespace Pricings {
   export {
     type PricingResponse as PricingResponse,
-    PricingResponsesCursor as PricingResponsesCursor,
+    type PricingResponsesCursor as PricingResponsesCursor,
     type PricingCreateParams as PricingCreateParams,
     type PricingRetrieveParams as PricingRetrieveParams,
     type PricingUpdateParams as PricingUpdateParams,

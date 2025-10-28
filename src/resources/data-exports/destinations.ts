@@ -1,10 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as DestinationsAPI from './destinations';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Destinations extends APIResource {
   /**
@@ -26,12 +27,9 @@ export class Destinations extends APIResource {
    * - Use the **Example** selector to show the relevant request and response samples
    *   for the type of Destination.
    */
-  create(
-    params: DestinationCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DestinationCreateResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/dataexports/destinations`, { body, ...options });
+  create(params: DestinationCreateParams, options?: RequestOptions): APIPromise<DestinationCreateResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/dataexports/destinations`, { body, ...options });
   }
 
   /**
@@ -39,20 +37,11 @@ export class Destinations extends APIResource {
    */
   retrieve(
     id: string,
-    params?: DestinationRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DestinationRetrieveResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<DestinationRetrieveResponse>;
-  retrieve(
-    id: string,
-    params: DestinationRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DestinationRetrieveResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/dataexports/destinations/${id}`, options);
+    params: DestinationRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<DestinationRetrieveResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/dataexports/destinations/${id}`, options);
   }
 
   /**
@@ -76,10 +65,13 @@ export class Destinations extends APIResource {
   update(
     id: string,
     params: DestinationUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DestinationUpdateResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/dataexports/destinations/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<DestinationUpdateResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/dataexports/destinations/${id}`, {
+      body,
+      ...options,
+    });
   }
 
   /**
@@ -87,23 +79,13 @@ export class Destinations extends APIResource {
    * Destinations returned by UUID.
    */
   list(
-    params?: DestinationListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DataExportDestinationResponsesCursor, DataExportDestinationResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DataExportDestinationResponsesCursor, DataExportDestinationResponse>;
-  list(
-    params: DestinationListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DataExportDestinationResponsesCursor, DataExportDestinationResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: DestinationListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DataExportDestinationResponsesCursor, DataExportDestinationResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/dataexports/destinations`,
-      DataExportDestinationResponsesCursor,
+      path`/organizations/${orgId}/dataexports/destinations`,
+      Cursor<DataExportDestinationResponse>,
       { query, ...options },
     );
   }
@@ -117,24 +99,15 @@ export class Destinations extends APIResource {
    */
   delete(
     id: string,
-    params?: DestinationDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DestinationDeleteResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<DestinationDeleteResponse>;
-  delete(
-    id: string,
-    params: DestinationDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DestinationDeleteResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/dataexports/destinations/${id}`, options);
+    params: DestinationDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<DestinationDeleteResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/dataexports/destinations/${id}`, options);
   }
 }
 
-export class DataExportDestinationResponsesCursor extends Cursor<DataExportDestinationResponse> {}
+export type DataExportDestinationResponsesCursor = Cursor<DataExportDestinationResponse>;
 
 export interface DataExportDestinationGoogleCloudStorageRequest {
   /**
@@ -1193,8 +1166,6 @@ export interface DestinationDeleteParams {
   orgId?: string;
 }
 
-Destinations.DataExportDestinationResponsesCursor = DataExportDestinationResponsesCursor;
-
 export declare namespace Destinations {
   export {
     type DataExportDestinationGoogleCloudStorageRequest as DataExportDestinationGoogleCloudStorageRequest,
@@ -1204,7 +1175,7 @@ export declare namespace Destinations {
     type DestinationRetrieveResponse as DestinationRetrieveResponse,
     type DestinationUpdateResponse as DestinationUpdateResponse,
     type DestinationDeleteResponse as DestinationDeleteResponse,
-    DataExportDestinationResponsesCursor as DataExportDestinationResponsesCursor,
+    type DataExportDestinationResponsesCursor as DataExportDestinationResponsesCursor,
     type DestinationCreateParams as DestinationCreateParams,
     type DestinationRetrieveParams as DestinationRetrieveParams,
     type DestinationUpdateParams as DestinationUpdateParams,

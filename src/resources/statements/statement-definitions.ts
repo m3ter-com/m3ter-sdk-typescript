@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class StatementDefinitions extends APIResource {
   /**
@@ -15,10 +16,10 @@ export class StatementDefinitions extends APIResource {
    */
   create(
     params: StatementDefinitionCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementDefinitionResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/statementdefinitions`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<StatementDefinitionResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/statementdefinitions`, { body, ...options });
   }
 
   /**
@@ -30,20 +31,11 @@ export class StatementDefinitions extends APIResource {
    */
   retrieve(
     id: string,
-    params?: StatementDefinitionRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementDefinitionResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<StatementDefinitionResponse>;
-  retrieve(
-    id: string,
-    params: StatementDefinitionRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementDefinitionResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/statementdefinitions/${id}`, options);
+    params: StatementDefinitionRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<StatementDefinitionResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/statementdefinitions/${id}`, options);
   }
 
   /**
@@ -56,10 +48,10 @@ export class StatementDefinitions extends APIResource {
   update(
     id: string,
     params: StatementDefinitionUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementDefinitionResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/statementdefinitions/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<StatementDefinitionResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/statementdefinitions/${id}`, { body, ...options });
   }
 
   /**
@@ -69,23 +61,13 @@ export class StatementDefinitions extends APIResource {
    * specified Organization. The list can be paginated for easier management.
    */
   list(
-    params?: StatementDefinitionListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<StatementDefinitionResponsesCursor, StatementDefinitionResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<StatementDefinitionResponsesCursor, StatementDefinitionResponse>;
-  list(
-    params: StatementDefinitionListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<StatementDefinitionResponsesCursor, StatementDefinitionResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: StatementDefinitionListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<StatementDefinitionResponsesCursor, StatementDefinitionResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/statementdefinitions`,
-      StatementDefinitionResponsesCursor,
+      path`/organizations/${orgId}/statementdefinitions`,
+      Cursor<StatementDefinitionResponse>,
       { query, ...options },
     );
   }
@@ -98,24 +80,15 @@ export class StatementDefinitions extends APIResource {
    */
   delete(
     id: string,
-    params?: StatementDefinitionDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementDefinitionResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<StatementDefinitionResponse>;
-  delete(
-    id: string,
-    params: StatementDefinitionDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementDefinitionResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/statementdefinitions/${id}`, options);
+    params: StatementDefinitionDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<StatementDefinitionResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/statementdefinitions/${id}`, options);
   }
 }
 
-export class StatementDefinitionResponsesCursor extends Cursor<StatementDefinitionResponse> {}
+export type StatementDefinitionResponsesCursor = Cursor<StatementDefinitionResponse>;
 
 export interface StatementDefinitionResponse {
   /**
@@ -459,12 +432,10 @@ export interface StatementDefinitionDeleteParams {
   orgId?: string;
 }
 
-StatementDefinitions.StatementDefinitionResponsesCursor = StatementDefinitionResponsesCursor;
-
 export declare namespace StatementDefinitions {
   export {
     type StatementDefinitionResponse as StatementDefinitionResponse,
-    StatementDefinitionResponsesCursor as StatementDefinitionResponsesCursor,
+    type StatementDefinitionResponsesCursor as StatementDefinitionResponsesCursor,
     type StatementDefinitionCreateParams as StatementDefinitionCreateParams,
     type StatementDefinitionRetrieveParams as StatementDefinitionRetrieveParams,
     type StatementDefinitionUpdateParams as StatementDefinitionUpdateParams,

@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 export {
-  StatementDefinitionResponsesCursor,
   StatementDefinitions,
   type StatementDefinitionResponse,
   type StatementDefinitionCreateParams,
@@ -9,9 +8,9 @@ export {
   type StatementDefinitionUpdateParams,
   type StatementDefinitionListParams,
   type StatementDefinitionDeleteParams,
+  type StatementDefinitionResponsesCursor,
 } from './statement-definitions';
 export {
-  StatementJobResponsesCursor,
   StatementJobs,
   type StatementJobResponse,
   type StatementJobCreateBatchResponse,
@@ -20,6 +19,7 @@ export {
   type StatementJobListParams,
   type StatementJobCancelParams,
   type StatementJobCreateBatchParams,
+  type StatementJobResponsesCursor,
 } from './statement-jobs';
 export {
   Statements,

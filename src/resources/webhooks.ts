@@ -1,18 +1,19 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Webhooks extends APIResource {
   /**
    * This endpoint creates a new webhook destination. A webhook destination is a URL
    * where webhook payloads will be sent.
    */
-  create(params: WebhookCreateParams, options?: Core.RequestOptions): Core.APIPromise<Webhook> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/integrationdestinations/webhooks`, {
+  create(params: WebhookCreateParams, options?: RequestOptions): APIPromise<Webhook> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/integrationdestinations/webhooks`, {
       body,
       ...options,
     });
@@ -23,28 +24,19 @@ export class Webhooks extends APIResource {
    */
   retrieve(
     id: string,
-    params?: WebhookRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Webhook>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<Webhook>;
-  retrieve(
-    id: string,
-    params: WebhookRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Webhook> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/integrationdestinations/webhooks/${id}`, options);
+    params: WebhookRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Webhook> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/integrationdestinations/webhooks/${id}`, options);
   }
 
   /**
    * Update a destination to be used for a webhook.
    */
-  update(id: string, params: WebhookUpdateParams, options?: Core.RequestOptions): Core.APIPromise<Webhook> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/integrationdestinations/webhooks/${id}`, {
+  update(id: string, params: WebhookUpdateParams, options?: RequestOptions): APIPromise<Webhook> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/integrationdestinations/webhooks/${id}`, {
       body,
       ...options,
     });
@@ -53,19 +45,14 @@ export class Webhooks extends APIResource {
   /**
    * Retrieve a list of all Destinations created in the Organization.
    */
-  list(params?: WebhookListParams, options?: Core.RequestOptions): Core.PagePromise<WebhooksCursor, Webhook>;
-  list(options?: Core.RequestOptions): Core.PagePromise<WebhooksCursor, Webhook>;
   list(
-    params: WebhookListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<WebhooksCursor, Webhook> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: WebhookListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<WebhooksCursor, Webhook> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/integrationdestinations/webhooks`,
-      WebhooksCursor,
+      path`/organizations/${orgId}/integrationdestinations/webhooks`,
+      Cursor<Webhook>,
       { query, ...options },
     );
   }
@@ -73,18 +60,13 @@ export class Webhooks extends APIResource {
   /**
    * This endpoint deletes a specific webhook destination identified by its UUID.
    */
-  delete(id: string, params?: WebhookDeleteParams, options?: Core.RequestOptions): Core.APIPromise<Webhook>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<Webhook>;
   delete(
     id: string,
-    params: WebhookDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Webhook> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/integrationdestinations/webhooks/${id}`, options);
+    params: WebhookDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Webhook> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/integrationdestinations/webhooks/${id}`, options);
   }
 
   /**
@@ -96,27 +78,18 @@ export class Webhooks extends APIResource {
    */
   setActive(
     id: string,
-    params?: WebhookSetActiveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Webhook>;
-  setActive(id: string, options?: Core.RequestOptions): Core.APIPromise<Webhook>;
-  setActive(
-    id: string,
-    params: WebhookSetActiveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Webhook> {
-    if (isRequestOptions(params)) {
-      return this.setActive(id, {}, params);
-    }
-    const { orgId = this._client.orgId, active } = params;
-    return this._client.put(`/organizations/${orgId}/integrationdestinations/webhooks/${id}/active`, {
+    params: WebhookSetActiveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Webhook> {
+    const { orgId = this._client.orgID, active } = params ?? {};
+    return this._client.put(path`/organizations/${orgId}/integrationdestinations/webhooks/${id}/active`, {
       query: { active },
       ...options,
     });
   }
 }
 
-export class WebhooksCursor extends Cursor<Webhook> {}
+export type WebhooksCursor = Cursor<Webhook>;
 
 export interface M3terSignedCredentialsRequest {
   /**
@@ -420,14 +393,12 @@ export interface WebhookSetActiveParams {
   active?: boolean;
 }
 
-Webhooks.WebhooksCursor = WebhooksCursor;
-
 export declare namespace Webhooks {
   export {
     type M3terSignedCredentialsRequest as M3terSignedCredentialsRequest,
     type M3terSignedCredentialsResponse as M3terSignedCredentialsResponse,
     type Webhook as Webhook,
-    WebhooksCursor as WebhooksCursor,
+    type WebhooksCursor as WebhooksCursor,
     type WebhookCreateParams as WebhookCreateParams,
     type WebhookRetrieveParams as WebhookRetrieveParams,
     type WebhookUpdateParams as WebhookUpdateParams,

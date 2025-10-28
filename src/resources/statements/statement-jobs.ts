@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class StatementJobs extends APIResource {
   /**
@@ -42,12 +43,9 @@ export class StatementJobs extends APIResource {
    *   [Working with Bill Statements](https://www.m3ter.com/docs/guides/billing-and-usage-data/running-viewing-and-managing-bills/working-with-bill-statements)
    *   in our user Documentation.
    */
-  create(
-    params: StatementJobCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementJobResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/statementjobs`, { body, ...options });
+  create(params: StatementJobCreateParams, options?: RequestOptions): APIPromise<StatementJobResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/statementjobs`, { body, ...options });
   }
 
   /**
@@ -67,20 +65,11 @@ export class StatementJobs extends APIResource {
    */
   retrieve(
     id: string,
-    params?: StatementJobRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementJobResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<StatementJobResponse>;
-  retrieve(
-    id: string,
-    params: StatementJobRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/statementjobs/${id}`, options);
+    params: StatementJobRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<StatementJobResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/statementjobs/${id}`, options);
   }
 
   /**
@@ -102,22 +91,15 @@ export class StatementJobs extends APIResource {
    *   the same call, then a 400 Bad Request is returned with an error message.
    */
   list(
-    params?: StatementJobListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<StatementJobResponsesCursor, StatementJobResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<StatementJobResponsesCursor, StatementJobResponse>;
-  list(
-    params: StatementJobListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<StatementJobResponsesCursor, StatementJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/statementjobs`, StatementJobResponsesCursor, {
-      query,
-      ...options,
-    });
+    params: StatementJobListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<StatementJobResponsesCursor, StatementJobResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(
+      path`/organizations/${orgId}/statementjobs`,
+      Cursor<StatementJobResponse>,
+      { query, ...options },
+    );
   }
 
   /**
@@ -129,20 +111,11 @@ export class StatementJobs extends APIResource {
    */
   cancel(
     id: string,
-    params?: StatementJobCancelParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementJobResponse>;
-  cancel(id: string, options?: Core.RequestOptions): Core.APIPromise<StatementJobResponse>;
-  cancel(
-    id: string,
-    params: StatementJobCancelParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.cancel(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.post(`/organizations/${orgId}/statementjobs/${id}/cancel`, options);
+    params: StatementJobCancelParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<StatementJobResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.post(path`/organizations/${orgId}/statementjobs/${id}/cancel`, options);
   }
 
   /**
@@ -183,14 +156,14 @@ export class StatementJobs extends APIResource {
    */
   createBatch(
     params: StatementJobCreateBatchParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<StatementJobCreateBatchResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/statementjobs/batch`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<StatementJobCreateBatchResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/statementjobs/batch`, { body, ...options });
   }
 }
 
-export class StatementJobResponsesCursor extends Cursor<StatementJobResponse> {}
+export type StatementJobResponsesCursor = Cursor<StatementJobResponse>;
 
 export interface StatementJobResponse {
   /**
@@ -378,13 +351,11 @@ export interface StatementJobCreateBatchParams {
   version?: number;
 }
 
-StatementJobs.StatementJobResponsesCursor = StatementJobResponsesCursor;
-
 export declare namespace StatementJobs {
   export {
     type StatementJobResponse as StatementJobResponse,
     type StatementJobCreateBatchResponse as StatementJobCreateBatchResponse,
-    StatementJobResponsesCursor as StatementJobResponsesCursor,
+    type StatementJobResponsesCursor as StatementJobResponsesCursor,
     type StatementJobCreateParams as StatementJobCreateParams,
     type StatementJobRetrieveParams as StatementJobRetrieveParams,
     type StatementJobListParams as StatementJobListParams,

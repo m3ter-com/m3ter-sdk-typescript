@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Meters extends APIResource {
   /**
@@ -36,9 +37,9 @@ export class Meters extends APIResource {
    *
    * - [Reviewing Meter Options](https://www.m3ter.com/docs/guides/setting-up-usage-data-meters-and-aggregations/reviewing-meter-options).
    */
-  create(params: MeterCreateParams, options?: Core.RequestOptions): Core.APIPromise<MeterResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/meters`, { body, ...options });
+  create(params: MeterCreateParams, options?: RequestOptions): APIPromise<MeterResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/meters`, { body, ...options });
   }
 
   /**
@@ -46,20 +47,11 @@ export class Meters extends APIResource {
    */
   retrieve(
     id: string,
-    params?: MeterRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MeterResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<MeterResponse>;
-  retrieve(
-    id: string,
-    params: MeterRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MeterResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/meters/${id}`, options);
+    params: MeterRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<MeterResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/meters/${id}`, options);
   }
 
   /**
@@ -69,13 +61,9 @@ export class Meters extends APIResource {
    * endpoint to update the Meter use the `customFields` parameter to preserve those
    * Custom Fields. If you omit them from the update request, they will be lost.
    */
-  update(
-    id: string,
-    params: MeterUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MeterResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/meters/${id}`, { body, ...options });
+  update(id: string, params: MeterUpdateParams, options?: RequestOptions): APIPromise<MeterResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/meters/${id}`, { body, ...options });
   }
 
   /**
@@ -83,19 +71,11 @@ export class Meters extends APIResource {
    * short code.
    */
   list(
-    params?: MeterListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<MeterResponsesCursor, MeterResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<MeterResponsesCursor, MeterResponse>;
-  list(
-    params: MeterListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<MeterResponsesCursor, MeterResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/meters`, MeterResponsesCursor, {
+    params: MeterListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<MeterResponsesCursor, MeterResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/meters`, Cursor<MeterResponse>, {
       query,
       ...options,
     });
@@ -106,24 +86,15 @@ export class Meters extends APIResource {
    */
   delete(
     id: string,
-    params?: MeterDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MeterResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<MeterResponse>;
-  delete(
-    id: string,
-    params: MeterDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MeterResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/meters/${id}`, options);
+    params: MeterDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<MeterResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/meters/${id}`, options);
   }
 }
 
-export class MeterResponsesCursor extends Cursor<MeterResponse> {}
+export type MeterResponsesCursor = Cursor<MeterResponse>;
 
 export interface DataField {
   /**
@@ -437,14 +408,12 @@ export interface MeterDeleteParams {
   orgId?: string;
 }
 
-Meters.MeterResponsesCursor = MeterResponsesCursor;
-
 export declare namespace Meters {
   export {
     type DataField as DataField,
     type DerivedField as DerivedField,
     type MeterResponse as MeterResponse,
-    MeterResponsesCursor as MeterResponsesCursor,
+    type MeterResponsesCursor as MeterResponsesCursor,
     type MeterCreateParams as MeterCreateParams,
     type MeterRetrieveParams as MeterRetrieveParams,
     type MeterUpdateParams as MeterUpdateParams,

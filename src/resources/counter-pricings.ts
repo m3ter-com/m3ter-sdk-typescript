@@ -1,10 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as Shared from './shared';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class CounterPricings extends APIResource {
   /**
@@ -14,12 +15,9 @@ export class CounterPricings extends APIResource {
    * for this call to be valid. If you omit both, then you will receive a validation
    * error.
    */
-  create(
-    params: CounterPricingCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterPricingResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/counterpricings`, { body, ...options });
+  create(params: CounterPricingCreateParams, options?: RequestOptions): APIPromise<CounterPricingResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/counterpricings`, { body, ...options });
   }
 
   /**
@@ -27,20 +25,11 @@ export class CounterPricings extends APIResource {
    */
   retrieve(
     id: string,
-    params?: CounterPricingRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterPricingResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<CounterPricingResponse>;
-  retrieve(
-    id: string,
-    params: CounterPricingRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterPricingResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/counterpricings/${id}`, options);
+    params: CounterPricingRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CounterPricingResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/counterpricings/${id}`, options);
   }
 
   /**
@@ -53,10 +42,10 @@ export class CounterPricings extends APIResource {
   update(
     id: string,
     params: CounterPricingUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterPricingResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/counterpricings/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<CounterPricingResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/counterpricings/${id}`, { body, ...options });
   }
 
   /**
@@ -64,24 +53,15 @@ export class CounterPricings extends APIResource {
    * Template ID, or CounterPricing ID.
    */
   list(
-    params?: CounterPricingListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CounterPricingResponsesCursor, CounterPricingResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CounterPricingResponsesCursor, CounterPricingResponse>;
-  list(
-    params: CounterPricingListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CounterPricingResponsesCursor, CounterPricingResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/counterpricings`, CounterPricingResponsesCursor, {
-      query,
-      ...options,
-    });
+    params: CounterPricingListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CounterPricingResponsesCursor, CounterPricingResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(
+      path`/organizations/${orgId}/counterpricings`,
+      Cursor<CounterPricingResponse>,
+      { query, ...options },
+    );
   }
 
   /**
@@ -89,24 +69,15 @@ export class CounterPricings extends APIResource {
    */
   delete(
     id: string,
-    params?: CounterPricingDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterPricingResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<CounterPricingResponse>;
-  delete(
-    id: string,
-    params: CounterPricingDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterPricingResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/counterpricings/${id}`, options);
+    params: CounterPricingDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CounterPricingResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/counterpricings/${id}`, options);
   }
 }
 
-export class CounterPricingResponsesCursor extends Cursor<CounterPricingResponse> {}
+export type CounterPricingResponsesCursor = Cursor<CounterPricingResponse>;
 
 export interface CounterPricingResponse {
   /**
@@ -562,12 +533,10 @@ export interface CounterPricingDeleteParams {
   orgId?: string;
 }
 
-CounterPricings.CounterPricingResponsesCursor = CounterPricingResponsesCursor;
-
 export declare namespace CounterPricings {
   export {
     type CounterPricingResponse as CounterPricingResponse,
-    CounterPricingResponsesCursor as CounterPricingResponsesCursor,
+    type CounterPricingResponsesCursor as CounterPricingResponsesCursor,
     type CounterPricingCreateParams as CounterPricingCreateParams,
     type CounterPricingRetrieveParams as CounterPricingRetrieveParams,
     type CounterPricingUpdateParams as CounterPricingUpdateParams,

@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../../resource';
-import { isRequestOptions } from '../../../core';
-import * as Core from '../../../core';
-import { Cursor, type CursorParams } from '../../../pagination';
+import { APIResource } from '../../../core/resource';
+import { APIPromise } from '../../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../../core/pagination';
+import { RequestOptions } from '../../../internal/request-options';
+import { path } from '../../../internal/utils/path';
 
 export class Jobs extends APIResource {
   /**
@@ -19,20 +20,11 @@ export class Jobs extends APIResource {
    */
   retrieve(
     id: string,
-    params?: JobRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<FileUploadJobResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<FileUploadJobResponse>;
-  retrieve(
-    id: string,
-    params: JobRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<FileUploadJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/fileuploads/measurements/jobs/${id}`, options);
+    params: JobRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<FileUploadJobResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/fileuploads/measurements/jobs/${id}`, options);
   }
 
   /**
@@ -54,21 +46,13 @@ export class Jobs extends APIResource {
    * ```
    */
   list(
-    params?: JobListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<FileUploadJobResponsesCursor, FileUploadJobResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<FileUploadJobResponsesCursor, FileUploadJobResponse>;
-  list(
-    params: JobListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<FileUploadJobResponsesCursor, FileUploadJobResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: JobListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<FileUploadJobResponsesCursor, FileUploadJobResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/fileuploads/measurements/jobs`,
-      FileUploadJobResponsesCursor,
+      path`/organizations/${orgId}/fileuploads/measurements/jobs`,
+      Cursor<FileUploadJobResponse>,
       { query, ...options },
     );
   }
@@ -93,27 +77,18 @@ export class Jobs extends APIResource {
    */
   getOriginalDownloadURL(
     id: string,
-    params?: JobGetOriginalDownloadURLParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JobGetOriginalDownloadURLResponse>;
-  getOriginalDownloadURL(
-    id: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JobGetOriginalDownloadURLResponse>;
-  getOriginalDownloadURL(
-    id: string,
-    params: JobGetOriginalDownloadURLParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<JobGetOriginalDownloadURLResponse> {
-    if (isRequestOptions(params)) {
-      return this.getOriginalDownloadURL(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/fileuploads/measurements/jobs/${id}/original`, options);
+    params: JobGetOriginalDownloadURLParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<JobGetOriginalDownloadURLResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(
+      path`/organizations/${orgId}/fileuploads/measurements/jobs/${id}/original`,
+      options,
+    );
   }
 }
 
-export class FileUploadJobResponsesCursor extends Cursor<FileUploadJobResponse> {}
+export type FileUploadJobResponsesCursor = Cursor<FileUploadJobResponse>;
 
 /**
  * Response containing the upload job details.
@@ -224,13 +199,11 @@ export interface JobGetOriginalDownloadURLParams {
   orgId?: string;
 }
 
-Jobs.FileUploadJobResponsesCursor = FileUploadJobResponsesCursor;
-
 export declare namespace Jobs {
   export {
     type FileUploadJobResponse as FileUploadJobResponse,
     type JobGetOriginalDownloadURLResponse as JobGetOriginalDownloadURLResponse,
-    FileUploadJobResponsesCursor as FileUploadJobResponsesCursor,
+    type FileUploadJobResponsesCursor as FileUploadJobResponsesCursor,
     type JobRetrieveParams as JobRetrieveParams,
     type JobListParams as JobListParams,
     type JobGetOriginalDownloadURLParams as JobGetOriginalDownloadURLParams,

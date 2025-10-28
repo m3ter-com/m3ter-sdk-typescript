@@ -87,9 +87,9 @@ Types:
 
 Methods:
 
-- <code title="post /organizations/{orgId}/balances/{balanceId}/transactions">client.balances.transactions.<a href="./src/resources/balances/transactions.ts">create</a>(balanceId, { ...params }) -> TransactionResponse</code>
-- <code title="get /organizations/{orgId}/balances/{balanceId}/transactions">client.balances.transactions.<a href="./src/resources/balances/transactions.ts">list</a>(balanceId, { ...params }) -> TransactionResponsesCursor</code>
-- <code title="get /organizations/{orgId}/balances/{balanceId}/transactions/summary">client.balances.transactions.<a href="./src/resources/balances/transactions.ts">summary</a>(balanceId, { ...params }) -> TransactionSummaryResponse</code>
+- <code title="post /organizations/{orgId}/balances/{balanceId}/transactions">client.balances.transactions.<a href="./src/resources/balances/transactions.ts">create</a>(balanceID, { ...params }) -> TransactionResponse</code>
+- <code title="get /organizations/{orgId}/balances/{balanceId}/transactions">client.balances.transactions.<a href="./src/resources/balances/transactions.ts">list</a>(balanceID, { ...params }) -> TransactionResponsesCursor</code>
+- <code title="get /organizations/{orgId}/balances/{balanceId}/transactions/summary">client.balances.transactions.<a href="./src/resources/balances/transactions.ts">summary</a>(balanceID, { ...params }) -> TransactionSummaryResponse</code>
 
 # Bills
 
@@ -105,7 +105,7 @@ Methods:
 - <code title="get /organizations/{orgId}/bills">client.bills.<a href="./src/resources/bills/bills.ts">list</a>({ ...params }) -> BillResponsesCursor</code>
 - <code title="delete /organizations/{orgId}/bills/{id}">client.bills.<a href="./src/resources/bills/bills.ts">delete</a>(id, { ...params }) -> BillResponse</code>
 - <code title="post /organizations/{orgId}/bills/approve">client.bills.<a href="./src/resources/bills/bills.ts">approve</a>({ ...params }) -> BillApproveResponse</code>
-- <code title="get /organizations/{orgId}/bills/latest/{accountId}">client.bills.<a href="./src/resources/bills/bills.ts">latestByAccount</a>(accountId, { ...params }) -> BillResponse</code>
+- <code title="get /organizations/{orgId}/bills/latest/{accountId}">client.bills.<a href="./src/resources/bills/bills.ts">latestByAccount</a>(accountID, { ...params }) -> BillResponse</code>
 - <code title="put /organizations/{orgId}/bills/{id}/lock">client.bills.<a href="./src/resources/bills/bills.ts">lock</a>(id, { ...params }) -> BillResponse</code>
 - <code title="get /organizations/{orgId}/bills/search">client.bills.<a href="./src/resources/bills/bills.ts">search</a>({ ...params }) -> BillSearchResponse</code>
 - <code title="put /organizations/{orgId}/bills/{id}/status">client.bills.<a href="./src/resources/bills/bills.ts">updateStatus</a>(id, { ...params }) -> BillResponse</code>
@@ -118,11 +118,11 @@ Types:
 
 Methods:
 
-- <code title="post /organizations/{orgId}/bills/{billId}/creditlineitems">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">create</a>(billId, { ...params }) -> CreditLineItemResponse</code>
-- <code title="get /organizations/{orgId}/bills/{billId}/creditlineitems/{id}">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">retrieve</a>(billId, id, { ...params }) -> CreditLineItemResponse</code>
-- <code title="put /organizations/{orgId}/bills/{billId}/creditlineitems/{id}">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">update</a>(billId, id, { ...params }) -> CreditLineItemResponse</code>
-- <code title="get /organizations/{orgId}/bills/{billId}/creditlineitems">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">list</a>(billId, { ...params }) -> CreditLineItemResponsesCursor</code>
-- <code title="delete /organizations/{orgId}/bills/{billId}/creditlineitems/{id}">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">delete</a>(billId, id, { ...params }) -> CreditLineItemResponse</code>
+- <code title="post /organizations/{orgId}/bills/{billId}/creditlineitems">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">create</a>(billID, { ...params }) -> CreditLineItemResponse</code>
+- <code title="get /organizations/{orgId}/bills/{billId}/creditlineitems/{id}">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">retrieve</a>(id, { ...params }) -> CreditLineItemResponse</code>
+- <code title="put /organizations/{orgId}/bills/{billId}/creditlineitems/{id}">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">update</a>(id, { ...params }) -> CreditLineItemResponse</code>
+- <code title="get /organizations/{orgId}/bills/{billId}/creditlineitems">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">list</a>(billID, { ...params }) -> CreditLineItemResponsesCursor</code>
+- <code title="delete /organizations/{orgId}/bills/{billId}/creditlineitems/{id}">client.bills.creditLineItems.<a href="./src/resources/bills/credit-line-items.ts">delete</a>(id, { ...params }) -> CreditLineItemResponse</code>
 
 ## DebitLineItems
 
@@ -132,11 +132,11 @@ Types:
 
 Methods:
 
-- <code title="post /organizations/{orgId}/bills/{billId}/debitlineitems">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">create</a>(billId, { ...params }) -> DebitLineItemResponse</code>
-- <code title="get /organizations/{orgId}/bills/{billId}/debitlineitems/{id}">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">retrieve</a>(billId, id, { ...params }) -> DebitLineItemResponse</code>
-- <code title="put /organizations/{orgId}/bills/{billId}/debitlineitems/{id}">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">update</a>(billId, id, { ...params }) -> DebitLineItemResponse</code>
-- <code title="get /organizations/{orgId}/bills/{billId}/debitlineitems">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">list</a>(billId, { ...params }) -> DebitLineItemResponsesCursor</code>
-- <code title="delete /organizations/{orgId}/bills/{billId}/debitlineitems/{id}">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">delete</a>(billId, id, { ...params }) -> DebitLineItemResponse</code>
+- <code title="post /organizations/{orgId}/bills/{billId}/debitlineitems">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">create</a>(billID, { ...params }) -> DebitLineItemResponse</code>
+- <code title="get /organizations/{orgId}/bills/{billId}/debitlineitems/{id}">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">retrieve</a>(id, { ...params }) -> DebitLineItemResponse</code>
+- <code title="put /organizations/{orgId}/bills/{billId}/debitlineitems/{id}">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">update</a>(id, { ...params }) -> DebitLineItemResponse</code>
+- <code title="get /organizations/{orgId}/bills/{billId}/debitlineitems">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">list</a>(billID, { ...params }) -> DebitLineItemResponsesCursor</code>
+- <code title="delete /organizations/{orgId}/bills/{billId}/debitlineitems/{id}">client.bills.debitLineItems.<a href="./src/resources/bills/debit-line-items.ts">delete</a>(id, { ...params }) -> DebitLineItemResponse</code>
 
 ## LineItems
 
@@ -146,8 +146,8 @@ Types:
 
 Methods:
 
-- <code title="get /organizations/{orgId}/bills/{billId}/lineitems/{id}">client.bills.lineItems.<a href="./src/resources/bills/line-items.ts">retrieve</a>(billId, id, { ...params }) -> LineItemResponse</code>
-- <code title="get /organizations/{orgId}/bills/{billId}/lineitems">client.bills.lineItems.<a href="./src/resources/bills/line-items.ts">list</a>(billId, { ...params }) -> LineItemResponsesCursor</code>
+- <code title="get /organizations/{orgId}/bills/{billId}/lineitems/{id}">client.bills.lineItems.<a href="./src/resources/bills/line-items.ts">retrieve</a>(id, { ...params }) -> LineItemResponse</code>
+- <code title="get /organizations/{orgId}/bills/{billId}/lineitems">client.bills.lineItems.<a href="./src/resources/bills/line-items.ts">list</a>(billID, { ...params }) -> LineItemResponsesCursor</code>
 
 # BillConfig
 
@@ -349,7 +349,7 @@ Methods:
 
 - <code title="get /organizations/{orgId}/dataexports/jobs/{id}">client.dataExports.jobs.<a href="./src/resources/data-exports/jobs.ts">retrieve</a>(id, { ...params }) -> DataExportJobResponse</code>
 - <code title="get /organizations/{orgId}/dataexports/jobs">client.dataExports.jobs.<a href="./src/resources/data-exports/jobs.ts">list</a>({ ...params }) -> DataExportJobResponsesCursor</code>
-- <code title="get /organizations/{orgId}/dataexports/jobs/{jobId}/getdownloadurl">client.dataExports.jobs.<a href="./src/resources/data-exports/jobs.ts">getDownloadURL</a>(jobId, { ...params }) -> JobGetDownloadURLResponse</code>
+- <code title="get /organizations/{orgId}/dataexports/jobs/{jobId}/getdownloadurl">client.dataExports.jobs.<a href="./src/resources/data-exports/jobs.ts">getDownloadURL</a>(jobID, { ...params }) -> JobGetDownloadURLResponse</code>
 
 ## Schedules
 
@@ -415,8 +415,8 @@ Methods:
 - <code title="put /organizations/{orgId}/externalmappings/{id}">client.externalMappings.<a href="./src/resources/external-mappings.ts">update</a>(id, { ...params }) -> ExternalMappingResponse</code>
 - <code title="get /organizations/{orgId}/externalmappings">client.externalMappings.<a href="./src/resources/external-mappings.ts">list</a>({ ...params }) -> ExternalMappingResponsesCursor</code>
 - <code title="delete /organizations/{orgId}/externalmappings/{id}">client.externalMappings.<a href="./src/resources/external-mappings.ts">delete</a>(id, { ...params }) -> ExternalMappingResponse</code>
-- <code title="get /organizations/{orgId}/externalmappings/externalid/{system}/{externalTable}/{externalId}">client.externalMappings.<a href="./src/resources/external-mappings.ts">listByExternalEntity</a>(system, externalTable, externalId, { ...params }) -> ExternalMappingResponsesCursor</code>
-- <code title="get /organizations/{orgId}/externalmappings/external/{entity}/{m3terId}">client.externalMappings.<a href="./src/resources/external-mappings.ts">listByM3terEntity</a>(entity, m3terId, { ...params }) -> ExternalMappingResponsesCursor</code>
+- <code title="get /organizations/{orgId}/externalmappings/externalid/{system}/{externalTable}/{externalId}">client.externalMappings.<a href="./src/resources/external-mappings.ts">listByExternalEntity</a>(externalID, { ...params }) -> ExternalMappingResponsesCursor</code>
+- <code title="get /organizations/{orgId}/externalmappings/external/{entity}/{m3terId}">client.externalMappings.<a href="./src/resources/external-mappings.ts">listByM3terEntity</a>(m3terID, { ...params }) -> ExternalMappingResponsesCursor</code>
 
 # IntegrationConfigurations
 
@@ -504,14 +504,14 @@ Methods:
 - <code title="put /organizations/{orgId}/permissionpolicies/{id}">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">update</a>(id, { ...params }) -> PermissionPolicyResponse</code>
 - <code title="get /organizations/{orgId}/permissionpolicies">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">list</a>({ ...params }) -> PermissionPolicyResponsesCursor</code>
 - <code title="delete /organizations/{orgId}/permissionpolicies/{id}">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">delete</a>(id, { ...params }) -> PermissionPolicyResponse</code>
-- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/addtoserviceuser">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">addToServiceUser</a>(permissionPolicyId, { ...params }) -> PermissionPolicyAddToServiceUserResponse</code>
-- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/addtosupportusers">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">addToSupportUser</a>(permissionPolicyId, { ...params }) -> PermissionPolicyAddToSupportUserResponse</code>
-- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/addtouser">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">addToUser</a>(permissionPolicyId, { ...params }) -> PermissionPolicyAddToUserResponse</code>
-- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/addtousergroup">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">addToUserGroup</a>(permissionPolicyId, { ...params }) -> PermissionPolicyAddToUserGroupResponse</code>
-- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/removefromserviceuser">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">removeFromServiceUser</a>(permissionPolicyId, { ...params }) -> PermissionPolicyRemoveFromServiceUserResponse</code>
-- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/removefromsupportusers">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">removeFromSupportUser</a>(permissionPolicyId, { ...params }) -> PermissionPolicyRemoveFromSupportUserResponse</code>
-- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/removefromuser">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">removeFromUser</a>(permissionPolicyId, { ...params }) -> PermissionPolicyRemoveFromUserResponse</code>
-- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/removefromusergroup">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">removeFromUserGroup</a>(permissionPolicyId, { ...params }) -> PermissionPolicyRemoveFromUserGroupResponse</code>
+- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/addtoserviceuser">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">addToServiceUser</a>(permissionPolicyID, { ...params }) -> PermissionPolicyAddToServiceUserResponse</code>
+- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/addtosupportusers">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">addToSupportUser</a>(permissionPolicyID, { ...params }) -> PermissionPolicyAddToSupportUserResponse</code>
+- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/addtouser">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">addToUser</a>(permissionPolicyID, { ...params }) -> PermissionPolicyAddToUserResponse</code>
+- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/addtousergroup">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">addToUserGroup</a>(permissionPolicyID, { ...params }) -> PermissionPolicyAddToUserGroupResponse</code>
+- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/removefromserviceuser">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">removeFromServiceUser</a>(permissionPolicyID, { ...params }) -> PermissionPolicyRemoveFromServiceUserResponse</code>
+- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/removefromsupportusers">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">removeFromSupportUser</a>(permissionPolicyID, { ...params }) -> PermissionPolicyRemoveFromSupportUserResponse</code>
+- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/removefromuser">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">removeFromUser</a>(permissionPolicyID, { ...params }) -> PermissionPolicyRemoveFromUserResponse</code>
+- <code title="post /organizations/{orgId}/permissionpolicies/{permissionPolicyId}/removefromusergroup">client.permissionPolicies.<a href="./src/resources/permission-policies.ts">removeFromUserGroup</a>(permissionPolicyID, { ...params }) -> PermissionPolicyRemoveFromUserGroupResponse</code>
 
 # Plans
 
@@ -607,14 +607,14 @@ Types:
 Methods:
 
 - <code title="post /organizations/{orgId}/resourcegroups/{type}">client.resourceGroups.<a href="./src/resources/resource-groups.ts">create</a>(type, { ...params }) -> ResourceGroupResponse</code>
-- <code title="get /organizations/{orgId}/resourcegroups/{type}/{id}">client.resourceGroups.<a href="./src/resources/resource-groups.ts">retrieve</a>(type, id, { ...params }) -> ResourceGroupResponse</code>
-- <code title="put /organizations/{orgId}/resourcegroups/{type}/{id}">client.resourceGroups.<a href="./src/resources/resource-groups.ts">update</a>(type, id, { ...params }) -> ResourceGroupResponse</code>
+- <code title="get /organizations/{orgId}/resourcegroups/{type}/{id}">client.resourceGroups.<a href="./src/resources/resource-groups.ts">retrieve</a>(id, { ...params }) -> ResourceGroupResponse</code>
+- <code title="put /organizations/{orgId}/resourcegroups/{type}/{id}">client.resourceGroups.<a href="./src/resources/resource-groups.ts">update</a>(id, { ...params }) -> ResourceGroupResponse</code>
 - <code title="get /organizations/{orgId}/resourcegroups/{type}">client.resourceGroups.<a href="./src/resources/resource-groups.ts">list</a>(type, { ...params }) -> ResourceGroupResponsesCursor</code>
-- <code title="delete /organizations/{orgId}/resourcegroups/{type}/{id}">client.resourceGroups.<a href="./src/resources/resource-groups.ts">delete</a>(type, id, { ...params }) -> ResourceGroupResponse</code>
-- <code title="post /organizations/{orgId}/resourcegroups/{type}/{resourceGroupId}/addresource">client.resourceGroups.<a href="./src/resources/resource-groups.ts">addResource</a>(type, resourceGroupId, { ...params }) -> ResourceGroupResponse</code>
-- <code title="post /organizations/{orgId}/resourcegroups/{type}/{resourceGroupId}/contents">client.resourceGroups.<a href="./src/resources/resource-groups.ts">listContents</a>(type, resourceGroupId, { ...params }) -> ResourceGroupListContentsResponsesCursor</code>
-- <code title="get /organizations/{orgId}/resourcegroups/{type}/{resourceGroupId}/permissions">client.resourceGroups.<a href="./src/resources/resource-groups.ts">listPermissions</a>(type, resourceGroupId, { ...params }) -> PermissionPolicyResponsesCursor</code>
-- <code title="post /organizations/{orgId}/resourcegroups/{type}/{resourceGroupId}/removeresource">client.resourceGroups.<a href="./src/resources/resource-groups.ts">removeResource</a>(type, resourceGroupId, { ...params }) -> ResourceGroupResponse</code>
+- <code title="delete /organizations/{orgId}/resourcegroups/{type}/{id}">client.resourceGroups.<a href="./src/resources/resource-groups.ts">delete</a>(id, { ...params }) -> ResourceGroupResponse</code>
+- <code title="post /organizations/{orgId}/resourcegroups/{type}/{resourceGroupId}/addresource">client.resourceGroups.<a href="./src/resources/resource-groups.ts">addResource</a>(resourceGroupID, { ...params }) -> ResourceGroupResponse</code>
+- <code title="post /organizations/{orgId}/resourcegroups/{type}/{resourceGroupId}/contents">client.resourceGroups.<a href="./src/resources/resource-groups.ts">listContents</a>(resourceGroupID, { ...params }) -> ResourceGroupListContentsResponsesCursor</code>
+- <code title="get /organizations/{orgId}/resourcegroups/{type}/{resourceGroupId}/permissions">client.resourceGroups.<a href="./src/resources/resource-groups.ts">listPermissions</a>(resourceGroupID, { ...params }) -> PermissionPolicyResponsesCursor</code>
+- <code title="post /organizations/{orgId}/resourcegroups/{type}/{resourceGroupId}/removeresource">client.resourceGroups.<a href="./src/resources/resource-groups.ts">removeResource</a>(resourceGroupID, { ...params }) -> ResourceGroupResponse</code>
 
 # ScheduledEventConfigurations
 
