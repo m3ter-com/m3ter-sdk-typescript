@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as Shared from '../shared';
 import * as CreditLineItemsAPI from './credit-line-items';
 import {
@@ -34,7 +32,10 @@ import {
   LineItemRetrieveParams,
   LineItems,
 } from './line-items';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Bills extends APIResource {
   creditLineItems: CreditLineItemsAPI.CreditLineItems = new CreditLineItemsAPI.CreditLineItems(this._client);
@@ -49,20 +50,11 @@ export class Bills extends APIResource {
    */
   retrieve(
     id: string,
-    params?: BillRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<BillResponse>;
-  retrieve(
-    id: string,
-    params: BillRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${id}`, { query, ...options });
+    params: BillRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/bills/${id}`, { query, ...options });
   }
 
   /**
@@ -74,19 +66,11 @@ export class Bills extends APIResource {
    * management.
    */
   list(
-    params?: BillListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillResponsesCursor, BillResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<BillResponsesCursor, BillResponse>;
-  list(
-    params: BillListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<BillResponsesCursor, BillResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/bills`, BillResponsesCursor, {
+    params: BillListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<BillResponsesCursor, BillResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/bills`, Cursor<BillResponse>, {
       query,
       ...options,
     });
@@ -101,18 +85,13 @@ export class Bills extends APIResource {
    * Where end-customer invoices for Bills have been sent to customers, Bills should
    * not be deleted to ensure you have an audit trail of how the invoice was created.
    */
-  delete(id: string, params?: BillDeleteParams, options?: Core.RequestOptions): Core.APIPromise<BillResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<BillResponse>;
   delete(
     id: string,
-    params: BillDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/bills/${id}`, options);
+    params: BillDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/bills/${id}`, options);
   }
 
   /**
@@ -133,15 +112,15 @@ export class Bills extends APIResource {
    * **Important!** If you use the `billIds` Request Body Schema parameter, any Query
    * parameters you might have also used are ignored when the call is processed.
    */
-  approve(params: BillApproveParams, options?: Core.RequestOptions): Core.APIPromise<BillApproveResponse> {
+  approve(params: BillApproveParams, options?: RequestOptions): APIPromise<BillApproveResponse> {
     const {
-      orgId = this._client.orgId,
+      orgId = this._client.orgID,
       accountIds,
       externalInvoiceDateEnd,
       externalInvoiceDateStart,
       ...body
     } = params;
-    return this._client.post(`/organizations/${orgId}/bills/approve`, {
+    return this._client.post(path`/organizations/${orgId}/bills/approve`, {
       query: { accountIds, externalInvoiceDateEnd, externalInvoiceDateStart },
       body,
       ...options,
@@ -156,21 +135,12 @@ export class Bills extends APIResource {
    * details.
    */
   latestByAccount(
-    accountId: string,
-    params?: BillLatestByAccountParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillResponse>;
-  latestByAccount(accountId: string, options?: Core.RequestOptions): Core.APIPromise<BillResponse>;
-  latestByAccount(
-    accountId: string,
-    params: BillLatestByAccountParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillResponse> {
-    if (isRequestOptions(params)) {
-      return this.latestByAccount(accountId, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/bills/latest/${accountId}`, { query, ...options });
+    accountID: string,
+    params: BillLatestByAccountParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/bills/latest/${accountID}`, { query, ...options });
   }
 
   /**
@@ -182,18 +152,13 @@ export class Bills extends APIResource {
    * [Approve Bills](https://www.m3ter.com/docs/api#tag/Bill/operation/ApproveBills)
    * call to approve a Bill before you can lock it.
    */
-  lock(id: string, params?: BillLockParams, options?: Core.RequestOptions): Core.APIPromise<BillResponse>;
-  lock(id: string, options?: Core.RequestOptions): Core.APIPromise<BillResponse>;
   lock(
     id: string,
-    params: BillLockParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillResponse> {
-    if (isRequestOptions(params)) {
-      return this.lock(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.put(`/organizations/${orgId}/bills/${id}/lock`, options);
+    params: BillLockParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.put(path`/organizations/${orgId}/bills/${id}/lock`, options);
   }
 
   /**
@@ -204,17 +169,12 @@ export class Bills extends APIResource {
    * conditions and sorting. The returned list of Bills can be paginated for easier
    * management.
    */
-  search(params?: BillSearchParams, options?: Core.RequestOptions): Core.APIPromise<BillSearchResponse>;
-  search(options?: Core.RequestOptions): Core.APIPromise<BillSearchResponse>;
   search(
-    params: BillSearchParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillSearchResponse> {
-    if (isRequestOptions(params)) {
-      return this.search({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/bills/search`, { query, ...options });
+    params: BillSearchParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillSearchResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/bills/search`, { query, ...options });
   }
 
   /**
@@ -226,14 +186,14 @@ export class Bills extends APIResource {
   updateStatus(
     id: string,
     params: BillUpdateStatusParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/bills/${id}/status`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<BillResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/bills/${id}/status`, { body, ...options });
   }
 }
 
-export class BillResponsesCursor extends Cursor<BillResponse> {}
+export type BillResponsesCursor = Cursor<BillResponse>;
 
 export interface BillResponse {
   /**
@@ -878,20 +838,16 @@ export interface BillUpdateStatusParams {
   status: 'PENDING' | 'APPROVED';
 }
 
-Bills.BillResponsesCursor = BillResponsesCursor;
 Bills.CreditLineItems = CreditLineItems;
-Bills.CreditLineItemResponsesCursor = CreditLineItemResponsesCursor;
 Bills.DebitLineItems = DebitLineItems;
-Bills.DebitLineItemResponsesCursor = DebitLineItemResponsesCursor;
 Bills.LineItems = LineItems;
-Bills.LineItemResponsesCursor = LineItemResponsesCursor;
 
 export declare namespace Bills {
   export {
     type BillResponse as BillResponse,
     type BillApproveResponse as BillApproveResponse,
     type BillSearchResponse as BillSearchResponse,
-    BillResponsesCursor as BillResponsesCursor,
+    type BillResponsesCursor as BillResponsesCursor,
     type BillRetrieveParams as BillRetrieveParams,
     type BillListParams as BillListParams,
     type BillDeleteParams as BillDeleteParams,
@@ -905,7 +861,7 @@ export declare namespace Bills {
   export {
     CreditLineItems as CreditLineItems,
     type CreditLineItemResponse as CreditLineItemResponse,
-    CreditLineItemResponsesCursor as CreditLineItemResponsesCursor,
+    type CreditLineItemResponsesCursor as CreditLineItemResponsesCursor,
     type CreditLineItemCreateParams as CreditLineItemCreateParams,
     type CreditLineItemRetrieveParams as CreditLineItemRetrieveParams,
     type CreditLineItemUpdateParams as CreditLineItemUpdateParams,
@@ -916,7 +872,7 @@ export declare namespace Bills {
   export {
     DebitLineItems as DebitLineItems,
     type DebitLineItemResponse as DebitLineItemResponse,
-    DebitLineItemResponsesCursor as DebitLineItemResponsesCursor,
+    type DebitLineItemResponsesCursor as DebitLineItemResponsesCursor,
     type DebitLineItemCreateParams as DebitLineItemCreateParams,
     type DebitLineItemRetrieveParams as DebitLineItemRetrieveParams,
     type DebitLineItemUpdateParams as DebitLineItemUpdateParams,
@@ -927,7 +883,7 @@ export declare namespace Bills {
   export {
     LineItems as LineItems,
     type LineItemResponse as LineItemResponse,
-    LineItemResponsesCursor as LineItemResponsesCursor,
+    type LineItemResponsesCursor as LineItemResponsesCursor,
     type LineItemRetrieveParams as LineItemRetrieveParams,
     type LineItemListParams as LineItemListParams,
   };

@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class PermissionPolicies extends APIResource {
   /**
@@ -37,10 +38,10 @@ export class PermissionPolicies extends APIResource {
    */
   create(
     params: PermissionPolicyCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/permissionpolicies`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/permissionpolicies`, { body, ...options });
   }
 
   /**
@@ -48,20 +49,11 @@ export class PermissionPolicies extends APIResource {
    */
   retrieve(
     id: string,
-    params?: PermissionPolicyRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<PermissionPolicyResponse>;
-  retrieve(
-    id: string,
-    params: PermissionPolicyRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/permissionpolicies/${id}`, options);
+    params: PermissionPolicyRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/permissionpolicies/${id}`, options);
   }
 
   /**
@@ -96,33 +88,23 @@ export class PermissionPolicies extends APIResource {
   update(
     id: string,
     params: PermissionPolicyUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/permissionpolicies/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/permissionpolicies/${id}`, { body, ...options });
   }
 
   /**
    * Retrieve a list of PermissionPolicy entities
    */
   list(
-    params?: PermissionPolicyListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PermissionPolicyResponsesCursor, PermissionPolicyResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PermissionPolicyResponsesCursor, PermissionPolicyResponse>;
-  list(
-    params: PermissionPolicyListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PermissionPolicyResponsesCursor, PermissionPolicyResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: PermissionPolicyListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PermissionPolicyResponsesCursor, PermissionPolicyResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/permissionpolicies`,
-      PermissionPolicyResponsesCursor,
+      path`/organizations/${orgId}/permissionpolicies`,
+      Cursor<PermissionPolicyResponse>,
       { query, ...options },
     );
   }
@@ -132,33 +114,24 @@ export class PermissionPolicies extends APIResource {
    */
   delete(
     id: string,
-    params?: PermissionPolicyDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<PermissionPolicyResponse>;
-  delete(
-    id: string,
-    params: PermissionPolicyDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/permissionpolicies/${id}`, options);
+    params: PermissionPolicyDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/permissionpolicies/${id}`, options);
   }
 
   /**
    * Add a permission policy to a service user.
    */
   addToServiceUser(
-    permissionPolicyId: string,
+    permissionPolicyID: string,
     params: PermissionPolicyAddToServiceUserParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyAddToServiceUserResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyAddToServiceUserResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
     return this._client.post(
-      `/organizations/${orgId}/permissionpolicies/${permissionPolicyId}/addtoserviceuser`,
+      path`/organizations/${orgId}/permissionpolicies/${permissionPolicyID}/addtoserviceuser`,
       { body, ...options },
     );
   }
@@ -167,13 +140,13 @@ export class PermissionPolicies extends APIResource {
    * Add a permission policy to support users for an organization.
    */
   addToSupportUser(
-    permissionPolicyId: string,
+    permissionPolicyID: string,
     params: PermissionPolicyAddToSupportUserParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyAddToSupportUserResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyAddToSupportUserResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
     return this._client.post(
-      `/organizations/${orgId}/permissionpolicies/${permissionPolicyId}/addtosupportusers`,
+      path`/organizations/${orgId}/permissionpolicies/${permissionPolicyID}/addtosupportusers`,
       { body, ...options },
     );
   }
@@ -182,28 +155,28 @@ export class PermissionPolicies extends APIResource {
    * Add a permission policy to a user.
    */
   addToUser(
-    permissionPolicyId: string,
+    permissionPolicyID: string,
     params: PermissionPolicyAddToUserParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyAddToUserResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/permissionpolicies/${permissionPolicyId}/addtouser`, {
-      body,
-      ...options,
-    });
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyAddToUserResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(
+      path`/organizations/${orgId}/permissionpolicies/${permissionPolicyID}/addtouser`,
+      { body, ...options },
+    );
   }
 
   /**
    * Add a permission Policy to a user group
    */
   addToUserGroup(
-    permissionPolicyId: string,
+    permissionPolicyID: string,
     params: PermissionPolicyAddToUserGroupParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyAddToUserGroupResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyAddToUserGroupResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
     return this._client.post(
-      `/organizations/${orgId}/permissionpolicies/${permissionPolicyId}/addtousergroup`,
+      path`/organizations/${orgId}/permissionpolicies/${permissionPolicyID}/addtousergroup`,
       { body, ...options },
     );
   }
@@ -212,13 +185,13 @@ export class PermissionPolicies extends APIResource {
    * Remove a permission policy from a service user.
    */
   removeFromServiceUser(
-    permissionPolicyId: string,
+    permissionPolicyID: string,
     params: PermissionPolicyRemoveFromServiceUserParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyRemoveFromServiceUserResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyRemoveFromServiceUserResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
     return this._client.post(
-      `/organizations/${orgId}/permissionpolicies/${permissionPolicyId}/removefromserviceuser`,
+      path`/organizations/${orgId}/permissionpolicies/${permissionPolicyID}/removefromserviceuser`,
       { body, ...options },
     );
   }
@@ -227,25 +200,13 @@ export class PermissionPolicies extends APIResource {
    * Remove a permission policy from support users for an organization.
    */
   removeFromSupportUser(
-    permissionPolicyId: string,
-    params?: PermissionPolicyRemoveFromSupportUserParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyRemoveFromSupportUserResponse>;
-  removeFromSupportUser(
-    permissionPolicyId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyRemoveFromSupportUserResponse>;
-  removeFromSupportUser(
-    permissionPolicyId: string,
-    params: PermissionPolicyRemoveFromSupportUserParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyRemoveFromSupportUserResponse> {
-    if (isRequestOptions(params)) {
-      return this.removeFromSupportUser(permissionPolicyId, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
+    permissionPolicyID: string,
+    params: PermissionPolicyRemoveFromSupportUserParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyRemoveFromSupportUserResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
     return this._client.post(
-      `/organizations/${orgId}/permissionpolicies/${permissionPolicyId}/removefromsupportusers`,
+      path`/organizations/${orgId}/permissionpolicies/${permissionPolicyID}/removefromsupportusers`,
       options,
     );
   }
@@ -254,13 +215,13 @@ export class PermissionPolicies extends APIResource {
    * Remove a permission policy from a user.
    */
   removeFromUser(
-    permissionPolicyId: string,
+    permissionPolicyID: string,
     params: PermissionPolicyRemoveFromUserParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyRemoveFromUserResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyRemoveFromUserResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
     return this._client.post(
-      `/organizations/${orgId}/permissionpolicies/${permissionPolicyId}/removefromuser`,
+      path`/organizations/${orgId}/permissionpolicies/${permissionPolicyID}/removefromuser`,
       { body, ...options },
     );
   }
@@ -269,19 +230,19 @@ export class PermissionPolicies extends APIResource {
    * Remove a permission policy from a user group.
    */
   removeFromUserGroup(
-    permissionPolicyId: string,
+    permissionPolicyID: string,
     params: PermissionPolicyRemoveFromUserGroupParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPolicyRemoveFromUserGroupResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
+    options?: RequestOptions,
+  ): APIPromise<PermissionPolicyRemoveFromUserGroupResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
     return this._client.post(
-      `/organizations/${orgId}/permissionpolicies/${permissionPolicyId}/removefromusergroup`,
+      path`/organizations/${orgId}/permissionpolicies/${permissionPolicyID}/removefromusergroup`,
       { body, ...options },
     );
   }
 }
 
-export class PermissionPolicyResponsesCursor extends Cursor<PermissionPolicyResponse> {}
+export type PermissionPolicyResponsesCursor = Cursor<PermissionPolicyResponse>;
 
 export interface PermissionPolicyResponse {
   /**
@@ -975,8 +936,6 @@ export interface PermissionPolicyRemoveFromUserGroupParams {
   version?: number;
 }
 
-PermissionPolicies.PermissionPolicyResponsesCursor = PermissionPolicyResponsesCursor;
-
 export declare namespace PermissionPolicies {
   export {
     type PermissionPolicyResponse as PermissionPolicyResponse,
@@ -990,7 +949,7 @@ export declare namespace PermissionPolicies {
     type PermissionPolicyRemoveFromSupportUserResponse as PermissionPolicyRemoveFromSupportUserResponse,
     type PermissionPolicyRemoveFromUserResponse as PermissionPolicyRemoveFromUserResponse,
     type PermissionPolicyRemoveFromUserGroupResponse as PermissionPolicyRemoveFromUserGroupResponse,
-    PermissionPolicyResponsesCursor as PermissionPolicyResponsesCursor,
+    type PermissionPolicyResponsesCursor as PermissionPolicyResponsesCursor,
     type PermissionPolicyCreateParams as PermissionPolicyCreateParams,
     type PermissionPolicyRetrieveParams as PermissionPolicyRetrieveParams,
     type PermissionPolicyUpdateParams as PermissionPolicyUpdateParams,

@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
 
 export class Authentication extends APIResource {
   /**
@@ -16,8 +17,8 @@ export class Authentication extends APIResource {
    */
   getBearerToken(
     body: AuthenticationGetBearerTokenParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AuthenticationGetBearerTokenResponse> {
+    options?: RequestOptions,
+  ): APIPromise<AuthenticationGetBearerTokenResponse> {
     return this._client.post('/oauth/token', { body, ...options });
   }
 }

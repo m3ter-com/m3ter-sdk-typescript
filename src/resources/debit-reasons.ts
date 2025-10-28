@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class DebitReasons extends APIResource {
   /**
@@ -17,12 +18,9 @@ export class DebitReasons extends APIResource {
    *   await client.debitReasons.create({ name: 'x' });
    * ```
    */
-  create(
-    params: DebitReasonCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitReasonResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/picklists/debitreasons`, { body, ...options });
+  create(params: DebitReasonCreateParams, options?: RequestOptions): APIPromise<DebitReasonResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/picklists/debitreasons`, { body, ...options });
   }
 
   /**
@@ -36,20 +34,11 @@ export class DebitReasons extends APIResource {
    */
   retrieve(
     id: string,
-    params?: DebitReasonRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitReasonResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<DebitReasonResponse>;
-  retrieve(
-    id: string,
-    params: DebitReasonRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitReasonResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/picklists/debitreasons/${id}`, options);
+    params: DebitReasonRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<DebitReasonResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/picklists/debitreasons/${id}`, options);
   }
 
   /**
@@ -64,10 +53,10 @@ export class DebitReasons extends APIResource {
   update(
     id: string,
     params: DebitReasonUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitReasonResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/picklists/debitreasons/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<DebitReasonResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/picklists/debitreasons/${id}`, { body, ...options });
   }
 
   /**
@@ -84,21 +73,13 @@ export class DebitReasons extends APIResource {
    * ```
    */
   list(
-    params?: DebitReasonListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DebitReasonResponsesCursor, DebitReasonResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<DebitReasonResponsesCursor, DebitReasonResponse>;
-  list(
-    params: DebitReasonListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DebitReasonResponsesCursor, DebitReasonResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: DebitReasonListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DebitReasonResponsesCursor, DebitReasonResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/picklists/debitreasons`,
-      DebitReasonResponsesCursor,
+      path`/organizations/${orgId}/picklists/debitreasons`,
+      Cursor<DebitReasonResponse>,
       { query, ...options },
     );
   }
@@ -114,24 +95,15 @@ export class DebitReasons extends APIResource {
    */
   delete(
     id: string,
-    params?: DebitReasonDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitReasonResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<DebitReasonResponse>;
-  delete(
-    id: string,
-    params: DebitReasonDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitReasonResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/picklists/debitreasons/${id}`, options);
+    params: DebitReasonDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<DebitReasonResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/picklists/debitreasons/${id}`, options);
   }
 }
 
-export class DebitReasonResponsesCursor extends Cursor<DebitReasonResponse> {}
+export type DebitReasonResponsesCursor = Cursor<DebitReasonResponse>;
 
 export interface DebitReasonResponse {
   /**
@@ -302,12 +274,10 @@ export interface DebitReasonDeleteParams {
   orgId?: string;
 }
 
-DebitReasons.DebitReasonResponsesCursor = DebitReasonResponsesCursor;
-
 export declare namespace DebitReasons {
   export {
     type DebitReasonResponse as DebitReasonResponse,
-    DebitReasonResponsesCursor as DebitReasonResponsesCursor,
+    type DebitReasonResponsesCursor as DebitReasonResponsesCursor,
     type DebitReasonCreateParams as DebitReasonCreateParams,
     type DebitReasonRetrieveParams as DebitReasonRetrieveParams,
     type DebitReasonUpdateParams as DebitReasonUpdateParams,

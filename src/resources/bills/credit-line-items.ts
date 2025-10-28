@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class CreditLineItems extends APIResource {
   /**
@@ -14,52 +15,39 @@ export class CreditLineItems extends APIResource {
    * [CreditReason](https://www.m3ter.com/docs/api#tag/CreditReason).
    */
   create(
-    billId: string,
+    billID: string,
     params: CreditLineItemCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditLineItemResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/bills/${billId}/creditlineitems`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<CreditLineItemResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/bills/${billID}/creditlineitems`, {
+      body,
+      ...options,
+    });
   }
 
   /**
    * Retrieve the Credit line item with the given UUID.
    */
   retrieve(
-    billId: string,
     id: string,
-    params?: CreditLineItemRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditLineItemResponse>;
-  retrieve(
-    billId: string,
-    id: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditLineItemResponse>;
-  retrieve(
-    billId: string,
-    id: string,
-    params: CreditLineItemRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditLineItemResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(billId, id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${billId}/creditlineitems/${id}`, options);
+    params: CreditLineItemRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<CreditLineItemResponse> {
+    const { orgId = this._client.orgID, billId } = params;
+    return this._client.get(path`/organizations/${orgId}/bills/${billId}/creditlineitems/${id}`, options);
   }
 
   /**
    * Update the Credit line item with the given UUID.
    */
   update(
-    billId: string,
     id: string,
     params: CreditLineItemUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditLineItemResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/bills/${billId}/creditlineitems/${id}`, {
+    options?: RequestOptions,
+  ): APIPromise<CreditLineItemResponse> {
+    const { orgId = this._client.orgID, billId, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/bills/${billId}/creditlineitems/${id}`, {
       body,
       ...options,
     });
@@ -69,26 +57,14 @@ export class CreditLineItems extends APIResource {
    * List the Credit line items for the given Bill.
    */
   list(
-    billId: string,
-    params?: CreditLineItemListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditLineItemResponsesCursor, CreditLineItemResponse>;
-  list(
-    billId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditLineItemResponsesCursor, CreditLineItemResponse>;
-  list(
-    billId: string,
-    params: CreditLineItemListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditLineItemResponsesCursor, CreditLineItemResponse> {
-    if (isRequestOptions(params)) {
-      return this.list(billId, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    billID: string,
+    params: CreditLineItemListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CreditLineItemResponsesCursor, CreditLineItemResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/bills/${billId}/creditlineitems`,
-      CreditLineItemResponsesCursor,
+      path`/organizations/${orgId}/bills/${billID}/creditlineitems`,
+      Cursor<CreditLineItemResponse>,
       { query, ...options },
     );
   }
@@ -97,27 +73,16 @@ export class CreditLineItems extends APIResource {
    * Delete the Credit line item with the given UUID.
    */
   delete(
-    billId: string,
     id: string,
-    params?: CreditLineItemDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditLineItemResponse>;
-  delete(billId: string, id: string, options?: Core.RequestOptions): Core.APIPromise<CreditLineItemResponse>;
-  delete(
-    billId: string,
-    id: string,
-    params: CreditLineItemDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditLineItemResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(billId, id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/bills/${billId}/creditlineitems/${id}`, options);
+    params: CreditLineItemDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<CreditLineItemResponse> {
+    const { orgId = this._client.orgID, billId } = params;
+    return this._client.delete(path`/organizations/${orgId}/bills/${billId}/creditlineitems/${id}`, options);
   }
 }
 
-export class CreditLineItemResponsesCursor extends Cursor<CreditLineItemResponse> {}
+export type CreditLineItemResponsesCursor = Cursor<CreditLineItemResponse>;
 
 export interface CreditLineItemResponse {
   /**
@@ -297,6 +262,11 @@ export interface CreditLineItemRetrieveParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * UUID of the Bill.
+   */
+  billId: string;
 }
 
 export interface CreditLineItemUpdateParams {
@@ -304,6 +274,11 @@ export interface CreditLineItemUpdateParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Path param: UUID of the bill.
+   */
+  billId: string;
 
   /**
    * Body param:
@@ -405,14 +380,17 @@ export interface CreditLineItemDeleteParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
-}
 
-CreditLineItems.CreditLineItemResponsesCursor = CreditLineItemResponsesCursor;
+  /**
+   * UUID of the bill.
+   */
+  billId: string;
+}
 
 export declare namespace CreditLineItems {
   export {
     type CreditLineItemResponse as CreditLineItemResponse,
-    CreditLineItemResponsesCursor as CreditLineItemResponsesCursor,
+    type CreditLineItemResponsesCursor as CreditLineItemResponsesCursor,
     type CreditLineItemCreateParams as CreditLineItemCreateParams,
     type CreditLineItemRetrieveParams as CreditLineItemRetrieveParams,
     type CreditLineItemUpdateParams as CreditLineItemUpdateParams,

@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as Shared from './shared';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class OrganizationConfig extends APIResource {
   /**
@@ -16,19 +17,11 @@ export class OrganizationConfig extends APIResource {
    * ```
    */
   retrieve(
-    params?: OrganizationConfigRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<OrganizationConfigResponse>;
-  retrieve(options?: Core.RequestOptions): Core.APIPromise<OrganizationConfigResponse>;
-  retrieve(
-    params: OrganizationConfigRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<OrganizationConfigResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve({}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/organizationconfig`, options);
+    params: OrganizationConfigRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<OrganizationConfigResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/organizationconfig`, options);
   }
 
   /**
@@ -50,10 +43,10 @@ export class OrganizationConfig extends APIResource {
    */
   update(
     params: OrganizationConfigUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<OrganizationConfigResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/organizationconfig`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<OrganizationConfigResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/organizationconfig`, { body, ...options });
   }
 }
 

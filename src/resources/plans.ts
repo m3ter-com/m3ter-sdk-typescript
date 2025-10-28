@@ -1,17 +1,18 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Plans extends APIResource {
   /**
    * Create a new Plan.
    */
-  create(params: PlanCreateParams, options?: Core.RequestOptions): Core.APIPromise<PlanResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/plans`, { body, ...options });
+  create(params: PlanCreateParams, options?: RequestOptions): APIPromise<PlanResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/plans`, { body, ...options });
   }
 
   /**
@@ -19,20 +20,11 @@ export class Plans extends APIResource {
    */
   retrieve(
     id: string,
-    params?: PlanRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<PlanResponse>;
-  retrieve(
-    id: string,
-    params: PlanRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/plans/${id}`, options);
+    params: PlanRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PlanResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/plans/${id}`, options);
   }
 
   /**
@@ -42,28 +34,20 @@ export class Plans extends APIResource {
    * endpoint to update the Plan use the `customFields` parameter to preserve those
    * Custom Fields. If you omit them from the update request, they will be lost.
    */
-  update(id: string, params: PlanUpdateParams, options?: Core.RequestOptions): Core.APIPromise<PlanResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/plans/${id}`, { body, ...options });
+  update(id: string, params: PlanUpdateParams, options?: RequestOptions): APIPromise<PlanResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/plans/${id}`, { body, ...options });
   }
 
   /**
    * Retrieve a list of Plans that can be filtered by Product, Account, or Plan ID.
    */
   list(
-    params?: PlanListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanResponsesCursor, PlanResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<PlanResponsesCursor, PlanResponse>;
-  list(
-    params: PlanListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanResponsesCursor, PlanResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/plans`, PlanResponsesCursor, {
+    params: PlanListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PlanResponsesCursor, PlanResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/plans`, Cursor<PlanResponse>, {
       query,
       ...options,
     });
@@ -72,22 +56,17 @@ export class Plans extends APIResource {
   /**
    * Delete the Plan with the given UUID.
    */
-  delete(id: string, params?: PlanDeleteParams, options?: Core.RequestOptions): Core.APIPromise<PlanResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<PlanResponse>;
   delete(
     id: string,
-    params: PlanDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/plans/${id}`, options);
+    params: PlanDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PlanResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/plans/${id}`, options);
   }
 }
 
-export class PlanResponsesCursor extends Cursor<PlanResponse> {}
+export type PlanResponsesCursor = Cursor<PlanResponse>;
 
 export interface PlanResponse {
   /**
@@ -556,12 +535,10 @@ export interface PlanDeleteParams {
   orgId?: string;
 }
 
-Plans.PlanResponsesCursor = PlanResponsesCursor;
-
 export declare namespace Plans {
   export {
     type PlanResponse as PlanResponse,
-    PlanResponsesCursor as PlanResponsesCursor,
+    type PlanResponsesCursor as PlanResponsesCursor,
     type PlanCreateParams as PlanCreateParams,
     type PlanRetrieveParams as PlanRetrieveParams,
     type PlanUpdateParams as PlanUpdateParams,

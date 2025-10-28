@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class CreditReasons extends APIResource {
   /**
@@ -17,12 +18,9 @@ export class CreditReasons extends APIResource {
    *   await client.creditReasons.create({ name: 'x' });
    * ```
    */
-  create(
-    params: CreditReasonCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditReasonResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/picklists/creditreasons`, { body, ...options });
+  create(params: CreditReasonCreateParams, options?: RequestOptions): APIPromise<CreditReasonResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/picklists/creditreasons`, { body, ...options });
   }
 
   /**
@@ -36,20 +34,11 @@ export class CreditReasons extends APIResource {
    */
   retrieve(
     id: string,
-    params?: CreditReasonRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditReasonResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<CreditReasonResponse>;
-  retrieve(
-    id: string,
-    params: CreditReasonRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditReasonResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/picklists/creditreasons/${id}`, options);
+    params: CreditReasonRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CreditReasonResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/picklists/creditreasons/${id}`, options);
   }
 
   /**
@@ -64,10 +53,13 @@ export class CreditReasons extends APIResource {
   update(
     id: string,
     params: CreditReasonUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditReasonResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/picklists/creditreasons/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<CreditReasonResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/picklists/creditreasons/${id}`, {
+      body,
+      ...options,
+    });
   }
 
   /**
@@ -84,21 +76,13 @@ export class CreditReasons extends APIResource {
    * ```
    */
   list(
-    params?: CreditReasonListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditReasonResponsesCursor, CreditReasonResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<CreditReasonResponsesCursor, CreditReasonResponse>;
-  list(
-    params: CreditReasonListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CreditReasonResponsesCursor, CreditReasonResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: CreditReasonListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CreditReasonResponsesCursor, CreditReasonResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/picklists/creditreasons`,
-      CreditReasonResponsesCursor,
+      path`/organizations/${orgId}/picklists/creditreasons`,
+      Cursor<CreditReasonResponse>,
       { query, ...options },
     );
   }
@@ -114,24 +98,15 @@ export class CreditReasons extends APIResource {
    */
   delete(
     id: string,
-    params?: CreditReasonDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditReasonResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<CreditReasonResponse>;
-  delete(
-    id: string,
-    params: CreditReasonDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CreditReasonResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/picklists/creditreasons/${id}`, options);
+    params: CreditReasonDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CreditReasonResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/picklists/creditreasons/${id}`, options);
   }
 }
 
-export class CreditReasonResponsesCursor extends Cursor<CreditReasonResponse> {}
+export type CreditReasonResponsesCursor = Cursor<CreditReasonResponse>;
 
 export interface CreditReasonResponse {
   /**
@@ -302,12 +277,10 @@ export interface CreditReasonDeleteParams {
   orgId?: string;
 }
 
-CreditReasons.CreditReasonResponsesCursor = CreditReasonResponsesCursor;
-
 export declare namespace CreditReasons {
   export {
     type CreditReasonResponse as CreditReasonResponse,
-    CreditReasonResponsesCursor as CreditReasonResponsesCursor,
+    type CreditReasonResponsesCursor as CreditReasonResponsesCursor,
     type CreditReasonCreateParams as CreditReasonCreateParams,
     type CreditReasonRetrieveParams as CreditReasonRetrieveParams,
     type CreditReasonUpdateParams as CreditReasonUpdateParams,

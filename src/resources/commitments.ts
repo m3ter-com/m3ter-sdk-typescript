@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Commitments extends APIResource {
   /**
@@ -23,9 +24,9 @@ export class Commitments extends APIResource {
    *   `feeDates` request parameter to define a precise schedule of bill dates and
    *   amounts.
    */
-  create(params: CommitmentCreateParams, options?: Core.RequestOptions): Core.APIPromise<CommitmentResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/commitments`, { body, ...options });
+  create(params: CommitmentCreateParams, options?: RequestOptions): APIPromise<CommitmentResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/commitments`, { body, ...options });
   }
 
   /**
@@ -37,20 +38,11 @@ export class Commitments extends APIResource {
    */
   retrieve(
     id: string,
-    params?: CommitmentRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CommitmentResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<CommitmentResponse>;
-  retrieve(
-    id: string,
-    params: CommitmentRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CommitmentResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/commitments/${id}`, options);
+    params: CommitmentRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CommitmentResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/commitments/${id}`, options);
   }
 
   /**
@@ -63,10 +55,10 @@ export class Commitments extends APIResource {
   update(
     id: string,
     params: CommitmentUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CommitmentResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/commitments/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<CommitmentResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/commitments/${id}`, { body, ...options });
   }
 
   /**
@@ -77,19 +69,11 @@ export class Commitments extends APIResource {
    * Commitments based on Account, Product, date, and end dates.
    */
   list(
-    params?: CommitmentListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CommitmentResponsesCursor, CommitmentResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<CommitmentResponsesCursor, CommitmentResponse>;
-  list(
-    params: CommitmentListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CommitmentResponsesCursor, CommitmentResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/commitments`, CommitmentResponsesCursor, {
+    params: CommitmentListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CommitmentResponsesCursor, CommitmentResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/commitments`, Cursor<CommitmentResponse>, {
       query,
       ...options,
     });
@@ -103,20 +87,11 @@ export class Commitments extends APIResource {
    */
   delete(
     id: string,
-    params?: CommitmentDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CommitmentResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<CommitmentResponse>;
-  delete(
-    id: string,
-    params: CommitmentDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CommitmentResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/commitments/${id}`, options);
+    params: CommitmentDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CommitmentResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/commitments/${id}`, options);
   }
 
   /**
@@ -128,23 +103,15 @@ export class Commitments extends APIResource {
    * paginated for easier management.
    */
   search(
-    params?: CommitmentSearchParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CommitmentSearchResponse>;
-  search(options?: Core.RequestOptions): Core.APIPromise<CommitmentSearchResponse>;
-  search(
-    params: CommitmentSearchParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CommitmentSearchResponse> {
-    if (isRequestOptions(params)) {
-      return this.search({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/commitments/search`, { query, ...options });
+    params: CommitmentSearchParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CommitmentSearchResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/commitments/search`, { query, ...options });
   }
 }
 
-export class CommitmentResponsesCursor extends Cursor<CommitmentResponse> {}
+export type CommitmentResponsesCursor = Cursor<CommitmentResponse>;
 
 export interface CommitmentFee {
   amount: number;
@@ -1004,14 +971,12 @@ export interface CommitmentSearchParams {
   sortOrder?: 'ASC' | 'DESC';
 }
 
-Commitments.CommitmentResponsesCursor = CommitmentResponsesCursor;
-
 export declare namespace Commitments {
   export {
     type CommitmentFee as CommitmentFee,
     type CommitmentResponse as CommitmentResponse,
     type CommitmentSearchResponse as CommitmentSearchResponse,
-    CommitmentResponsesCursor as CommitmentResponsesCursor,
+    type CommitmentResponsesCursor as CommitmentResponsesCursor,
     type CommitmentCreateParams as CommitmentCreateParams,
     type CommitmentRetrieveParams as CommitmentRetrieveParams,
     type CommitmentUpdateParams as CommitmentUpdateParams,

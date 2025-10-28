@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class DebitLineItems extends APIResource {
   /**
@@ -13,48 +14,39 @@ export class DebitLineItems extends APIResource {
    * Organization. See [DebitReason](https://www.m3ter.com/docs/api#tag/DebitReason).
    */
   create(
-    billId: string,
+    billID: string,
     params: DebitLineItemCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitLineItemResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/bills/${billId}/debitlineitems`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<DebitLineItemResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/bills/${billID}/debitlineitems`, {
+      body,
+      ...options,
+    });
   }
 
   /**
    * Retrieve the Debit line item with the given UUID.
    */
   retrieve(
-    billId: string,
     id: string,
-    params?: DebitLineItemRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitLineItemResponse>;
-  retrieve(billId: string, id: string, options?: Core.RequestOptions): Core.APIPromise<DebitLineItemResponse>;
-  retrieve(
-    billId: string,
-    id: string,
-    params: DebitLineItemRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitLineItemResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(billId, id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${billId}/debitlineitems/${id}`, options);
+    params: DebitLineItemRetrieveParams,
+    options?: RequestOptions,
+  ): APIPromise<DebitLineItemResponse> {
+    const { orgId = this._client.orgID, billId } = params;
+    return this._client.get(path`/organizations/${orgId}/bills/${billId}/debitlineitems/${id}`, options);
   }
 
   /**
    * Update the Debit line item with the given UUID.
    */
   update(
-    billId: string,
     id: string,
     params: DebitLineItemUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitLineItemResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/bills/${billId}/debitlineitems/${id}`, {
+    options?: RequestOptions,
+  ): APIPromise<DebitLineItemResponse> {
+    const { orgId = this._client.orgID, billId, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/bills/${billId}/debitlineitems/${id}`, {
       body,
       ...options,
     });
@@ -64,26 +56,14 @@ export class DebitLineItems extends APIResource {
    * List the Debit line items for the given bill.
    */
   list(
-    billId: string,
-    params?: DebitLineItemListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DebitLineItemResponsesCursor, DebitLineItemResponse>;
-  list(
-    billId: string,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DebitLineItemResponsesCursor, DebitLineItemResponse>;
-  list(
-    billId: string,
-    params: DebitLineItemListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DebitLineItemResponsesCursor, DebitLineItemResponse> {
-    if (isRequestOptions(params)) {
-      return this.list(billId, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    billID: string,
+    params: DebitLineItemListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<DebitLineItemResponsesCursor, DebitLineItemResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/bills/${billId}/debitlineitems`,
-      DebitLineItemResponsesCursor,
+      path`/organizations/${orgId}/bills/${billID}/debitlineitems`,
+      Cursor<DebitLineItemResponse>,
       { query, ...options },
     );
   }
@@ -92,27 +72,16 @@ export class DebitLineItems extends APIResource {
    * Delete the Debit line item with the given UUID.
    */
   delete(
-    billId: string,
     id: string,
-    params?: DebitLineItemDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitLineItemResponse>;
-  delete(billId: string, id: string, options?: Core.RequestOptions): Core.APIPromise<DebitLineItemResponse>;
-  delete(
-    billId: string,
-    id: string,
-    params: DebitLineItemDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<DebitLineItemResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(billId, id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/bills/${billId}/debitlineitems/${id}`, options);
+    params: DebitLineItemDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<DebitLineItemResponse> {
+    const { orgId = this._client.orgID, billId } = params;
+    return this._client.delete(path`/organizations/${orgId}/bills/${billId}/debitlineitems/${id}`, options);
   }
 }
 
-export class DebitLineItemResponsesCursor extends Cursor<DebitLineItemResponse> {}
+export type DebitLineItemResponsesCursor = Cursor<DebitLineItemResponse>;
 
 export interface DebitLineItemResponse {
   /**
@@ -292,6 +261,11 @@ export interface DebitLineItemRetrieveParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * UUID of the bill.
+   */
+  billId: string;
 }
 
 export interface DebitLineItemUpdateParams {
@@ -299,6 +273,11 @@ export interface DebitLineItemUpdateParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
+
+  /**
+   * Path param: UUID of the bill.
+   */
+  billId: string;
 
   /**
    * Body param:
@@ -400,14 +379,17 @@ export interface DebitLineItemDeleteParams {
    * @deprecated the org id should be set at the client level instead
    */
   orgId?: string;
-}
 
-DebitLineItems.DebitLineItemResponsesCursor = DebitLineItemResponsesCursor;
+  /**
+   * UUID of the bill.
+   */
+  billId: string;
+}
 
 export declare namespace DebitLineItems {
   export {
     type DebitLineItemResponse as DebitLineItemResponse,
-    DebitLineItemResponsesCursor as DebitLineItemResponsesCursor,
+    type DebitLineItemResponsesCursor as DebitLineItemResponsesCursor,
     type DebitLineItemCreateParams as DebitLineItemCreateParams,
     type DebitLineItemRetrieveParams as DebitLineItemRetrieveParams,
     type DebitLineItemUpdateParams as DebitLineItemUpdateParams,

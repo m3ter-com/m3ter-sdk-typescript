@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Invitations extends APIResource {
   /**
@@ -11,9 +12,9 @@ export class Invitations extends APIResource {
    *
    * This sends an email to someone inviting them to join your m3ter Organization.
    */
-  create(params: InvitationCreateParams, options?: Core.RequestOptions): Core.APIPromise<InvitationResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/invitations`, { body, ...options });
+  create(params: InvitationCreateParams, options?: RequestOptions): APIPromise<InvitationResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/invitations`, { body, ...options });
   }
 
   /**
@@ -21,46 +22,29 @@ export class Invitations extends APIResource {
    */
   retrieve(
     id: string,
-    params?: InvitationRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<InvitationResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<InvitationResponse>;
-  retrieve(
-    id: string,
-    params: InvitationRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<InvitationResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/invitations/${id}`, options);
+    params: InvitationRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<InvitationResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/invitations/${id}`, options);
   }
 
   /**
    * Retrieve a list of all invitations in the Organization.
    */
   list(
-    params?: InvitationListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<InvitationResponsesCursor, InvitationResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<InvitationResponsesCursor, InvitationResponse>;
-  list(
-    params: InvitationListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<InvitationResponsesCursor, InvitationResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/invitations`, InvitationResponsesCursor, {
+    params: InvitationListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<InvitationResponsesCursor, InvitationResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/invitations`, Cursor<InvitationResponse>, {
       query,
       ...options,
     });
   }
 }
 
-export class InvitationResponsesCursor extends Cursor<InvitationResponse> {}
+export type InvitationResponsesCursor = Cursor<InvitationResponse>;
 
 export interface InvitationResponse {
   /**
@@ -214,12 +198,10 @@ export interface InvitationListParams extends CursorParams {
   orgId?: string;
 }
 
-Invitations.InvitationResponsesCursor = InvitationResponsesCursor;
-
 export declare namespace Invitations {
   export {
     type InvitationResponse as InvitationResponse,
-    InvitationResponsesCursor as InvitationResponsesCursor,
+    type InvitationResponsesCursor as InvitationResponsesCursor,
     type InvitationCreateParams as InvitationCreateParams,
     type InvitationRetrieveParams as InvitationRetrieveParams,
     type InvitationListParams as InvitationListParams,

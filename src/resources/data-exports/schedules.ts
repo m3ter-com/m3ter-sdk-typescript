@@ -1,10 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as DataExportsAPI from './data-exports';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Schedules extends APIResource {
   /**
@@ -50,12 +51,9 @@ export class Schedules extends APIResource {
    * - Use the **Example** selector to show the relevant request and response samples
    *   for source data type.
    */
-  create(
-    params: ScheduleCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduleCreateResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/dataexports/schedules`, { body, ...options });
+  create(params: ScheduleCreateParams, options?: RequestOptions): APIPromise<ScheduleCreateResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/dataexports/schedules`, { body, ...options });
   }
 
   /**
@@ -64,20 +62,11 @@ export class Schedules extends APIResource {
    */
   retrieve(
     id: string,
-    params?: ScheduleRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduleRetrieveResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<ScheduleRetrieveResponse>;
-  retrieve(
-    id: string,
-    params: ScheduleRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduleRetrieveResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/dataexports/schedules/${id}`, options);
+    params: ScheduleRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ScheduleRetrieveResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/dataexports/schedules/${id}`, options);
   }
 
   /**
@@ -116,10 +105,10 @@ export class Schedules extends APIResource {
   update(
     id: string,
     params: ScheduleUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduleUpdateResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/dataexports/schedules/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<ScheduleUpdateResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/dataexports/schedules/${id}`, { body, ...options });
   }
 
   /**
@@ -130,21 +119,13 @@ export class Schedules extends APIResource {
    * Export Schedules in your Organization.
    */
   list(
-    params?: ScheduleListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ScheduleListResponsesCursor, ScheduleListResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<ScheduleListResponsesCursor, ScheduleListResponse>;
-  list(
-    params: ScheduleListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ScheduleListResponsesCursor, ScheduleListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: ScheduleListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<ScheduleListResponsesCursor, ScheduleListResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/dataexports/schedules`,
-      ScheduleListResponsesCursor,
+      path`/organizations/${orgId}/dataexports/schedules`,
+      Cursor<ScheduleListResponse>,
       { query, ...options },
     );
   }
@@ -155,24 +136,15 @@ export class Schedules extends APIResource {
    */
   delete(
     id: string,
-    params?: ScheduleDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduleDeleteResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<ScheduleDeleteResponse>;
-  delete(
-    id: string,
-    params: ScheduleDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ScheduleDeleteResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/dataexports/schedules/${id}`, options);
+    params: ScheduleDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ScheduleDeleteResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/dataexports/schedules/${id}`, options);
   }
 }
 
-export class ScheduleListResponsesCursor extends Cursor<ScheduleListResponse> {}
+export type ScheduleListResponsesCursor = Cursor<ScheduleListResponse>;
 
 export interface OperationalDataExportScheduleRequest {
   /**
@@ -1040,8 +1012,6 @@ export interface ScheduleDeleteParams {
   orgId?: string;
 }
 
-Schedules.ScheduleListResponsesCursor = ScheduleListResponsesCursor;
-
 export declare namespace Schedules {
   export {
     type OperationalDataExportScheduleRequest as OperationalDataExportScheduleRequest,
@@ -1053,7 +1023,7 @@ export declare namespace Schedules {
     type ScheduleUpdateResponse as ScheduleUpdateResponse,
     type ScheduleListResponse as ScheduleListResponse,
     type ScheduleDeleteResponse as ScheduleDeleteResponse,
-    ScheduleListResponsesCursor as ScheduleListResponsesCursor,
+    type ScheduleListResponsesCursor as ScheduleListResponsesCursor,
     type ScheduleCreateParams as ScheduleCreateParams,
     type ScheduleRetrieveParams as ScheduleRetrieveParams,
     type ScheduleUpdateParams as ScheduleUpdateParams,

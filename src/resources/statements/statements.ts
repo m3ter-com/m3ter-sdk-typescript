@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as StatementDefinitionsAPI from './statement-definitions';
 import {
   StatementDefinitionCreateParams,
@@ -26,6 +24,9 @@ import {
   StatementJobRetrieveParams,
   StatementJobs,
 } from './statement-jobs';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Statements extends APIResource {
   statementJobs: StatementJobsAPI.StatementJobs = new StatementJobsAPI.StatementJobs(this._client);
@@ -44,20 +45,11 @@ export class Statements extends APIResource {
    */
   createCsv(
     id: string,
-    params?: StatementCreateCsvParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ObjectURLResponse>;
-  createCsv(id: string, options?: Core.RequestOptions): Core.APIPromise<ObjectURLResponse>;
-  createCsv(
-    id: string,
-    params: StatementCreateCsvParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ObjectURLResponse> {
-    if (isRequestOptions(params)) {
-      return this.createCsv(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.post(`/organizations/${orgId}/bills/${id}/statement/csv`, options);
+    params: StatementCreateCsvParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ObjectURLResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.post(path`/organizations/${orgId}/bills/${id}/statement/csv`, options);
   }
 
   /**
@@ -73,20 +65,11 @@ export class Statements extends APIResource {
    */
   getCsv(
     id: string,
-    params?: StatementGetCsvParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ObjectURLResponse>;
-  getCsv(id: string, options?: Core.RequestOptions): Core.APIPromise<ObjectURLResponse>;
-  getCsv(
-    id: string,
-    params: StatementGetCsvParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ObjectURLResponse> {
-    if (isRequestOptions(params)) {
-      return this.getCsv(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${id}/statement/csv`, options);
+    params: StatementGetCsvParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ObjectURLResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/bills/${id}/statement/csv`, options);
   }
 
   /**
@@ -101,20 +84,11 @@ export class Statements extends APIResource {
    */
   getJson(
     id: string,
-    params?: StatementGetJsonParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ObjectURLResponse>;
-  getJson(id: string, options?: Core.RequestOptions): Core.APIPromise<ObjectURLResponse>;
-  getJson(
-    id: string,
-    params: StatementGetJsonParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ObjectURLResponse> {
-    if (isRequestOptions(params)) {
-      return this.getJson(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/bills/${id}/statement/json`, options);
+    params: StatementGetJsonParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ObjectURLResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/bills/${id}/statement/json`, options);
   }
 }
 
@@ -147,9 +121,7 @@ export interface StatementGetJsonParams {
 }
 
 Statements.StatementJobs = StatementJobs;
-Statements.StatementJobResponsesCursor = StatementJobResponsesCursor;
 Statements.StatementDefinitions = StatementDefinitions;
-Statements.StatementDefinitionResponsesCursor = StatementDefinitionResponsesCursor;
 
 export declare namespace Statements {
   export {
@@ -163,7 +135,7 @@ export declare namespace Statements {
     StatementJobs as StatementJobs,
     type StatementJobResponse as StatementJobResponse,
     type StatementJobCreateBatchResponse as StatementJobCreateBatchResponse,
-    StatementJobResponsesCursor as StatementJobResponsesCursor,
+    type StatementJobResponsesCursor as StatementJobResponsesCursor,
     type StatementJobCreateParams as StatementJobCreateParams,
     type StatementJobRetrieveParams as StatementJobRetrieveParams,
     type StatementJobListParams as StatementJobListParams,
@@ -174,7 +146,7 @@ export declare namespace Statements {
   export {
     StatementDefinitions as StatementDefinitions,
     type StatementDefinitionResponse as StatementDefinitionResponse,
-    StatementDefinitionResponsesCursor as StatementDefinitionResponsesCursor,
+    type StatementDefinitionResponsesCursor as StatementDefinitionResponsesCursor,
     type StatementDefinitionCreateParams as StatementDefinitionCreateParams,
     type StatementDefinitionRetrieveParams as StatementDefinitionRetrieveParams,
     type StatementDefinitionUpdateParams as StatementDefinitionUpdateParams,

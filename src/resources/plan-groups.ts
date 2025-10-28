@@ -1,18 +1,19 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class PlanGroups extends APIResource {
   /**
    * Create a new PlanGroup. This endpoint creates a new PlanGroup within the
    * specified organization.
    */
-  create(params: PlanGroupCreateParams, options?: Core.RequestOptions): Core.APIPromise<PlanGroupResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/plangroups`, { body, ...options });
+  create(params: PlanGroupCreateParams, options?: RequestOptions): APIPromise<PlanGroupResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/plangroups`, { body, ...options });
   }
 
   /**
@@ -23,20 +24,11 @@ export class PlanGroups extends APIResource {
    */
   retrieve(
     id: string,
-    params?: PlanGroupRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanGroupResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<PlanGroupResponse>;
-  retrieve(
-    id: string,
-    params: PlanGroupRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanGroupResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/plangroups/${id}`, options);
+    params: PlanGroupRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PlanGroupResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/plangroups/${id}`, options);
   }
 
   /**
@@ -51,13 +43,9 @@ export class PlanGroups extends APIResource {
    * those Custom Fields. If you omit them from the update request, they will be
    * lost.
    */
-  update(
-    id: string,
-    params: PlanGroupUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanGroupResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/plangroups/${id}`, { body, ...options });
+  update(id: string, params: PlanGroupUpdateParams, options?: RequestOptions): APIPromise<PlanGroupResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/plangroups/${id}`, { body, ...options });
   }
 
   /**
@@ -68,19 +56,11 @@ export class PlanGroups extends APIResource {
    * for easier management.
    */
   list(
-    params?: PlanGroupListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanGroupResponsesCursor, PlanGroupResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<PlanGroupResponsesCursor, PlanGroupResponse>;
-  list(
-    params: PlanGroupListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<PlanGroupResponsesCursor, PlanGroupResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/plangroups`, PlanGroupResponsesCursor, {
+    params: PlanGroupListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<PlanGroupResponsesCursor, PlanGroupResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/plangroups`, Cursor<PlanGroupResponse>, {
       query,
       ...options,
     });
@@ -95,24 +75,15 @@ export class PlanGroups extends APIResource {
    */
   delete(
     id: string,
-    params?: PlanGroupDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanGroupResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<PlanGroupResponse>;
-  delete(
-    id: string,
-    params: PlanGroupDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PlanGroupResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/plangroups/${id}`, options);
+    params: PlanGroupDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PlanGroupResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/plangroups/${id}`, options);
   }
 }
 
-export class PlanGroupResponsesCursor extends Cursor<PlanGroupResponse> {}
+export type PlanGroupResponsesCursor = Cursor<PlanGroupResponse>;
 
 export interface PlanGroupResponse {
   /**
@@ -482,12 +453,10 @@ export interface PlanGroupDeleteParams {
   orgId?: string;
 }
 
-PlanGroups.PlanGroupResponsesCursor = PlanGroupResponsesCursor;
-
 export declare namespace PlanGroups {
   export {
     type PlanGroupResponse as PlanGroupResponse,
-    PlanGroupResponsesCursor as PlanGroupResponsesCursor,
+    type PlanGroupResponsesCursor as PlanGroupResponsesCursor,
     type PlanGroupCreateParams as PlanGroupCreateParams,
     type PlanGroupRetrieveParams as PlanGroupRetrieveParams,
     type PlanGroupUpdateParams as PlanGroupUpdateParams,

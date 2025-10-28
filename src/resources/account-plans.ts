@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class AccountPlans extends APIResource {
   /**
@@ -17,12 +18,9 @@ export class AccountPlans extends APIResource {
    * AccountPlanGroup for an Account at the same time. If you want to create both for
    * an Account, you must submit two separate calls.
    */
-  create(
-    params: AccountPlanCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountPlanResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/accountplans`, { body, ...options });
+  create(params: AccountPlanCreateParams, options?: RequestOptions): APIPromise<AccountPlanResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/accountplans`, { body, ...options });
   }
 
   /**
@@ -31,20 +29,11 @@ export class AccountPlans extends APIResource {
    */
   retrieve(
     id: string,
-    params?: AccountPlanRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountPlanResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<AccountPlanResponse>;
-  retrieve(
-    id: string,
-    params: AccountPlanRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountPlanResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/accountplans/${id}`, options);
+    params: AccountPlanRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountPlanResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/accountplans/${id}`, options);
   }
 
   /**
@@ -67,10 +56,10 @@ export class AccountPlans extends APIResource {
   update(
     id: string,
     params: AccountPlanUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountPlanResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/accountplans/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<AccountPlanResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/accountplans/${id}`, { body, ...options });
   }
 
   /**
@@ -79,19 +68,11 @@ export class AccountPlans extends APIResource {
    * filtering with various query parameters.
    */
   list(
-    params?: AccountPlanListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AccountPlanResponsesCursor, AccountPlanResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<AccountPlanResponsesCursor, AccountPlanResponse>;
-  list(
-    params: AccountPlanListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AccountPlanResponsesCursor, AccountPlanResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/accountplans`, AccountPlanResponsesCursor, {
+    params: AccountPlanListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AccountPlanResponsesCursor, AccountPlanResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/accountplans`, Cursor<AccountPlanResponse>, {
       query,
       ...options,
     });
@@ -105,24 +86,15 @@ export class AccountPlans extends APIResource {
    */
   delete(
     id: string,
-    params?: AccountPlanDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountPlanResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<AccountPlanResponse>;
-  delete(
-    id: string,
-    params: AccountPlanDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountPlanResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/accountplans/${id}`, options);
+    params: AccountPlanDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountPlanResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/accountplans/${id}`, options);
   }
 }
 
-export class AccountPlanResponsesCursor extends Cursor<AccountPlanResponse> {}
+export type AccountPlanResponsesCursor = Cursor<AccountPlanResponse>;
 
 export interface AccountPlanResponse {
   /**
@@ -557,12 +529,10 @@ export interface AccountPlanDeleteParams {
   orgId?: string;
 }
 
-AccountPlans.AccountPlanResponsesCursor = AccountPlanResponsesCursor;
-
 export declare namespace AccountPlans {
   export {
     type AccountPlanResponse as AccountPlanResponse,
-    AccountPlanResponsesCursor as AccountPlanResponsesCursor,
+    type AccountPlanResponsesCursor as AccountPlanResponsesCursor,
     type AccountPlanCreateParams as AccountPlanCreateParams,
     type AccountPlanRetrieveParams as AccountPlanRetrieveParams,
     type AccountPlanUpdateParams as AccountPlanUpdateParams,

@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class NotificationConfigurations extends APIResource {
   /**
@@ -26,10 +27,13 @@ export class NotificationConfigurations extends APIResource {
    */
   create(
     params: NotificationConfigurationCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<NotificationConfigurationResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/notifications/configurations`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<NotificationConfigurationResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/notifications/configurations`, {
+      body,
+      ...options,
+    });
   }
 
   /**
@@ -46,20 +50,11 @@ export class NotificationConfigurations extends APIResource {
    */
   retrieve(
     id: string,
-    params?: NotificationConfigurationRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<NotificationConfigurationResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<NotificationConfigurationResponse>;
-  retrieve(
-    id: string,
-    params: NotificationConfigurationRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<NotificationConfigurationResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/notifications/configurations/${id}`, options);
+    params: NotificationConfigurationRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<NotificationConfigurationResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/notifications/configurations/${id}`, options);
   }
 
   /**
@@ -83,10 +78,10 @@ export class NotificationConfigurations extends APIResource {
   update(
     id: string,
     params: NotificationConfigurationUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<NotificationConfigurationResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/notifications/configurations/${id}`, {
+    options?: RequestOptions,
+  ): APIPromise<NotificationConfigurationResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/notifications/configurations/${id}`, {
       body,
       ...options,
     });
@@ -108,23 +103,13 @@ export class NotificationConfigurations extends APIResource {
    * ```
    */
   list(
-    params?: NotificationConfigurationListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<NotificationConfigurationResponsesCursor, NotificationConfigurationResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<NotificationConfigurationResponsesCursor, NotificationConfigurationResponse>;
-  list(
-    params: NotificationConfigurationListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<NotificationConfigurationResponsesCursor, NotificationConfigurationResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: NotificationConfigurationListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<NotificationConfigurationResponsesCursor, NotificationConfigurationResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/notifications/configurations`,
-      NotificationConfigurationResponsesCursor,
+      path`/organizations/${orgId}/notifications/configurations`,
+      Cursor<NotificationConfigurationResponse>,
       { query, ...options },
     );
   }
@@ -143,24 +128,15 @@ export class NotificationConfigurations extends APIResource {
    */
   delete(
     id: string,
-    params?: NotificationConfigurationDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<NotificationConfigurationResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<NotificationConfigurationResponse>;
-  delete(
-    id: string,
-    params: NotificationConfigurationDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<NotificationConfigurationResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/notifications/configurations/${id}`, options);
+    params: NotificationConfigurationDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<NotificationConfigurationResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/notifications/configurations/${id}`, options);
   }
 }
 
-export class NotificationConfigurationResponsesCursor extends Cursor<NotificationConfigurationResponse> {}
+export type NotificationConfigurationResponsesCursor = Cursor<NotificationConfigurationResponse>;
 
 export interface NotificationConfigurationResponse {
   /**
@@ -466,13 +442,10 @@ export interface NotificationConfigurationDeleteParams {
   orgId?: string;
 }
 
-NotificationConfigurations.NotificationConfigurationResponsesCursor =
-  NotificationConfigurationResponsesCursor;
-
 export declare namespace NotificationConfigurations {
   export {
     type NotificationConfigurationResponse as NotificationConfigurationResponse,
-    NotificationConfigurationResponsesCursor as NotificationConfigurationResponsesCursor,
+    type NotificationConfigurationResponsesCursor as NotificationConfigurationResponsesCursor,
     type NotificationConfigurationCreateParams as NotificationConfigurationCreateParams,
     type NotificationConfigurationRetrieveParams as NotificationConfigurationRetrieveParams,
     type NotificationConfigurationUpdateParams as NotificationConfigurationUpdateParams,

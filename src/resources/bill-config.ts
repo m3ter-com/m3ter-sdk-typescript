@@ -1,27 +1,20 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class BillConfig extends APIResource {
   /**
    * Retrieve the Organization-wide BillConfig.
    */
   retrieve(
-    params?: BillConfigRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillConfigResponse>;
-  retrieve(options?: Core.RequestOptions): Core.APIPromise<BillConfigResponse>;
-  retrieve(
-    params: BillConfigRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillConfigResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve({}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/billconfig`, options);
+    params: BillConfigRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillConfigResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/billconfig`, options);
   }
 
   /**
@@ -31,17 +24,12 @@ export class BillConfig extends APIResource {
    * with a service period end date on or before the set date will be locked and
    * cannot be updated or recalculated.
    */
-  update(params?: BillConfigUpdateParams, options?: Core.RequestOptions): Core.APIPromise<BillConfigResponse>;
-  update(options?: Core.RequestOptions): Core.APIPromise<BillConfigResponse>;
   update(
-    params: BillConfigUpdateParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<BillConfigResponse> {
-    if (isRequestOptions(params)) {
-      return this.update({}, params);
-    }
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/billconfig`, { body, ...options });
+    params: BillConfigUpdateParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<BillConfigResponse> {
+    const { orgId = this._client.orgID, ...body } = params ?? {};
+    return this._client.put(path`/organizations/${orgId}/billconfig`, { body, ...options });
   }
 }
 

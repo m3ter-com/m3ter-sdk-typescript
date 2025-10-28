@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class CounterAdjustments extends APIResource {
   /**
@@ -32,10 +33,10 @@ export class CounterAdjustments extends APIResource {
    */
   create(
     params: CounterAdjustmentCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterAdjustmentResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/counteradjustments`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<CounterAdjustmentResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/counteradjustments`, { body, ...options });
   }
 
   /**
@@ -49,20 +50,11 @@ export class CounterAdjustments extends APIResource {
    */
   retrieve(
     id: string,
-    params?: CounterAdjustmentRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterAdjustmentResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<CounterAdjustmentResponse>;
-  retrieve(
-    id: string,
-    params: CounterAdjustmentRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterAdjustmentResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/counteradjustments/${id}`, options);
+    params: CounterAdjustmentRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CounterAdjustmentResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/counteradjustments/${id}`, options);
   }
 
   /**
@@ -82,10 +74,10 @@ export class CounterAdjustments extends APIResource {
   update(
     id: string,
     params: CounterAdjustmentUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterAdjustmentResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/counteradjustments/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<CounterAdjustmentResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/counteradjustments/${id}`, { body, ...options });
   }
 
   /**
@@ -109,23 +101,13 @@ export class CounterAdjustments extends APIResource {
    * ```
    */
   list(
-    params?: CounterAdjustmentListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CounterAdjustmentResponsesCursor, CounterAdjustmentResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CounterAdjustmentResponsesCursor, CounterAdjustmentResponse>;
-  list(
-    params: CounterAdjustmentListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<CounterAdjustmentResponsesCursor, CounterAdjustmentResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: CounterAdjustmentListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<CounterAdjustmentResponsesCursor, CounterAdjustmentResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/counteradjustments`,
-      CounterAdjustmentResponsesCursor,
+      path`/organizations/${orgId}/counteradjustments`,
+      Cursor<CounterAdjustmentResponse>,
       { query, ...options },
     );
   }
@@ -141,24 +123,15 @@ export class CounterAdjustments extends APIResource {
    */
   delete(
     id: string,
-    params?: CounterAdjustmentDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterAdjustmentResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<CounterAdjustmentResponse>;
-  delete(
-    id: string,
-    params: CounterAdjustmentDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<CounterAdjustmentResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/counteradjustments/${id}`, options);
+    params: CounterAdjustmentDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<CounterAdjustmentResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/counteradjustments/${id}`, options);
   }
 }
 
-export class CounterAdjustmentResponsesCursor extends Cursor<CounterAdjustmentResponse> {}
+export type CounterAdjustmentResponsesCursor = Cursor<CounterAdjustmentResponse>;
 
 export interface CounterAdjustmentResponse {
   /**
@@ -395,12 +368,10 @@ export interface CounterAdjustmentDeleteParams {
   orgId?: string;
 }
 
-CounterAdjustments.CounterAdjustmentResponsesCursor = CounterAdjustmentResponsesCursor;
-
 export declare namespace CounterAdjustments {
   export {
     type CounterAdjustmentResponse as CounterAdjustmentResponse,
-    CounterAdjustmentResponsesCursor as CounterAdjustmentResponsesCursor,
+    type CounterAdjustmentResponsesCursor as CounterAdjustmentResponsesCursor,
     type CounterAdjustmentCreateParams as CounterAdjustmentCreateParams,
     type CounterAdjustmentRetrieveParams as CounterAdjustmentRetrieveParams,
     type CounterAdjustmentUpdateParams as CounterAdjustmentUpdateParams,

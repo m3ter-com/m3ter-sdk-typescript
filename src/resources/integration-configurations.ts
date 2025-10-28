@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class IntegrationConfigurations extends APIResource {
   /**
@@ -20,10 +21,10 @@ export class IntegrationConfigurations extends APIResource {
    */
   create(
     params: IntegrationConfigurationCreateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationCreateResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/integrationconfigs`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<IntegrationConfigurationCreateResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/integrationconfigs`, { body, ...options });
   }
 
   /**
@@ -41,20 +42,11 @@ export class IntegrationConfigurations extends APIResource {
    */
   retrieve(
     id: string,
-    params?: IntegrationConfigurationRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<IntegrationConfigurationResponse>;
-  retrieve(
-    id: string,
-    params: IntegrationConfigurationRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/integrationconfigs/${id}`, options);
+    params: IntegrationConfigurationRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<IntegrationConfigurationResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/integrationconfigs/${id}`, options);
   }
 
   /**
@@ -76,10 +68,10 @@ export class IntegrationConfigurations extends APIResource {
   update(
     id: string,
     params: IntegrationConfigurationUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationUpdateResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/integrationconfigs/${id}`, { body, ...options });
+    options?: RequestOptions,
+  ): APIPromise<IntegrationConfigurationUpdateResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/integrationconfigs/${id}`, { body, ...options });
   }
 
   /**
@@ -97,23 +89,13 @@ export class IntegrationConfigurations extends APIResource {
    * ```
    */
   list(
-    params?: IntegrationConfigurationListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<IntegrationConfigurationListResponsesCursor, IntegrationConfigurationListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<IntegrationConfigurationListResponsesCursor, IntegrationConfigurationListResponse>;
-  list(
-    params: IntegrationConfigurationListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<IntegrationConfigurationListResponsesCursor, IntegrationConfigurationListResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
+    params: IntegrationConfigurationListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<IntegrationConfigurationListResponsesCursor, IntegrationConfigurationListResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.getAPIList(
-      `/organizations/${orgId}/integrationconfigs`,
-      IntegrationConfigurationListResponsesCursor,
+      path`/organizations/${orgId}/integrationconfigs`,
+      Cursor<IntegrationConfigurationListResponse>,
       { query, ...options },
     );
   }
@@ -133,20 +115,11 @@ export class IntegrationConfigurations extends APIResource {
    */
   delete(
     id: string,
-    params?: IntegrationConfigurationDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationDeleteResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<IntegrationConfigurationDeleteResponse>;
-  delete(
-    id: string,
-    params: IntegrationConfigurationDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationDeleteResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/integrationconfigs/${id}`, options);
+    params: IntegrationConfigurationDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<IntegrationConfigurationDeleteResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/integrationconfigs/${id}`, options);
   }
 
   /**
@@ -161,20 +134,11 @@ export class IntegrationConfigurations extends APIResource {
    */
   enable(
     id: string,
-    params?: IntegrationConfigurationEnableParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationEnableResponse>;
-  enable(id: string, options?: Core.RequestOptions): Core.APIPromise<IntegrationConfigurationEnableResponse>;
-  enable(
-    id: string,
-    params: IntegrationConfigurationEnableParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationEnableResponse> {
-    if (isRequestOptions(params)) {
-      return this.enable(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.post(`/organizations/${orgId}/integrationconfigs/${id}/enable`, options);
+    params: IntegrationConfigurationEnableParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<IntegrationConfigurationEnableResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.post(path`/organizations/${orgId}/integrationconfigs/${id}/enable`, options);
   }
 
   /**
@@ -190,30 +154,18 @@ export class IntegrationConfigurations extends APIResource {
    */
   getByEntity(
     entityType: string,
-    params?: IntegrationConfigurationGetByEntityParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationResponse>;
-  getByEntity(
-    entityType: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationResponse>;
-  getByEntity(
-    entityType: string,
-    params: IntegrationConfigurationGetByEntityParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<IntegrationConfigurationResponse> {
-    if (isRequestOptions(params)) {
-      return this.getByEntity(entityType, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/integrationconfigs/entity/${entityType}`, {
+    params: IntegrationConfigurationGetByEntityParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<IntegrationConfigurationResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/integrationconfigs/entity/${entityType}`, {
       query,
       ...options,
     });
   }
 }
 
-export class IntegrationConfigurationListResponsesCursor extends Cursor<IntegrationConfigurationListResponse> {}
+export type IntegrationConfigurationListResponsesCursor = Cursor<IntegrationConfigurationListResponse>;
 
 export interface IntegrationConfigurationResponse {
   /**
@@ -1098,9 +1050,6 @@ export interface IntegrationConfigurationGetByEntityParams {
   entityId?: string;
 }
 
-IntegrationConfigurations.IntegrationConfigurationListResponsesCursor =
-  IntegrationConfigurationListResponsesCursor;
-
 export declare namespace IntegrationConfigurations {
   export {
     type IntegrationConfigurationResponse as IntegrationConfigurationResponse,
@@ -1109,7 +1058,7 @@ export declare namespace IntegrationConfigurations {
     type IntegrationConfigurationListResponse as IntegrationConfigurationListResponse,
     type IntegrationConfigurationDeleteResponse as IntegrationConfigurationDeleteResponse,
     type IntegrationConfigurationEnableResponse as IntegrationConfigurationEnableResponse,
-    IntegrationConfigurationListResponsesCursor as IntegrationConfigurationListResponsesCursor,
+    type IntegrationConfigurationListResponsesCursor as IntegrationConfigurationListResponsesCursor,
     type IntegrationConfigurationCreateParams as IntegrationConfigurationCreateParams,
     type IntegrationConfigurationRetrieveParams as IntegrationConfigurationRetrieveParams,
     type IntegrationConfigurationUpdateParams as IntegrationConfigurationUpdateParams,

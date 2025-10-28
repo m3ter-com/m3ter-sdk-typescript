@@ -1,13 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import M3ter from 'm3ter-sdk';
-import { Response } from 'node-fetch';
 
 const client = new M3ter({
   apiKey: 'My API Key',
   apiSecret: 'My API Secret',
   token: 'My Token',
-  orgId: 'My Org ID',
+  orgID: 'My Org ID',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -55,13 +54,6 @@ describe('resource externalMappings', () => {
 
   test('retrieve: required and optional params', async () => {
     const response = await client.externalMappings.retrieve('id', { orgId: 'orgId' });
-  });
-
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.externalMappings.retrieve('id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
   });
 
   test('retrieve: request options and params are passed correctly', async () => {
@@ -123,13 +115,6 @@ describe('resource externalMappings', () => {
     });
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.externalMappings.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
-  });
-
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -162,13 +147,6 @@ describe('resource externalMappings', () => {
     const response = await client.externalMappings.delete('id', { orgId: 'orgId' });
   });
 
-  test('delete: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.externalMappings.delete('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
-  });
-
   test('delete: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -177,11 +155,10 @@ describe('resource externalMappings', () => {
   });
 
   test('listByExternalEntity: only required params', async () => {
-    const responsePromise = client.externalMappings.listByExternalEntity(
-      'system',
-      'externalTable',
-      'externalId',
-    );
+    const responsePromise = client.externalMappings.listByExternalEntity('externalId', {
+      system: 'system',
+      externalTable: 'externalTable',
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -192,38 +169,17 @@ describe('resource externalMappings', () => {
   });
 
   test('listByExternalEntity: required and optional params', async () => {
-    const response = await client.externalMappings.listByExternalEntity(
-      'system',
-      'externalTable',
-      'externalId',
-      { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1 },
-    );
-  });
-
-  test('listByExternalEntity: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.externalMappings.listByExternalEntity('system', 'externalTable', 'externalId', {
-        path: '/_stainless_unknown_path',
-      }),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
-  test('listByExternalEntity: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.externalMappings.listByExternalEntity(
-        'system',
-        'externalTable',
-        'externalId',
-        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1 },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(M3ter.NotFoundError);
+    const response = await client.externalMappings.listByExternalEntity('externalId', {
+      orgId: 'orgId',
+      system: 'system',
+      externalTable: 'externalTable',
+      nextToken: 'nextToken',
+      pageSize: 1,
+    });
   });
 
   test('listByM3terEntity: only required params', async () => {
-    const responsePromise = client.externalMappings.listByM3terEntity('entity', 'm3terId');
+    const responsePromise = client.externalMappings.listByM3terEntity('m3terId', { entity: 'entity' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -234,29 +190,11 @@ describe('resource externalMappings', () => {
   });
 
   test('listByM3terEntity: required and optional params', async () => {
-    const response = await client.externalMappings.listByM3terEntity('entity', 'm3terId', {
+    const response = await client.externalMappings.listByM3terEntity('m3terId', {
       orgId: 'orgId',
+      entity: 'entity',
       nextToken: 'nextToken',
       pageSize: 1,
     });
-  });
-
-  test('listByM3terEntity: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.externalMappings.listByM3terEntity('entity', 'm3terId', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
-  test('listByM3terEntity: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.externalMappings.listByM3terEntity(
-        'entity',
-        'm3terId',
-        { orgId: 'orgId', nextToken: 'nextToken', pageSize: 1 },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(M3ter.NotFoundError);
   });
 });

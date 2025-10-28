@@ -1,13 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import M3ter from 'm3ter-sdk';
-import { Response } from 'node-fetch';
 
 const client = new M3ter({
   apiKey: 'My API Key',
   apiSecret: 'My API Secret',
   token: 'My Token',
-  orgId: 'My Org ID',
+  orgID: 'My Org ID',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -25,13 +24,6 @@ describe('resource bills', () => {
 
   test('retrieve: required and optional params', async () => {
     const response = await client.bills.retrieve('id', { orgId: 'orgId', additional: ['string'] });
-  });
-
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.bills.retrieve('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
   });
 
   test('retrieve: request options and params are passed correctly', async () => {
@@ -77,13 +69,6 @@ describe('resource bills', () => {
     });
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.bills.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
-  });
-
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -124,13 +109,6 @@ describe('resource bills', () => {
 
   test('delete: required and optional params', async () => {
     const response = await client.bills.delete('id', { orgId: 'orgId' });
-  });
-
-  test('delete: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.bills.delete('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
   });
 
   test('delete: request options and params are passed correctly', async () => {
@@ -179,13 +157,6 @@ describe('resource bills', () => {
     });
   });
 
-  test('latestByAccount: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.bills.latestByAccount('accountId', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(M3ter.NotFoundError);
-  });
-
   test('latestByAccount: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -210,13 +181,6 @@ describe('resource bills', () => {
 
   test('lock: required and optional params', async () => {
     const response = await client.bills.lock('id', { orgId: 'orgId' });
-  });
-
-  test('lock: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.bills.lock('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
   });
 
   test('lock: request options and params are passed correctly', async () => {
@@ -247,13 +211,6 @@ describe('resource bills', () => {
       sortBy: 'sortBy',
       sortOrder: 'ASC',
     });
-  });
-
-  test('search: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.bills.search({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
   });
 
   test('search: request options and params are passed correctly', async () => {

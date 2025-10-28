@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Events extends APIResource {
   /**
@@ -20,20 +21,11 @@ export class Events extends APIResource {
    */
   retrieve(
     id: string,
-    params?: EventRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EventResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<EventResponse>;
-  retrieve(
-    id: string,
-    params: EventRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EventResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/events/${id}`, options);
+    params: EventRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<EventResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/events/${id}`, options);
   }
 
   /**
@@ -61,19 +53,11 @@ export class Events extends APIResource {
    * ```
    */
   list(
-    params?: EventListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<EventResponsesCursor, EventResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<EventResponsesCursor, EventResponse>;
-  list(
-    params: EventListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<EventResponsesCursor, EventResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/events`, EventResponsesCursor, {
+    params: EventListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<EventResponsesCursor, EventResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/events`, Cursor<EventResponse>, {
       query,
       ...options,
     });
@@ -112,19 +96,11 @@ export class Events extends APIResource {
    * ```
    */
   getFields(
-    params?: EventGetFieldsParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EventGetFieldsResponse>;
-  getFields(options?: Core.RequestOptions): Core.APIPromise<EventGetFieldsResponse>;
-  getFields(
-    params: EventGetFieldsParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EventGetFieldsResponse> {
-    if (isRequestOptions(params)) {
-      return this.getFields({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/events/fields`, { query, ...options });
+    params: EventGetFieldsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<EventGetFieldsResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/events/fields`, { query, ...options });
   }
 
   /**
@@ -139,23 +115,15 @@ export class Events extends APIResource {
    * ```
    */
   getTypes(
-    params?: EventGetTypesParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EventGetTypesResponse>;
-  getTypes(options?: Core.RequestOptions): Core.APIPromise<EventGetTypesResponse>;
-  getTypes(
-    params: EventGetTypesParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EventGetTypesResponse> {
-    if (isRequestOptions(params)) {
-      return this.getTypes({}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/events/types`, options);
+    params: EventGetTypesParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<EventGetTypesResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/events/types`, options);
   }
 }
 
-export class EventResponsesCursor extends Cursor<EventResponse> {}
+export type EventResponsesCursor = Cursor<EventResponse>;
 
 /**
  * Response containing an Event entity.
@@ -307,14 +275,12 @@ export interface EventGetTypesParams {
   orgId?: string;
 }
 
-Events.EventResponsesCursor = EventResponsesCursor;
-
 export declare namespace Events {
   export {
     type EventResponse as EventResponse,
     type EventGetFieldsResponse as EventGetFieldsResponse,
     type EventGetTypesResponse as EventGetTypesResponse,
-    EventResponsesCursor as EventResponsesCursor,
+    type EventResponsesCursor as EventResponsesCursor,
     type EventRetrieveParams as EventRetrieveParams,
     type EventListParams as EventListParams,
     type EventGetFieldsParams as EventGetFieldsParams,

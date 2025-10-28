@@ -1,8 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
 import * as PermissionPoliciesAPI from '../permission-policies';
 import * as ResourceGroupsAPI from '../resource-groups';
 import * as InvitationsAPI from './invitations';
@@ -14,7 +12,11 @@ import {
   InvitationRetrieveParams,
   Invitations,
 } from './invitations';
-import { Cursor, type CursorParams } from '../../pagination';
+import { APIPromise } from '../../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../../core/pagination';
+import { buildHeaders } from '../../internal/headers';
+import { RequestOptions } from '../../internal/request-options';
+import { path } from '../../internal/utils/path';
 
 export class Users extends APIResource {
   invitations: InvitationsAPI.Invitations = new InvitationsAPI.Invitations(this._client);
@@ -27,20 +29,11 @@ export class Users extends APIResource {
    */
   retrieve(
     id: string,
-    params?: UserRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<UserResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<UserResponse>;
-  retrieve(
-    id: string,
-    params: UserRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<UserResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/users/${id}`, options);
+    params: UserRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<UserResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/users/${id}`, options);
   }
 
   /**
@@ -50,9 +43,9 @@ export class Users extends APIResource {
    * unique identifier (UUID). Use this endpoint when you need to modify user
    * information such as their permission policy.
    */
-  update(id: string, params: UserUpdateParams, options?: Core.RequestOptions): Core.APIPromise<UserResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/users/${id}`, { body, ...options });
+  update(id: string, params: UserUpdateParams, options?: RequestOptions): APIPromise<UserResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/users/${id}`, { body, ...options });
   }
 
   /**
@@ -63,19 +56,11 @@ export class Users extends APIResource {
    * paginated for easier management.
    */
   list(
-    params?: UserListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<UserResponsesCursor, UserResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<UserResponsesCursor, UserResponse>;
-  list(
-    params: UserListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<UserResponsesCursor, UserResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/users`, UserResponsesCursor, {
+    params: UserListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<UserResponsesCursor, UserResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/users`, Cursor<UserResponse>, {
       query,
       ...options,
     });
@@ -89,23 +74,11 @@ export class Users extends APIResource {
    */
   getPermissions(
     id: string,
-    params?: UserGetPermissionsParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPoliciesAPI.PermissionPolicyResponse>;
-  getPermissions(
-    id: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPoliciesAPI.PermissionPolicyResponse>;
-  getPermissions(
-    id: string,
-    params: UserGetPermissionsParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<PermissionPoliciesAPI.PermissionPolicyResponse> {
-    if (isRequestOptions(params)) {
-      return this.getPermissions(id, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/users/${id}/permissions`, { query, ...options });
+    params: UserGetPermissionsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<PermissionPoliciesAPI.PermissionPolicyResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/users/${id}/permissions`, { query, ...options });
   }
 
   /**
@@ -137,39 +110,19 @@ export class Users extends APIResource {
    */
   getUserGroups(
     id: string,
-    params?: UserGetUserGroupsParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupsAPI.ResourceGroupResponse>;
-  getUserGroups(
-    id: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupsAPI.ResourceGroupResponse>;
-  getUserGroups(
-    id: string,
-    params: UserGetUserGroupsParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ResourceGroupsAPI.ResourceGroupResponse> {
-    if (isRequestOptions(params)) {
-      return this.getUserGroups(id, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/users/${id}/usergroups`, { query, ...options });
+    params: UserGetUserGroupsParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ResourceGroupsAPI.ResourceGroupResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/users/${id}/usergroups`, { query, ...options });
   }
 
   /**
    * Retrieve information about the current user
    */
-  me(params?: UserMeParams, options?: Core.RequestOptions): Core.APIPromise<UserMeResponse>;
-  me(options?: Core.RequestOptions): Core.APIPromise<UserMeResponse>;
-  me(
-    params: UserMeParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<UserMeResponse> {
-    if (isRequestOptions(params)) {
-      return this.me({}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/users/me`, options);
+  me(params: UserMeParams | null | undefined = {}, options?: RequestOptions): APIPromise<UserMeResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/users/me`, options);
   }
 
   /**
@@ -177,27 +130,18 @@ export class Users extends APIResource {
    */
   resendPassword(
     id: string,
-    params?: UserResendPasswordParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void>;
-  resendPassword(id: string, options?: Core.RequestOptions): Core.APIPromise<void>;
-  resendPassword(
-    id: string,
-    params: UserResendPasswordParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<void> {
-    if (isRequestOptions(params)) {
-      return this.resendPassword(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.put(`/organizations/${orgId}/users/${id}/password/resend`, {
+    params: UserResendPasswordParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<void> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.put(path`/organizations/${orgId}/users/${id}/password/resend`, {
       ...options,
-      headers: { Accept: '*/*', ...options?.headers },
+      headers: buildHeaders([{ Accept: '*/*' }, options?.headers]),
     });
   }
 }
 
-export class UserResponsesCursor extends Cursor<UserResponse> {}
+export type UserResponsesCursor = Cursor<UserResponse>;
 
 export interface UserResponse {
   /**
@@ -588,15 +532,13 @@ export interface UserResendPasswordParams {
   orgId?: string;
 }
 
-Users.UserResponsesCursor = UserResponsesCursor;
 Users.Invitations = Invitations;
-Users.InvitationResponsesCursor = InvitationResponsesCursor;
 
 export declare namespace Users {
   export {
     type UserResponse as UserResponse,
     type UserMeResponse as UserMeResponse,
-    UserResponsesCursor as UserResponsesCursor,
+    type UserResponsesCursor as UserResponsesCursor,
     type UserRetrieveParams as UserRetrieveParams,
     type UserUpdateParams as UserUpdateParams,
     type UserListParams as UserListParams,
@@ -609,7 +551,7 @@ export declare namespace Users {
   export {
     Invitations as Invitations,
     type InvitationResponse as InvitationResponse,
-    InvitationResponsesCursor as InvitationResponsesCursor,
+    type InvitationResponsesCursor as InvitationResponsesCursor,
     type InvitationCreateParams as InvitationCreateParams,
     type InvitationRetrieveParams as InvitationRetrieveParams,
     type InvitationListParams as InvitationListParams,

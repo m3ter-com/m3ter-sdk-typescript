@@ -1,10 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as Shared from './shared';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Accounts extends APIResource {
   /**
@@ -19,9 +20,9 @@ export class Accounts extends APIResource {
    * });
    * ```
    */
-  create(params: AccountCreateParams, options?: Core.RequestOptions): Core.APIPromise<AccountResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/accounts`, { body, ...options });
+  create(params: AccountCreateParams, options?: RequestOptions): APIPromise<AccountResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/accounts`, { body, ...options });
   }
 
   /**
@@ -36,20 +37,11 @@ export class Accounts extends APIResource {
    */
   retrieve(
     id: string,
-    params?: AccountRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<AccountResponse>;
-  retrieve(
-    id: string,
-    params: AccountRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/accounts/${id}`, options);
+    params: AccountRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/accounts/${id}`, options);
   }
 
   /**
@@ -69,13 +61,9 @@ export class Accounts extends APIResource {
    * });
    * ```
    */
-  update(
-    id: string,
-    params: AccountUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/accounts/${id}`, { body, ...options });
+  update(id: string, params: AccountUpdateParams, options?: RequestOptions): APIPromise<AccountResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/accounts/${id}`, { body, ...options });
   }
 
   /**
@@ -90,19 +78,11 @@ export class Accounts extends APIResource {
    * ```
    */
   list(
-    params?: AccountListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AccountResponsesCursor, AccountResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<AccountResponsesCursor, AccountResponse>;
-  list(
-    params: AccountListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<AccountResponsesCursor, AccountResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/accounts`, AccountResponsesCursor, {
+    params: AccountListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<AccountResponsesCursor, AccountResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/accounts`, Cursor<AccountResponse>, {
       query,
       ...options,
     });
@@ -119,20 +99,11 @@ export class Accounts extends APIResource {
    */
   delete(
     id: string,
-    params?: AccountDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<AccountResponse>;
-  delete(
-    id: string,
-    params: AccountDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/accounts/${id}`, options);
+    params: AccountDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/accounts/${id}`, options);
   }
 
   /**
@@ -155,10 +126,10 @@ export class Accounts extends APIResource {
   endDateBillingEntities(
     id: string,
     params: AccountEndDateBillingEntitiesParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountEndDateBillingEntitiesResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/accounts/${id}/enddatebillingentities`, {
+    options?: RequestOptions,
+  ): APIPromise<AccountEndDateBillingEntitiesResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/accounts/${id}/enddatebillingentities`, {
       body,
       ...options,
     });
@@ -176,20 +147,11 @@ export class Accounts extends APIResource {
    */
   getChildren(
     id: string,
-    params?: AccountGetChildrenParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountResponse>;
-  getChildren(id: string, options?: Core.RequestOptions): Core.APIPromise<AccountResponse>;
-  getChildren(
-    id: string,
-    params: AccountGetChildrenParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountResponse> {
-    if (isRequestOptions(params)) {
-      return this.getChildren(id, {}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/accounts/${id}/children`, { query, ...options });
+    params: AccountGetChildrenParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/accounts/${id}/children`, { query, ...options });
   }
 
   /**
@@ -205,21 +167,16 @@ export class Accounts extends APIResource {
    * const response = await client.accounts.search();
    * ```
    */
-  search(params?: AccountSearchParams, options?: Core.RequestOptions): Core.APIPromise<AccountSearchResponse>;
-  search(options?: Core.RequestOptions): Core.APIPromise<AccountSearchResponse>;
   search(
-    params: AccountSearchParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<AccountSearchResponse> {
-    if (isRequestOptions(params)) {
-      return this.search({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.get(`/organizations/${orgId}/accounts/search`, { query, ...options });
+    params: AccountSearchParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<AccountSearchResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/accounts/search`, { query, ...options });
   }
 }
 
-export class AccountResponsesCursor extends Cursor<AccountResponse> {}
+export type AccountResponsesCursor = Cursor<AccountResponse>;
 
 export interface AccountResponse {
   /**
@@ -930,15 +887,13 @@ export interface AccountSearchParams {
   sortOrder?: 'ASC' | 'DESC';
 }
 
-Accounts.AccountResponsesCursor = AccountResponsesCursor;
-
 export declare namespace Accounts {
   export {
     type AccountResponse as AccountResponse,
     type Address as Address,
     type AccountEndDateBillingEntitiesResponse as AccountEndDateBillingEntitiesResponse,
     type AccountSearchResponse as AccountSearchResponse,
-    AccountResponsesCursor as AccountResponsesCursor,
+    type AccountResponsesCursor as AccountResponsesCursor,
     type AccountCreateParams as AccountCreateParams,
     type AccountRetrieveParams as AccountRetrieveParams,
     type AccountUpdateParams as AccountUpdateParams,

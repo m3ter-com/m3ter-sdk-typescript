@@ -1,9 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { Cursor, type CursorParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import { APIPromise } from '../core/api-promise';
+import { Cursor, type CursorParams, PagePromise } from '../core/pagination';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Products extends APIResource {
   /**
@@ -12,9 +13,9 @@ export class Products extends APIResource {
    * This endpoint creates a new Product within the specified Organization. The
    * details of the Product are provided in the request body.
    */
-  create(params: ProductCreateParams, options?: Core.RequestOptions): Core.APIPromise<ProductResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.post(`/organizations/${orgId}/products`, { body, ...options });
+  create(params: ProductCreateParams, options?: RequestOptions): APIPromise<ProductResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.post(path`/organizations/${orgId}/products`, { body, ...options });
   }
 
   /**
@@ -25,20 +26,11 @@ export class Products extends APIResource {
    */
   retrieve(
     id: string,
-    params?: ProductRetrieveParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductResponse>;
-  retrieve(id: string, options?: Core.RequestOptions): Core.APIPromise<ProductResponse>;
-  retrieve(
-    id: string,
-    params: ProductRetrieveParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductResponse> {
-    if (isRequestOptions(params)) {
-      return this.retrieve(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.get(`/organizations/${orgId}/products/${id}`, options);
+    params: ProductRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ProductResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.get(path`/organizations/${orgId}/products/${id}`, options);
   }
 
   /**
@@ -53,13 +45,9 @@ export class Products extends APIResource {
    * those Custom Fields. If you omit them from the update request, they will be
    * lost.
    */
-  update(
-    id: string,
-    params: ProductUpdateParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductResponse> {
-    const { orgId = this._client.orgId, ...body } = params;
-    return this._client.put(`/organizations/${orgId}/products/${id}`, { body, ...options });
+  update(id: string, params: ProductUpdateParams, options?: RequestOptions): APIPromise<ProductResponse> {
+    const { orgId = this._client.orgID, ...body } = params;
+    return this._client.put(path`/organizations/${orgId}/products/${id}`, { body, ...options });
   }
 
   /**
@@ -70,19 +58,11 @@ export class Products extends APIResource {
    * Product IDs.
    */
   list(
-    params?: ProductListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductResponsesCursor, ProductResponse>;
-  list(options?: Core.RequestOptions): Core.PagePromise<ProductResponsesCursor, ProductResponse>;
-  list(
-    params: ProductListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<ProductResponsesCursor, ProductResponse> {
-    if (isRequestOptions(params)) {
-      return this.list({}, params);
-    }
-    const { orgId = this._client.orgId, ...query } = params;
-    return this._client.getAPIList(`/organizations/${orgId}/products`, ProductResponsesCursor, {
+    params: ProductListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<ProductResponsesCursor, ProductResponse> {
+    const { orgId = this._client.orgID, ...query } = params ?? {};
+    return this._client.getAPIList(path`/organizations/${orgId}/products`, Cursor<ProductResponse>, {
       query,
       ...options,
     });
@@ -96,24 +76,15 @@ export class Products extends APIResource {
    */
   delete(
     id: string,
-    params?: ProductDeleteParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductResponse>;
-  delete(id: string, options?: Core.RequestOptions): Core.APIPromise<ProductResponse>;
-  delete(
-    id: string,
-    params: ProductDeleteParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<ProductResponse> {
-    if (isRequestOptions(params)) {
-      return this.delete(id, {}, params);
-    }
-    const { orgId = this._client.orgId } = params;
-    return this._client.delete(`/organizations/${orgId}/products/${id}`, options);
+    params: ProductDeleteParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<ProductResponse> {
+    const { orgId = this._client.orgID } = params ?? {};
+    return this._client.delete(path`/organizations/${orgId}/products/${id}`, options);
   }
 }
 
-export class ProductResponsesCursor extends Cursor<ProductResponse> {}
+export type ProductResponsesCursor = Cursor<ProductResponse>;
 
 export interface ProductResponse {
   /**
@@ -291,12 +262,10 @@ export interface ProductDeleteParams {
   orgId?: string;
 }
 
-Products.ProductResponsesCursor = ProductResponsesCursor;
-
 export declare namespace Products {
   export {
     type ProductResponse as ProductResponse,
-    ProductResponsesCursor as ProductResponsesCursor,
+    type ProductResponsesCursor as ProductResponsesCursor,
     type ProductCreateParams as ProductCreateParams,
     type ProductRetrieveParams as ProductRetrieveParams,
     type ProductUpdateParams as ProductUpdateParams,

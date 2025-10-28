@@ -1,13 +1,12 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import M3ter from 'm3ter-sdk';
-import { Response } from 'node-fetch';
 
 const client = new M3ter({
   apiKey: 'My API Key',
   apiSecret: 'My API Secret',
   token: 'My Token',
-  orgId: 'My Org ID',
+  orgID: 'My Org ID',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -25,13 +24,6 @@ describe('resource users', () => {
 
   test('retrieve: required and optional params', async () => {
     const response = await client.users.retrieve('id', { orgId: 'orgId' });
-  });
-
-  test('retrieve: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.users.retrieve('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
   });
 
   test('retrieve: request options and params are passed correctly', async () => {
@@ -81,13 +73,6 @@ describe('resource users', () => {
     });
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.users.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
-  });
-
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -115,13 +100,6 @@ describe('resource users', () => {
       nextToken: 'nextToken',
       pageSize: 1,
     });
-  });
-
-  test('getPermissions: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.users.getPermissions('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
   });
 
   test('getPermissions: request options and params are passed correctly', async () => {
@@ -154,13 +132,6 @@ describe('resource users', () => {
     });
   });
 
-  test('getUserGroups: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.users.getUserGroups('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
-  });
-
   test('getUserGroups: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -187,11 +158,6 @@ describe('resource users', () => {
     const response = await client.users.me({ orgId: 'orgId' });
   });
 
-  test('me: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.users.me({ path: '/_stainless_unknown_path' })).rejects.toThrow(M3ter.NotFoundError);
-  });
-
   test('me: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(client.users.me({ orgId: 'orgId' }, { path: '/_stainless_unknown_path' })).rejects.toThrow(
@@ -212,13 +178,6 @@ describe('resource users', () => {
 
   test('resendPassword: required and optional params', async () => {
     const response = await client.users.resendPassword('id', { orgId: 'orgId' });
-  });
-
-  test('resendPassword: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.users.resendPassword('id', { path: '/_stainless_unknown_path' })).rejects.toThrow(
-      M3ter.NotFoundError,
-    );
   });
 
   test('resendPassword: request options and params are passed correctly', async () => {
