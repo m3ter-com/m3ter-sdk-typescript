@@ -1,6 +1,6 @@
 {
   "pkg": "m3ter-sdk",
-  "githubRepo": "https://github.com/stainless-sdks/m3ter-sdk-typescript",
+  "githubRepo": "https://github.com/m3ter-com/m3ter-sdk-typescript",
   "clientClass": "M3ter",
   "methods": [
     {
