@@ -463,6 +463,7 @@ import {
   parseLogLevel,
 } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
+import { toBase64 } from './internal/utils/base64';
 
 export interface ClientOptions {
   /**
@@ -693,6 +694,12 @@ export class M3ter {
   }
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
+    // When making the token request we have an `authorization` header in `customHeaders`.
+    // Using this to skip validating the token on token requests themselves.
+    if (values.get('authorization')) {
+      return;
+    }
+
     if (this.token && values.get('authorization')) {
       return;
     }
@@ -759,7 +766,17 @@ export class M3ter {
   /**
    * Used as a callback for mutating the given `FinalRequestOptions` object.
    */
-  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {}
+  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {
+    // Prevent infinite loop of token requests.
+    if (!this.token && !options.path.endsWith('/oauth/token')) {
+      const auth = toBase64(`${this.apiKey}:${this.apiSecret}`);
+      const token = await this.authentication.getBearerToken(
+        { grant_type: 'client_credentials' },
+        { headers: { authorization: `Basic ${auth}` } },
+      );
+      this.token = token.access_token;
+    }
+  }
 
   /**
    * Used as a callback for mutating the given `RequestInit` object.
