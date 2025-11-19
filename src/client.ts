@@ -463,6 +463,7 @@ import {
   parseLogLevel,
 } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
+import { toBase64 } from './internal/utils/base64';
 
 export interface ClientOptions {
   /**
@@ -568,6 +569,8 @@ export class M3ter {
   apiSecret: string;
   token: string | null;
   orgID: string;
+
+  tokenExpiry: Date | undefined;
 
   baseURL: string;
   maxRetries: number;
@@ -693,6 +696,12 @@ export class M3ter {
   }
 
   protected validateHeaders({ values, nulls }: NullableHeaders) {
+    // When making the token request we have an `authorization` header in `customHeaders`.
+    // Using this to skip validating the token on token requests themselves.
+    if (values.get('authorization')) {
+      return;
+    }
+
     if (this.token && values.get('authorization')) {
       return;
     }
@@ -759,7 +768,24 @@ export class M3ter {
   /**
    * Used as a callback for mutating the given `FinalRequestOptions` object.
    */
-  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {}
+  protected async prepareOptions(options: FinalRequestOptions): Promise<void> {
+    // When manually setting the token we won't have a `tokenExpiry` so consider that valid.
+    const tokenValid = !!this.token && (!this.tokenExpiry || this.tokenExpiry > new Date());
+
+    // Prevent infinite loop of token requests.
+    if (!tokenValid && !options.path.endsWith('/oauth/token')) {
+      const auth = toBase64(`${this.apiKey}:${this.apiSecret}`);
+      const token = await this.authentication.getBearerToken(
+        { grant_type: 'client_credentials' },
+        { headers: { authorization: `Basic ${auth}` } },
+      );
+      this.token = token.access_token;
+
+      // Store token expiry (minus 5 minutes) for automatic refreshing.
+      const now = new Date();
+      this.tokenExpiry = new Date(now.getTime() + token.expires_in * 1000 - 300000);
+    }
+  }
 
   /**
    * Used as a callback for mutating the given `RequestInit` object.
