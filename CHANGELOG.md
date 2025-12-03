@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.3.0 (2025-12-03)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/m3ter-com/m3ter-sdk-typescript/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* add OAuth token refreshing ([f5a73c9](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/f5a73c93aa3b9d78d80a151d8b83ee1368a0d183))
+* add OAuth token refreshing ([#22](https://github.com/m3ter-com/m3ter-sdk-typescript/issues/22)) ([feeaab9](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/feeaab98726f9fa6d519e063d0307af38b6f683d))
+* **api:** Add examples to integrations and events ([2cd270b](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/2cd270b0366925e451c57b33b6d44153280b81fb))
+* **api:** add OAuth token fetching ([5734402](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/57344020b773f49996aefe6988d145226d1f98c6))
+* **api:** add OAuth token fetching ([#8](https://github.com/m3ter-com/m3ter-sdk-typescript/issues/8)) ([2fc5a64](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/2fc5a644cc28eae3780c82de80f59f3071300384))
+* **api:** manual updates ([af62098](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/af62098544623c92cacd9063d105fd7d881208c8))
+* **api:** spec update ([f29f887](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/f29f8874d20fb1fae2ae54a6e1c9a8d731581ed3))
+* Update base URL for measurement submissions ([#3](https://github.com/m3ter-com/m3ter-sdk-typescript/issues/3)) ([6f5308c](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/6f5308cf466af97ada23b9334d85ddf3a228e39b))
+* update README for org ID env variable ([#63](https://github.com/m3ter-com/m3ter-sdk-typescript/issues/63)) ([ce88f3b](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/ce88f3be2f563f4585f027850847e559e9f81a2a))
+
+
+### Bug Fixes
+
+* coerce nullable values to undefined ([089870e](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/089870e40cbc021e04dc8fd894dcc19c05d69d13))
+* Update README to fix org ID param name ([#4](https://github.com/m3ter-com/m3ter-sdk-typescript/issues/4)) ([0669cfc](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/0669cfc5bd0dbfb19132fa1427941d5c47c42372))
+
+
+### Performance Improvements
+
+* faster formatting ([bd550f2](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/bd550f2c44595d68463eef5d78cdca1d25ea7d52))
+
+
+### Chores
+
+* ci build action ([3f632f9](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/3f632f96c5efde07f25eb1f5042a90f709c67370))
+* **client:** fix logger property type ([76ec10f](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/76ec10f9175cbf56ee80785500e5b74ed9ac2500))
+* **deps:** update dependency node-fetch to v2.6.13 ([4a5c243](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/4a5c2431d848b224e5c5bc559e3af9141dbda8a9))
+* do not install brew dependencies in ./scripts/bootstrap by default ([c99b42c](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/c99b42ceb480db83debcffdc647dda1fcc498128))
+* go live ([2e2b355](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/2e2b35550f28c7cff942371f747f209446cf62ed))
+* **internal:** codegen related update ([ef030e4](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/ef030e4f171452480398829ccd16da553db7e41c))
+* **internal:** fix incremental formatting in some cases ([a6f9c3d](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/a6f9c3df004c5974ac2403c7dea44cc385fbe429))
+* **internal:** formatting change ([4b51d6c](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/4b51d6c89d9752c14af896c51207f20fc41195ed))
+* **internal:** ignore .eslintcache ([ae7b6f3](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/ae7b6f3b4d83ab497e082a0d60cff52cbf9e16c7))
+* **internal:** move publish config ([578ecc4](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/578ecc4de896df0e225621b39579563e35da2b63))
+* **internal:** remove .eslintcache ([6f8e565](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/6f8e5651db519dc2ee38bfb4a60c8428b58c2403))
+* **internal:** remove deprecated `compilerOptions.baseUrl` from tsconfig.json ([eebc22b](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/eebc22b48011f6ba4e3e4812742d152c5cf69102))
+* **internal:** update comment in script ([acb8e0b](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/acb8e0b284865227de5ee8e9922a55c8f2dbc181))
+* **internal:** upgrade eslint ([9878ff7](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/9878ff71382d48951762d213c7a37893ac6fe241))
+* **internal:** use npm pack for build uploads ([057c19f](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/057c19f694500a8b2c2f881330e47c1cf6f92726))
+* update @stainless-api/prism-cli to v5.15.0 ([c230219](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/c2302196babd01815966515b6e644ce4edadd7af))
+* update CI script ([45147ef](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/45147efbf5959899ec40afa8b492e6c175780421))
+* update SDK settings ([f00e703](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/f00e703b9e8324516af535de3752f1541a1b0706))
+
+
+### Build System
+
+* **deps:** bump @babel/helpers from 7.23.6 to 7.27.0 ([#62](https://github.com/m3ter-com/m3ter-sdk-typescript/issues/62)) ([ff45fef](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/ff45fef581c823eb4a945cd5ae6cd9354b5e2636))
+
 ## 0.2.0 (2025-08-01)
 
 Full Changelog: [v0.1.0-alpha...v0.2.0](https://github.com/m3ter-com/m3ter-sdk-node/compare/v0.1.0-alpha...v0.2.0)
