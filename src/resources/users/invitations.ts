@@ -48,7 +48,7 @@ export type InvitationResponsesCursor = Cursor<InvitationResponse>;
 
 export interface InvitationResponse {
   /**
-   * The UUID of the invitation.
+   * The UUID of the entity.
    */
   id: string;
 
@@ -102,11 +102,6 @@ export interface InvitationResponse {
   permissionPolicyIds: Array<string>;
 
   /**
-   * The version number. Default value when newly created is one.
-   */
-  version: number;
-
-  /**
    * The UUID of the user who created the invitation.
    */
   createdBy?: string;
@@ -125,6 +120,16 @@ export interface InvitationResponse {
    * The UUID of the user who last modified the invitation.
    */
   lastModifiedBy?: string;
+
+  /**
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
+   */
+  version?: number;
 }
 
 export interface InvitationCreateParams {

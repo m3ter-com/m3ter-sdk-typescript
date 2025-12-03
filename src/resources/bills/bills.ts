@@ -339,6 +339,11 @@ export interface BillResponse {
 
   startDateTimeUTC?: string;
 
+  /**
+   * True if the existing bill statement (JSON or CSV) is marked as stale/outdated.
+   */
+  statementStale?: boolean;
+
   status?: 'PENDING' | 'APPROVED';
 
   timezone?: string;
@@ -401,7 +406,8 @@ export namespace BillResponse {
       | 'OVERAGE_SURCHARGE'
       | 'OVERAGE_USAGE'
       | 'BALANCE_CONSUMED'
-      | 'BALANCE_FEE';
+      | 'BALANCE_FEE'
+      | 'AD_HOC';
 
     /**
      * The amount of usage for the line item.
@@ -667,6 +673,11 @@ export interface BillListParams extends CursorParams {
    * Query param:
    */
   billingFrequency?: string | null;
+
+  /**
+   * Query param: List Bill entities by the bill job that last calculated them.
+   */
+  billJobId?: string;
 
   /**
    * Query param: Exclude Line Items

@@ -145,9 +145,9 @@ export type UserResponsesCursor = Cursor<UserResponse>;
 
 export interface UserResponse {
   /**
-   * The unique identifier (UUID) of this user.
+   * The UUID of the entity.
    */
-  id?: string;
+  id: string;
 
   /**
    * The user's contact telephone number.
@@ -321,7 +321,10 @@ export namespace UserMeResponse {
   }
 
   export interface ServiceUser {
-    id?: string;
+    /**
+     * The UUID of the entity.
+     */
+    id: string;
 
     /**
      * The id of the user who created this service user.
@@ -345,14 +348,22 @@ export namespace UserMeResponse {
 
     name?: string;
 
+    /**
+     * The version number:
+     *
+     * - **Create:** On initial Create to insert a new entity, the version is set at 1
+     *   in the response.
+     * - **Update:** On successful Update, the version is incremented by 1 in the
+     *   response.
+     */
     version?: number;
   }
 
   export interface User {
     /**
-     * The unique identifier (UUID) of this user.
+     * The UUID of the entity.
      */
-    id?: string;
+    id: string;
 
     /**
      * The user's contact telephone number.

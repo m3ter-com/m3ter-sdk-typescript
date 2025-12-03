@@ -231,9 +231,9 @@ export type ResourceGroupListContentsResponsesCursor = Cursor<ResourceGroupListC
 
 export interface ResourceGroupResponse {
   /**
-   * The unique identifier (UUID) of the Resource Group.
+   * The UUID of the entity.
    */
-  id?: string;
+  id: string;
 
   /**
    * The unique identifier (UUID) of the user who created this Resource Group.
@@ -262,7 +262,12 @@ export interface ResourceGroupResponse {
   name?: string;
 
   /**
-   * The version number. Default value when newly created is one.
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
    */
   version?: number;
 }

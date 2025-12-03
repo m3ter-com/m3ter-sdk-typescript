@@ -122,8 +122,16 @@ export interface Balance {
    */
   code?: string;
 
+  /**
+   * Product ID that any Balance Consumed line items will be attributed to for
+   * accounting purposes.(_Optional_)
+   */
   consumptionsAccountingProductId?: string;
 
+  /**
+   * The unique identifier (UUID) for a Contract on the Account the Balance has been
+   * added to.
+   */
   contractId?: string;
 
   /**
@@ -171,6 +179,10 @@ export interface Balance {
    */
   endDate?: string;
 
+  /**
+   * Product ID that any Balance Fees line items will be attributed to for accounting
+   * purposes.(_Optional_)
+   */
   feesAccountingProductId?: string;
 
   /**
@@ -254,6 +266,11 @@ export interface BalanceCreateParams {
   accountId: string;
 
   /**
+   * Body param: Unique short code for the Balance.
+   */
+  code: string;
+
+  /**
    * Body param: The currency code used for the Balance amount. For example: USD, GBP
    * or EUR.
    */
@@ -270,6 +287,11 @@ export interface BalanceCreateParams {
   endDate: string;
 
   /**
+   * Body param: The official name for the Balance.
+   */
+  name: string;
+
+  /**
    * Body param: The date _(in ISO 8601 format)_ when the Balance becomes active.
    */
   startDate: string;
@@ -281,18 +303,14 @@ export interface BalanceCreateParams {
   balanceDrawDownDescription?: string;
 
   /**
-   * Body param: Unique short code for the Balance.
-   */
-  code?: string;
-
-  /**
-   * Body param: Optional Product ID this Balance Consumptions should be attributed
-   * to for accounting purposes
+   * Body param: Product ID that any Balance Consumed line items will be attributed
+   * to for accounting purposes.(_Optional_)
    */
   consumptionsAccountingProductId?: string;
 
   /**
-   * Body param:
+   * Body param: The unique identifier (UUID) of a Contract on the Account that the
+   * Balance will be added to.
    */
   contractId?: string;
 
@@ -316,8 +334,8 @@ export interface BalanceCreateParams {
   description?: string;
 
   /**
-   * Body param: Optional Product ID this Balance Fees should be attributed to for
-   * accounting purposes
+   * Body param: Product ID that any Balance Fees line items will be attributed to
+   * for accounting purposes.(_Optional_)
    */
   feesAccountingProductId?: string;
 
@@ -330,6 +348,7 @@ export interface BalanceCreateParams {
    * - `"USAGE"`
    * - `"COUNTER_RUNNING_TOTAL_CHARGE"`
    * - `"COUNTER_ADJUSTMENT_DEBIT"`
+   * - `AD_HOC`
    *
    * **NOTE:** If no charge types are specified, by default _all types_ can draw-down
    * against the Balance amount at billing.
@@ -342,11 +361,6 @@ export interface BalanceCreateParams {
     | 'COUNTER_ADJUSTMENT_DEBIT'
     | 'AD_HOC'
   >;
-
-  /**
-   * Body param: The official name for the Balance.
-   */
-  name?: string;
 
   /**
    * Body param: A description for Bill line items overage charges.
@@ -433,6 +447,11 @@ export interface BalanceUpdateParams {
   accountId: string;
 
   /**
+   * Body param: Unique short code for the Balance.
+   */
+  code: string;
+
+  /**
    * Body param: The currency code used for the Balance amount. For example: USD, GBP
    * or EUR.
    */
@@ -449,6 +468,11 @@ export interface BalanceUpdateParams {
   endDate: string;
 
   /**
+   * Body param: The official name for the Balance.
+   */
+  name: string;
+
+  /**
    * Body param: The date _(in ISO 8601 format)_ when the Balance becomes active.
    */
   startDate: string;
@@ -460,18 +484,14 @@ export interface BalanceUpdateParams {
   balanceDrawDownDescription?: string;
 
   /**
-   * Body param: Unique short code for the Balance.
-   */
-  code?: string;
-
-  /**
-   * Body param: Optional Product ID this Balance Consumptions should be attributed
-   * to for accounting purposes
+   * Body param: Product ID that any Balance Consumed line items will be attributed
+   * to for accounting purposes.(_Optional_)
    */
   consumptionsAccountingProductId?: string;
 
   /**
-   * Body param:
+   * Body param: The unique identifier (UUID) of a Contract on the Account that the
+   * Balance will be added to.
    */
   contractId?: string;
 
@@ -495,8 +515,8 @@ export interface BalanceUpdateParams {
   description?: string;
 
   /**
-   * Body param: Optional Product ID this Balance Fees should be attributed to for
-   * accounting purposes
+   * Body param: Product ID that any Balance Fees line items will be attributed to
+   * for accounting purposes.(_Optional_)
    */
   feesAccountingProductId?: string;
 
@@ -509,6 +529,7 @@ export interface BalanceUpdateParams {
    * - `"USAGE"`
    * - `"COUNTER_RUNNING_TOTAL_CHARGE"`
    * - `"COUNTER_ADJUSTMENT_DEBIT"`
+   * - `AD_HOC`
    *
    * **NOTE:** If no charge types are specified, by default _all types_ can draw-down
    * against the Balance amount at billing.
@@ -521,11 +542,6 @@ export interface BalanceUpdateParams {
     | 'COUNTER_ADJUSTMENT_DEBIT'
     | 'AD_HOC'
   >;
-
-  /**
-   * Body param: The official name for the Balance.
-   */
-  name?: string;
 
   /**
    * Body param: A description for Bill line items overage charges.
@@ -607,7 +623,13 @@ export interface BalanceListParams extends CursorParams {
   /**
    * Query param:
    */
-  contract?: string | null;
+  contract?: string;
+
+  /**
+   * Query param: Filter Balances by contract id. Use '' with accountId to fetch
+   * unlinked balances.
+   */
+  contractId?: string;
 
   /**
    * Query param: Only include Balances with end dates earlier than this date. If a
@@ -622,6 +644,12 @@ export interface BalanceListParams extends CursorParams {
    * will be used as the end date.
    */
   endDateStart?: string;
+
+  /**
+   * Query param: A list of unique identifiers (UUIDs) for specific Balances to
+   * retrieve.
+   */
+  ids?: Array<string>;
 }
 
 export interface BalanceDeleteParams {

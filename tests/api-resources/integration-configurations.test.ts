@@ -198,6 +198,8 @@ describe('resource integrationConfigurations', () => {
       destination: 'destination',
       destinationId: 'destinationId',
       entityId: 'entityId',
+      nextToken: 'nextToken',
+      pageSize: 1,
     });
   });
 
@@ -206,7 +208,14 @@ describe('resource integrationConfigurations', () => {
     await expect(
       client.integrationConfigurations.getByEntity(
         'entityType',
-        { orgId: 'orgId', destination: 'destination', destinationId: 'destinationId', entityId: 'entityId' },
+        {
+          orgId: 'orgId',
+          destination: 'destination',
+          destinationId: 'destinationId',
+          entityId: 'entityId',
+          nextToken: 'nextToken',
+          pageSize: 1,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(M3ter.NotFoundError);
