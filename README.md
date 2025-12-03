@@ -28,7 +28,7 @@ import M3ter from 'm3ter-sdk';
 const client = new M3ter({
   apiKey: process.env['M3TER_API_KEY'], // This is the default and can be omitted
   apiSecret: process.env['M3TER_API_SECRET'], // This is the default and can be omitted
-  orgId: process.env['M3TER_ORG_ID'], // This is the default and can be omitted
+  orgID: process.env['M3TER_ORG_ID'], // This is the default and can be omitted
   token: process.env['M3TER_API_TOKEN'], // This is the default and can be omitted
 });
 
@@ -49,7 +49,7 @@ import M3ter from 'm3ter-sdk';
 const client = new M3ter({
   apiKey: process.env['M3TER_API_KEY'], // This is the default and can be omitted
   apiSecret: process.env['M3TER_API_SECRET'], // This is the default and can be omitted
-  orgId: process.env['M3TER_ORG_ID'], // This is the default and can be omitted
+  orgID: process.env['M3TER_ORG_ID'], // This is the default and can be omitted
   token: process.env['M3TER_API_TOKEN'], // This is the default and can be omitted
 });
 
