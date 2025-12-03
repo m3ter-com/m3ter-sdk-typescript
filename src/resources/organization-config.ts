@@ -145,6 +145,18 @@ export interface OrganizationConfigRequest {
   yearEpoch: string;
 
   /**
+   * Allow balance amounts to fall below zero. This feature is enabled on request.
+   * Please get in touch with m3ter Support or your m3ter contact if you would like
+   * it enabling for your organization(s).
+   */
+  allowNegativeBalances?: boolean;
+
+  /**
+   * Allows plans to overlap time periods for different contracts.
+   */
+  allowOverlappingPlans?: boolean;
+
+  /**
    * Grace period before bills are auto-approved. Used in combination with
    * `autoApproveBillsGracePeriodUnit` parameter.
    *
@@ -331,6 +343,18 @@ export interface OrganizationConfigResponse {
    * The UUID of the entity.
    */
   id: string;
+
+  /**
+   * Allow balance amounts to fall below zero. This feature is enabled on request.
+   * Please get in touch with m3ter Support or your m3ter contact if you would like
+   * it enabling for your organization(s).
+   */
+  allowNegativeBalances?: boolean;
+
+  /**
+   * Allows plans to overlap time periods for different contracts.
+   */
+  allowOverlappingPlans?: boolean;
 
   /**
    * Grace period before bills are auto-approved. Used in combination with the field
@@ -627,6 +651,18 @@ export interface OrganizationConfigUpdateParams {
    * - The date is in ISO-8601 format.
    */
   yearEpoch: string;
+
+  /**
+   * Body param: Allow balance amounts to fall below zero. This feature is enabled on
+   * request. Please get in touch with m3ter Support or your m3ter contact if you
+   * would like it enabling for your organization(s).
+   */
+  allowNegativeBalances?: boolean;
+
+  /**
+   * Body param: Allows plans to overlap time periods for different contracts.
+   */
+  allowOverlappingPlans?: boolean;
 
   /**
    * Body param: Grace period before bills are auto-approved. Used in combination

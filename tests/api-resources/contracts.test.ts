@@ -34,10 +34,13 @@ describe('resource contracts', () => {
       endDate: '2019-12-27',
       name: 'x',
       startDate: '2019-12-27',
+      applyContractPeriodLimits: true,
+      billGroupingKeyId: 'billGroupingKeyId',
       code: 'S?oC"$]C] ]]]]]5]',
       customFields: { foo: 'string' },
       description: 'description',
       purchaseOrderNumber: 'purchaseOrderNumber',
+      usageFilters: [{ dimensionCode: 'x', mode: 'INCLUDE', value: 'x' }],
       version: 0,
     });
   });
@@ -87,10 +90,13 @@ describe('resource contracts', () => {
       endDate: '2019-12-27',
       name: 'x',
       startDate: '2019-12-27',
+      applyContractPeriodLimits: true,
+      billGroupingKeyId: 'billGroupingKeyId',
       code: 'S?oC"$]C] ]]]]]5]',
       customFields: { foo: 'string' },
       description: 'description',
       purchaseOrderNumber: 'purchaseOrderNumber',
+      usageFilters: [{ dimensionCode: 'x', mode: 'INCLUDE', value: 'x' }],
       version: 0,
     });
   });

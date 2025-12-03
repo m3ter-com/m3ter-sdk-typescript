@@ -170,6 +170,7 @@ export interface OperationalDataExportScheduleRequest {
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
     | 'TRANSACTION_TYPES'
+    | 'CHARGES'
   >;
 
   /**
@@ -219,6 +220,7 @@ export interface OperationalDataExportScheduleResponse {
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
     | 'TRANSACTION_TYPES'
+    | 'CHARGES'
   >;
 
   /**
@@ -538,6 +540,12 @@ export interface ScheduleListResponse {
   createdBy?: string;
 
   /**
+   * A cron expression (https://en.wikipedia.org/wiki/Cron) describing the frequency
+   * of the expression. Executions cannot be more frequent than every 15 minutes.
+   */
+  cronExpression?: string;
+
+  /**
    * The Export Destination ids.
    */
   destinationIds?: Array<string>;
@@ -552,7 +560,7 @@ export interface ScheduleListResponse {
    */
   dtLastModified?: string;
 
-  exportFileFormat?: 'CSV' | 'JSON' | 'JSONL';
+  exportFileFormat?: 'CSV' | 'JSONL';
 
   /**
    * The id of the user who last modified this Data Export Schedule.
@@ -563,6 +571,13 @@ export interface ScheduleListResponse {
    * The name of the Data Export Schedule.
    */
   name?: string;
+
+  /**
+   * Offset indicating starting point of the export within the configured
+   * scheduleType. For DAY, offset is in hours. For HOUR, offset is in minutes.
+   * Offset is not valid for MINUTE.
+   */
+  offset?: number;
 
   /**
    * Defines the Schedule frequency for the Data Export to run in Hours, Days, or
@@ -625,6 +640,7 @@ export declare namespace ScheduleCreateParams {
       | 'PLAN_TEMPLATES'
       | 'BALANCE_TRANSACTIONS'
       | 'TRANSACTION_TYPES'
+      | 'CHARGES'
     >;
 
     /**
@@ -830,6 +846,7 @@ export declare namespace ScheduleUpdateParams {
       | 'PLAN_TEMPLATES'
       | 'BALANCE_TRANSACTIONS'
       | 'TRANSACTION_TYPES'
+      | 'CHARGES'
     >;
 
     /**

@@ -14,8 +14,10 @@ describe('resource balances', () => {
   test('create: only required params', async () => {
     const responsePromise = client.balances.create({
       accountId: 'x',
+      code: 'S?oC"$]C] ]]]]]5]',
       currency: 'x',
       endDate: '2019-12-27T18:11:19.117Z',
+      name: 'x',
       startDate: '2019-12-27T18:11:19.117Z',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -31,18 +33,18 @@ describe('resource balances', () => {
     const response = await client.balances.create({
       orgId: 'orgId',
       accountId: 'x',
+      code: 'S?oC"$]C] ]]]]]5]',
       currency: 'x',
       endDate: '2019-12-27T18:11:19.117Z',
+      name: 'x',
       startDate: '2019-12-27T18:11:19.117Z',
       balanceDrawDownDescription: 'balanceDrawDownDescription',
-      code: 'S?oC"$]C] ]]]]]5]',
       consumptionsAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       contractId: 'contractId',
       customFields: { foo: 'string' },
       description: 'description',
       feesAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       lineItemTypes: ['STANDING_CHARGE'],
-      name: 'name',
       overageDescription: 'overageDescription',
       overageSurchargePercent: 0,
       productIds: ['string'],
@@ -77,8 +79,10 @@ describe('resource balances', () => {
   test('update: only required params', async () => {
     const responsePromise = client.balances.update('id', {
       accountId: 'x',
+      code: 'S?oC"$]C] ]]]]]5]',
       currency: 'x',
       endDate: '2019-12-27T18:11:19.117Z',
+      name: 'x',
       startDate: '2019-12-27T18:11:19.117Z',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -94,18 +98,18 @@ describe('resource balances', () => {
     const response = await client.balances.update('id', {
       orgId: 'orgId',
       accountId: 'x',
+      code: 'S?oC"$]C] ]]]]]5]',
       currency: 'x',
       endDate: '2019-12-27T18:11:19.117Z',
+      name: 'x',
       startDate: '2019-12-27T18:11:19.117Z',
       balanceDrawDownDescription: 'balanceDrawDownDescription',
-      code: 'S?oC"$]C] ]]]]]5]',
       consumptionsAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       contractId: 'contractId',
       customFields: { foo: 'string' },
       description: 'description',
       feesAccountingProductId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
       lineItemTypes: ['STANDING_CHARGE'],
-      name: 'name',
       overageDescription: 'overageDescription',
       overageSurchargePercent: 0,
       productIds: ['string'],
@@ -131,8 +135,10 @@ describe('resource balances', () => {
       orgId: 'orgId',
       accountId: 'accountId',
       contract: 'contract',
+      contractId: 'contractId',
       endDateEnd: 'endDateEnd',
       endDateStart: 'endDateStart',
+      ids: ['string'],
       nextToken: 'nextToken',
       pageSize: 1,
     });
@@ -146,8 +152,10 @@ describe('resource balances', () => {
           orgId: 'orgId',
           accountId: 'accountId',
           contract: 'contract',
+          contractId: 'contractId',
           endDateEnd: 'endDateEnd',
           endDateStart: 'endDateStart',
+          ids: ['string'],
           nextToken: 'nextToken',
           pageSize: 1,
         },

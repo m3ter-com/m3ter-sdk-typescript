@@ -62,6 +62,8 @@ describe('resource organizationConfig', () => {
       timezone: 'UTC',
       weekEpoch: '2022-01-04',
       yearEpoch: '2022-01-01',
+      allowNegativeBalances: false,
+      allowOverlappingPlans: false,
       autoApproveBillsGracePeriod: 2,
       autoApproveBillsGracePeriodUnit: 'DAYS',
       autoGenerateStatementMode: 'NONE',

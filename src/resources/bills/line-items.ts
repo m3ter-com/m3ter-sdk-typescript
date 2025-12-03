@@ -84,6 +84,9 @@ export interface LineItemResponse {
    */
   averageUnitPrice?: number;
 
+  /**
+   * The unique identifier (UUID) for the Balance associated with this line item.
+   */
   balanceId?: string;
 
   /**
@@ -97,10 +100,13 @@ export interface LineItemResponse {
    */
   billId?: string;
 
+  /**
+   * The unique identifier (UUID) for the Charge associated with this line item.
+   */
   chargeId?: string;
 
   /**
-   * The unique identifier (UUID) of the Commitment _(if this is used)_.
+   * The unique identifier (UUID) of the Commitment associated with this line item.
    */
   commitmentId?: string;
 
@@ -110,7 +116,7 @@ export interface LineItemResponse {
   compoundAggregationId?: string;
 
   /**
-   * The unique identifier (UUID) for the contract associated with this line item.
+   * The unique identifier (UUID) for the Contract associated with this line item.
    */
   contractId?: string;
 
@@ -124,10 +130,13 @@ export interface LineItemResponse {
    */
   convertedSubtotal?: number;
 
+  /**
+   * The unique identifier (UUID) for the Counter associated with this line item.
+   */
   counterId?: string;
 
   /**
-   * The unique identifier (UUID) for the user who created the Bill line item.
+   * The ID of the user who created this line item.
    */
   createdBy?: string;
 
@@ -142,38 +151,29 @@ export interface LineItemResponse {
    */
   currency?: string;
 
-  /**
-   * A detailed description providing context for the line item within the Bill.
-   */
   description?: string;
 
   /**
-   * The date and time _(in ISO 8601 format)_ when the Bill line item was first
-   * created.
+   * The DateTime when the line item was created.
    */
   dtCreated?: string;
 
   /**
-   * The date and time _(in ISO 8601 format)_ when the Bill line item was last
-   * modified.
+   * The DateTime when the line item was last modified.
    */
   dtLastModified?: string;
 
   group?: { [key: string]: string };
 
   /**
-   * Boolean flag indicating whether the Bill line item has associated statement
-   * usage in JSON format. When a Bill statement is generated, usage line items have
-   * their usage stored in JSON format.
-   *
-   * See
-   * [Working with Bill Statements](https://www.m3ter.com/docs/guides/running-viewing-and-managing-bills/working-with-bill-statements)
-   * for more information.
+   * @deprecated Boolean flag indicating whether the Bill line item has associated
+   * statement usage in JSON format. When a Bill statement is generated, usage line
+   * items have their usage stored in JSON format.
    */
   jsonUsageGenerated?: boolean;
 
   /**
-   * The unique identifier (UUID) for the user who last modified this Bill line item.
+   * The ID of the user who last modified this line item.
    */
   lastModifiedBy?: string;
 
@@ -195,7 +195,8 @@ export interface LineItemResponse {
     | 'OVERAGE_SURCHARGE'
     | 'OVERAGE_USAGE'
     | 'BALANCE_CONSUMED'
-    | 'BALANCE_FEE';
+    | 'BALANCE_FEE'
+    | 'AD_HOC';
 
   /**
    * The unique identifier (UUID) of the Meter responsible for tracking usage.
@@ -203,14 +204,12 @@ export interface LineItemResponse {
   meterId?: string;
 
   /**
-   * The UUID of the PlanGroup.
-   *
-   * The unique identifier (UUID) for the PlanGroup, if applicable.
+   * The unique identifier (UUID) of the Plan Group associated with this line item.
    */
   planGroupId?: string;
 
   /**
-   * A unique identifier (UUID) for the billing Plan associated with this line item,
+   * A unique identifier (UUID) for the billing Plan associated with this line item.
    */
   planId?: string;
 
@@ -224,9 +223,6 @@ export interface LineItemResponse {
    */
   productCode?: string;
 
-  /**
-   * The unique identifier (UUID) for the associated Product.
-   */
   productId?: string;
 
   /**
@@ -240,23 +236,13 @@ export interface LineItemResponse {
   quantity?: number;
 
   /**
-   * The UUID of the reason used for the line item.
-   *
    * A unique identifier (UUID) for the reason or justification for this line item,
    * if applicable.
    */
   reasonId?: string;
 
-  /**
-   * A unique identifier (UUID) for a Bill that this line item may be related to or
-   * derived from.
-   */
   referencedBillId?: string;
 
-  /**
-   * A unique identifier (UUID) for another line item that this line item may be
-   * related to or derived from.
-   */
   referencedLineItemId?: string;
 
   /**
@@ -266,18 +252,12 @@ export interface LineItemResponse {
   segment?: { [key: string]: string };
 
   /**
-   * The number used for sequential invoices.
+   * The line item sequence number.
    */
   sequenceNumber?: number;
 
-  /**
-   * The _(exclusive)_ end date for the service period in ISO 68601 format.
-   */
   servicePeriodEndDate?: string;
 
-  /**
-   * The _(inclusive)_ start date for the service period in ISO 8601 format.
-   */
   servicePeriodStartDate?: string;
 
   /**

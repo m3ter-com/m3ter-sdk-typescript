@@ -139,6 +139,7 @@ export interface AdHocOperationalDataRequest {
     | 'PLAN_TEMPLATES'
     | 'BALANCE_TRANSACTIONS'
     | 'TRANSACTION_TYPES'
+    | 'CHARGES'
   >;
 
   /**
@@ -336,6 +337,7 @@ export declare namespace DataExportCreateAdhocParams {
       | 'PLAN_TEMPLATES'
       | 'BALANCE_TRANSACTIONS'
       | 'TRANSACTION_TYPES'
+      | 'CHARGES'
     >;
 
     /**

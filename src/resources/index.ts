@@ -16,6 +16,7 @@ export {
   type AccountResponse,
   type Address,
   type AccountEndDateBillingEntitiesResponse,
+  type AccountGetChildrenResponse,
   type AccountSearchResponse,
   type AccountCreateParams,
   type AccountRetrieveParams,
