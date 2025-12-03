@@ -765,9 +765,10 @@ export class M3ter {
     return url.toString();
   }
 
-  /**
-   * Used as a callback for mutating the given `FinalRequestOptions` object.
-   */
+  // This is the earliest async hook we have to obtain a token, before the `authHeaders` is called
+  // on the request.
+  // It also allows us to fix an issue with ingest submissions where the client tries to use the standard
+  // API base path (`api.{env}.m3ter.com`) even though it should be using `ingest.{env}.m3ter.com`
   protected async prepareOptions(options: FinalRequestOptions): Promise<void> {
     // When manually setting the token we won't have a `tokenExpiry` so consider that valid.
     const tokenValid = !!this.token && (!this.tokenExpiry || this.tokenExpiry > new Date());
@@ -784,6 +785,12 @@ export class M3ter {
       // Store token expiry (minus 5 minutes) for automatic refreshing.
       const now = new Date();
       this.tokenExpiry = new Date(now.getTime() + token.expires_in * 1000 - 300000);
+    }
+
+    // Check if we are making a POST request to the ingest submission endpoint. If we
+    // are then replace the base URL.
+    if (options.method === 'post' && options.path.endsWith('/measurements')) {
+      options.path = `${this.baseURL.replace('api.', 'ingest.')}${options.path}`;
     }
   }
 
