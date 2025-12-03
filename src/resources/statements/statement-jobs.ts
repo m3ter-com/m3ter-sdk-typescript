@@ -181,6 +181,8 @@ export interface StatementJobResponse {
    */
   createdBy?: string;
 
+  csvStatementStatus?: 'LATEST' | 'STALE' | 'INVALIDATED';
+
   /**
    * The date and time _(in ISO-8601 format)_ when the StatementJob was created.
    */
@@ -201,6 +203,8 @@ export interface StatementJobResponse {
    */
   includeCsvFormat?: boolean;
 
+  jsonStatementStatus?: 'LATEST' | 'STALE' | 'INVALIDATED';
+
   /**
    * The unique identifier (UUID) of the user who last modified this StatementJob.
    */
@@ -211,6 +215,8 @@ export interface StatementJobResponse {
    * your company as a direct customer of our service.
    */
   orgId?: string;
+
+  presignedCsvStatementUrl?: string;
 
   /**
    * The URL to access the generated statement in JSON format. This URL is temporary

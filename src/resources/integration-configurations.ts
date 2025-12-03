@@ -210,6 +210,11 @@ export interface IntegrationConfigurationResponse {
   createdBy?: string;
 
   /**
+   * Identifier of the destination
+   */
+  destinationId?: string;
+
+  /**
    * The date and time the integration was completed. _(in ISO-8601 format)_.
    */
   dtCompleted?: string;
@@ -243,6 +248,11 @@ export interface IntegrationConfigurationResponse {
    * The ID of the user who last modified this item.
    */
   lastModifiedBy?: string;
+
+  /**
+   * ID of the parent integration run, or null if this is a parent integration run
+   */
+  parentIntegrationRunId?: string;
 
   /**
    * The URL of the entity in the destination system if available.
@@ -816,12 +826,15 @@ export namespace IntegrationConfigurationCreateParams {
       | 'PADDLE_AUTH'
       | 'NETSUITE_AUTH'
       | 'CHARGEBEE_AUTH'
+      | 'M3TER_APP_SIGNATURE'
       | 'M3TER_SERVICE_USER'
       | 'STRIPE_SIGNED_REQUEST'
       | 'HUBSPOT_ACCESS_TOKEN'
       | 'HUBSPOT_CLIENT_SECRET'
       | 'OPSGENIE_KEY'
-      | 'SAP_BYD';
+      | 'SAP_BYD'
+      | 'SLACK_WEBHOOK'
+      | 'SAGE_INTACCT_CLIENT_CREDENTIALS';
 
     destination?:
       | 'WEBHOOK'
@@ -953,12 +966,15 @@ export namespace IntegrationConfigurationUpdateParams {
       | 'PADDLE_AUTH'
       | 'NETSUITE_AUTH'
       | 'CHARGEBEE_AUTH'
+      | 'M3TER_APP_SIGNATURE'
       | 'M3TER_SERVICE_USER'
       | 'STRIPE_SIGNED_REQUEST'
       | 'HUBSPOT_ACCESS_TOKEN'
       | 'HUBSPOT_CLIENT_SECRET'
       | 'OPSGENIE_KEY'
-      | 'SAP_BYD';
+      | 'SAP_BYD'
+      | 'SLACK_WEBHOOK'
+      | 'SAGE_INTACCT_CLIENT_CREDENTIALS';
 
     destination?:
       | 'WEBHOOK'
@@ -1048,6 +1064,16 @@ export interface IntegrationConfigurationGetByEntityParams {
    * Query param: UUID of the entity to retrieve IntegrationConfigs for
    */
   entityId?: string;
+
+  /**
+   * Query param: nextToken for multi page retrievals
+   */
+  nextToken?: string;
+
+  /**
+   * Query param: Number of configs to retrieve per page
+   */
+  pageSize?: number;
 }
 
 export declare namespace IntegrationConfigurations {

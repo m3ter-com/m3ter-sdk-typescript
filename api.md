@@ -23,6 +23,7 @@ Types:
 - <code><a href="./src/resources/accounts.ts">AccountResponse</a></code>
 - <code><a href="./src/resources/accounts.ts">Address</a></code>
 - <code><a href="./src/resources/accounts.ts">AccountEndDateBillingEntitiesResponse</a></code>
+- <code><a href="./src/resources/accounts.ts">AccountGetChildrenResponse</a></code>
 - <code><a href="./src/resources/accounts.ts">AccountSearchResponse</a></code>
 
 Methods:
@@ -33,7 +34,7 @@ Methods:
 - <code title="get /organizations/{orgId}/accounts">client.accounts.<a href="./src/resources/accounts.ts">list</a>({ ...params }) -> AccountResponsesCursor</code>
 - <code title="delete /organizations/{orgId}/accounts/{id}">client.accounts.<a href="./src/resources/accounts.ts">delete</a>(id, { ...params }) -> AccountResponse</code>
 - <code title="put /organizations/{orgId}/accounts/{id}/enddatebillingentities">client.accounts.<a href="./src/resources/accounts.ts">endDateBillingEntities</a>(id, { ...params }) -> AccountEndDateBillingEntitiesResponse</code>
-- <code title="get /organizations/{orgId}/accounts/{id}/children">client.accounts.<a href="./src/resources/accounts.ts">getChildren</a>(id, { ...params }) -> AccountResponse</code>
+- <code title="get /organizations/{orgId}/accounts/{id}/children">client.accounts.<a href="./src/resources/accounts.ts">getChildren</a>(id, { ...params }) -> AccountGetChildrenResponse</code>
 - <code title="get /organizations/{orgId}/accounts/search">client.accounts.<a href="./src/resources/accounts.ts">search</a>({ ...params }) -> AccountSearchResponse</code>
 
 # AccountPlans

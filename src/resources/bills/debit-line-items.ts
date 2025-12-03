@@ -89,45 +89,10 @@ export interface DebitLineItemResponse {
    */
   id: string;
 
-  /**
-   * The amount for the line item.
-   */
-  amount: number;
+  amount?: number;
 
   /**
-   * The description of the line item.
-   */
-  description: string;
-
-  /**
-   * The UUID of the Product.
-   */
-  productId: string;
-
-  /**
-   * The UUID of the bill for the line item.
-   */
-  referencedBillId: string;
-
-  /**
-   * The UUID of the line item.
-   */
-  referencedLineItemId: string;
-
-  /**
-   * The service period end date in ISO-8601 format. _(exclusive of the ending
-   * date)_.
-   */
-  servicePeriodEndDate: string;
-
-  /**
-   * The service period start date in ISO-8601 format. _(inclusive of the starting
-   * date)_.
-   */
-  servicePeriodStartDate: string;
-
-  /**
-   * The id of the user who created this debit line item.
+   * The ID of the user who created this line item.
    */
   createdBy?: string;
 
@@ -136,20 +101,53 @@ export interface DebitLineItemResponse {
    */
   debitReasonId?: string;
 
+  description?: string;
+
   /**
-   * The DateTime when the debit line item was created _(in ISO-8601 format)_.
+   * The DateTime when the line item was created.
    */
   dtCreated?: string;
 
   /**
-   * The DateTime when the debit line item was last modified _(in ISO-8601 format)_.
+   * The DateTime when the line item was last modified.
    */
   dtLastModified?: string;
 
   /**
-   * The id of the user who last modified this debit line item.
+   * The ID of the user who last modified this line item.
    */
   lastModifiedBy?: string;
+
+  lineItemType?:
+    | 'STANDING_CHARGE'
+    | 'USAGE'
+    | 'COUNTER_RUNNING_TOTAL_CHARGE'
+    | 'COUNTER_ADJUSTMENT_DEBIT'
+    | 'COUNTER_ADJUSTMENT_CREDIT'
+    | 'USAGE_CREDIT'
+    | 'MINIMUM_SPEND'
+    | 'MINIMUM_SPEND_REFUND'
+    | 'CREDIT_DEDUCTION'
+    | 'MANUAL_ADJUSTMENT'
+    | 'CREDIT_MEMO'
+    | 'DEBIT_MEMO'
+    | 'COMMITMENT_CONSUMED'
+    | 'COMMITMENT_FEE'
+    | 'OVERAGE_SURCHARGE'
+    | 'OVERAGE_USAGE'
+    | 'BALANCE_CONSUMED'
+    | 'BALANCE_FEE'
+    | 'AD_HOC';
+
+  productId?: string;
+
+  referencedBillId?: string;
+
+  referencedLineItemId?: string;
+
+  servicePeriodEndDate?: string;
+
+  servicePeriodStartDate?: string;
 
   /**
    * The version number:
@@ -211,6 +209,11 @@ export interface DebitLineItemCreateParams {
   servicePeriodStartDate: string;
 
   /**
+   * Body param:
+   */
+  amountToApplyOnBill?: number;
+
+  /**
    * Body param: The ID of the Debit Reason given for this debit line item.
    */
   debitReasonId?: string;
@@ -236,7 +239,8 @@ export interface DebitLineItemCreateParams {
     | 'OVERAGE_SURCHARGE'
     | 'OVERAGE_USAGE'
     | 'BALANCE_CONSUMED'
-    | 'BALANCE_FEE';
+    | 'BALANCE_FEE'
+    | 'AD_HOC';
 
   /**
    * Body param: The UUID of the line item reason.
@@ -322,6 +326,11 @@ export interface DebitLineItemUpdateParams {
   servicePeriodStartDate: string;
 
   /**
+   * Body param:
+   */
+  amountToApplyOnBill?: number;
+
+  /**
    * Body param: The ID of the Debit Reason given for this debit line item.
    */
   debitReasonId?: string;
@@ -347,7 +356,8 @@ export interface DebitLineItemUpdateParams {
     | 'OVERAGE_SURCHARGE'
     | 'OVERAGE_USAGE'
     | 'BALANCE_CONSUMED'
-    | 'BALANCE_FEE';
+    | 'BALANCE_FEE'
+    | 'AD_HOC';
 
   /**
    * Body param: The UUID of the line item reason.

@@ -91,44 +91,12 @@ export interface CreditLineItemResponse {
   id: string;
 
   /**
-   * The amount for the line item.
+   * The credit amount.
    */
-  amount: number;
+  amount?: number;
 
   /**
-   * The description of the line item.
-   */
-  description: string;
-
-  /**
-   * The UUID of the Product.
-   */
-  productId: string;
-
-  /**
-   * The UUID of the bill for the line item.
-   */
-  referencedBillId: string;
-
-  /**
-   * The UUID of the line item.
-   */
-  referencedLineItemId: string;
-
-  /**
-   * The service period end date in ISO-8601 format. _(exclusive of the ending
-   * date)_.
-   */
-  servicePeriodEndDate: string;
-
-  /**
-   * The service period start date in ISO-8601 format. _(inclusive of the starting
-   * date)_.
-   */
-  servicePeriodStartDate: string;
-
-  /**
-   * The id of the user who created this credit line item.
+   * The ID of the user who created this line item.
    */
   createdBy?: string;
 
@@ -137,20 +105,53 @@ export interface CreditLineItemResponse {
    */
   creditReasonId?: string;
 
+  description?: string;
+
   /**
-   * The DateTime when the credit line item was created _(in ISO-8601 format)_.
+   * The DateTime when the line item was created.
    */
   dtCreated?: string;
 
   /**
-   * The DateTime when the credit line item was last modified _(in ISO-8601 format)_.
+   * The DateTime when the line item was last modified.
    */
   dtLastModified?: string;
 
   /**
-   * The id of the user who last modified this credit line item.
+   * The ID of the user who last modified this line item.
    */
   lastModifiedBy?: string;
+
+  lineItemType?:
+    | 'STANDING_CHARGE'
+    | 'USAGE'
+    | 'COUNTER_RUNNING_TOTAL_CHARGE'
+    | 'COUNTER_ADJUSTMENT_DEBIT'
+    | 'COUNTER_ADJUSTMENT_CREDIT'
+    | 'USAGE_CREDIT'
+    | 'MINIMUM_SPEND'
+    | 'MINIMUM_SPEND_REFUND'
+    | 'CREDIT_DEDUCTION'
+    | 'MANUAL_ADJUSTMENT'
+    | 'CREDIT_MEMO'
+    | 'DEBIT_MEMO'
+    | 'COMMITMENT_CONSUMED'
+    | 'COMMITMENT_FEE'
+    | 'OVERAGE_SURCHARGE'
+    | 'OVERAGE_USAGE'
+    | 'BALANCE_CONSUMED'
+    | 'BALANCE_FEE'
+    | 'AD_HOC';
+
+  productId?: string;
+
+  referencedBillId?: string;
+
+  referencedLineItemId?: string;
+
+  servicePeriodEndDate?: string;
+
+  servicePeriodStartDate?: string;
 
   /**
    * The version number:
@@ -212,6 +213,11 @@ export interface CreditLineItemCreateParams {
   servicePeriodStartDate: string;
 
   /**
+   * Body param:
+   */
+  amountToApplyOnBill?: number;
+
+  /**
    * Body param: The UUID of the credit reason.
    */
   creditReasonId?: string;
@@ -237,7 +243,8 @@ export interface CreditLineItemCreateParams {
     | 'OVERAGE_SURCHARGE'
     | 'OVERAGE_USAGE'
     | 'BALANCE_CONSUMED'
-    | 'BALANCE_FEE';
+    | 'BALANCE_FEE'
+    | 'AD_HOC';
 
   /**
    * Body param: The UUID of the line item reason.
@@ -323,6 +330,11 @@ export interface CreditLineItemUpdateParams {
   servicePeriodStartDate: string;
 
   /**
+   * Body param:
+   */
+  amountToApplyOnBill?: number;
+
+  /**
    * Body param: The UUID of the credit reason.
    */
   creditReasonId?: string;
@@ -348,7 +360,8 @@ export interface CreditLineItemUpdateParams {
     | 'OVERAGE_SURCHARGE'
     | 'OVERAGE_USAGE'
     | 'BALANCE_CONSUMED'
-    | 'BALANCE_FEE';
+    | 'BALANCE_FEE'
+    | 'AD_HOC';
 
   /**
    * Body param: The UUID of the line item reason.

@@ -246,9 +246,9 @@ export type PermissionPolicyResponsesCursor = Cursor<PermissionPolicyResponse>;
 
 export interface PermissionPolicyResponse {
   /**
-   * The unique identifier (UUID) for this Permission Policy.
+   * The UUID of the entity.
    */
-  id?: string;
+  id: string;
 
   /**
    * The unique identifier (UUID) of the user who created this Permission Policy.
@@ -288,7 +288,12 @@ export interface PermissionPolicyResponse {
   permissionPolicy?: Array<PermissionStatementResponse>;
 
   /**
-   * The version number. Default value when newly created is one.
+   * The version number:
+   *
+   * - **Create:** On initial Create to insert a new entity, the version is set at 1
+   *   in the response.
+   * - **Update:** On successful Update, the version is incremented by 1 in the
+   *   response.
    */
   version?: number;
 }
@@ -326,6 +331,7 @@ export interface PermissionStatementResponse {
     | 'EXPORTS_DOWNLOAD'
     | 'MARKETPLACE_USAGE_CREATE'
     | 'MARKETPLACE_USAGE_RETRIEVE'
+    | 'AUDIT_RETRIEVE'
   >;
 
   /**
@@ -362,7 +368,10 @@ export interface PrincipalPermissionRequest {
 }
 
 export interface PermissionPolicyAddToServiceUserResponse {
-  id?: string;
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   /**
    * The id of the user who created this principal permission.
@@ -403,7 +412,10 @@ export interface PermissionPolicyAddToServiceUserResponse {
 }
 
 export interface PermissionPolicyAddToSupportUserResponse {
-  id?: string;
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   /**
    * The id of the user who created this principal permission.
@@ -444,7 +456,10 @@ export interface PermissionPolicyAddToSupportUserResponse {
 }
 
 export interface PermissionPolicyAddToUserResponse {
-  id?: string;
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   /**
    * The id of the user who created this principal permission.
@@ -485,7 +500,10 @@ export interface PermissionPolicyAddToUserResponse {
 }
 
 export interface PermissionPolicyAddToUserGroupResponse {
-  id?: string;
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   /**
    * The id of the user who created this principal permission.
@@ -526,7 +544,10 @@ export interface PermissionPolicyAddToUserGroupResponse {
 }
 
 export interface PermissionPolicyRemoveFromServiceUserResponse {
-  id?: string;
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   /**
    * The id of the user who created this principal permission.
@@ -567,7 +588,10 @@ export interface PermissionPolicyRemoveFromServiceUserResponse {
 }
 
 export interface PermissionPolicyRemoveFromSupportUserResponse {
-  id?: string;
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   /**
    * The id of the user who created this principal permission.
@@ -608,7 +632,10 @@ export interface PermissionPolicyRemoveFromSupportUserResponse {
 }
 
 export interface PermissionPolicyRemoveFromUserResponse {
-  id?: string;
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   /**
    * The id of the user who created this principal permission.
@@ -649,7 +676,10 @@ export interface PermissionPolicyRemoveFromUserResponse {
 }
 
 export interface PermissionPolicyRemoveFromUserGroupResponse {
-  id?: string;
+  /**
+   * The UUID of the entity.
+   */
+  id: string;
 
   /**
    * The id of the user who created this principal permission.

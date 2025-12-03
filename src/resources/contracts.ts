@@ -121,7 +121,9 @@ export interface ContractResponse {
    */
   accountId?: string;
 
-  billGroupingKey?: string;
+  applyContractPeriodLimits?: boolean;
+
+  billGroupingKeyId?: string;
 
   /**
    * The short code of the Contract.
@@ -189,6 +191,8 @@ export interface ContractResponse {
    */
   startDate?: string;
 
+  usageFilters?: Array<ContractResponse.UsageFilter>;
+
   /**
    * The version number:
    *
@@ -198,6 +202,19 @@ export interface ContractResponse {
    *   response.
    */
   version?: number;
+}
+
+export namespace ContractResponse {
+  /**
+   * Filters that determine which usage records are included in contract billing
+   */
+  export interface UsageFilter {
+    dimensionCode: string;
+
+    mode: 'INCLUDE' | 'EXCLUDE';
+
+    value: string;
+  }
 }
 
 export interface ContractEndDateBillingEntitiesResponse {
@@ -283,6 +300,16 @@ export interface ContractCreateParams {
   startDate: string;
 
   /**
+   * Body param:
+   */
+  applyContractPeriodLimits?: boolean;
+
+  /**
+   * Body param:
+   */
+  billGroupingKeyId?: string;
+
+  /**
    * Body param: The short code of the Contract.
    */
   code?: string;
@@ -313,6 +340,11 @@ export interface ContractCreateParams {
   purchaseOrderNumber?: string;
 
   /**
+   * Body param:
+   */
+  usageFilters?: Array<ContractCreateParams.UsageFilter>;
+
+  /**
    * Body param: The version number of the entity:
    *
    * - **Create entity:** Not valid for initial insertion of new entity - _do not use
@@ -323,6 +355,19 @@ export interface ContractCreateParams {
    *   preserved. Version is incremented by 1 and listed in the response.
    */
   version?: number;
+}
+
+export namespace ContractCreateParams {
+  /**
+   * Filters that determine which usage records are included in contract billing
+   */
+  export interface UsageFilter {
+    dimensionCode: string;
+
+    mode: 'INCLUDE' | 'EXCLUDE';
+
+    value: string;
+  }
 }
 
 export interface ContractRetrieveParams {
@@ -362,6 +407,16 @@ export interface ContractUpdateParams {
   startDate: string;
 
   /**
+   * Body param:
+   */
+  applyContractPeriodLimits?: boolean;
+
+  /**
+   * Body param:
+   */
+  billGroupingKeyId?: string;
+
+  /**
    * Body param: The short code of the Contract.
    */
   code?: string;
@@ -392,6 +447,11 @@ export interface ContractUpdateParams {
   purchaseOrderNumber?: string;
 
   /**
+   * Body param:
+   */
+  usageFilters?: Array<ContractUpdateParams.UsageFilter>;
+
+  /**
    * Body param: The version number of the entity:
    *
    * - **Create entity:** Not valid for initial insertion of new entity - _do not use
@@ -402,6 +462,19 @@ export interface ContractUpdateParams {
    *   preserved. Version is incremented by 1 and listed in the response.
    */
   version?: number;
+}
+
+export namespace ContractUpdateParams {
+  /**
+   * Filters that determine which usage records are included in contract billing
+   */
+  export interface UsageFilter {
+    dimensionCode: string;
+
+    mode: 'INCLUDE' | 'EXCLUDE';
+
+    value: string;
+  }
 }
 
 export interface ContractListParams extends CursorParams {

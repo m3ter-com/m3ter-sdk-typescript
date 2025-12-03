@@ -35,6 +35,7 @@ import {
   AccountEndDateBillingEntitiesParams,
   AccountEndDateBillingEntitiesResponse,
   AccountGetChildrenParams,
+  AccountGetChildrenResponse,
   AccountListParams,
   AccountResponse,
   AccountResponsesCursor,
@@ -575,7 +576,7 @@ export class M3ter {
   baseURL: string;
   maxRetries: number;
   timeout: number;
-  logger: Logger | undefined;
+  logger: Logger;
   logLevel: LogLevel | undefined;
   fetchOptions: MergedRequestInit | undefined;
 
@@ -1350,6 +1351,7 @@ export declare namespace M3ter {
     type AccountResponse as AccountResponse,
     type Address as Address,
     type AccountEndDateBillingEntitiesResponse as AccountEndDateBillingEntitiesResponse,
+    type AccountGetChildrenResponse as AccountGetChildrenResponse,
     type AccountSearchResponse as AccountSearchResponse,
     type AccountResponsesCursor as AccountResponsesCursor,
     type AccountCreateParams as AccountCreateParams,

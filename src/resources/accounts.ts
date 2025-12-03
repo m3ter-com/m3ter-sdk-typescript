@@ -140,16 +140,14 @@ export class Accounts extends APIResource {
    *
    * @example
    * ```ts
-   * const accountResponse = await client.accounts.getChildren(
-   *   'id',
-   * );
+   * const response = await client.accounts.getChildren('id');
    * ```
    */
   getChildren(
     id: string,
     params: AccountGetChildrenParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<AccountResponse> {
+  ): APIPromise<AccountGetChildrenResponse> {
     const { orgId = this._client.orgID, ...query } = params ?? {};
     return this._client.get(path`/organizations/${orgId}/accounts/${id}/children`, { query, ...options });
   }
@@ -410,6 +408,12 @@ export namespace AccountEndDateBillingEntitiesResponse {
 
     PRICINGS?: Shared.SetString;
   }
+}
+
+export interface AccountGetChildrenResponse {
+  data?: Array<AccountResponse>;
+
+  nextToken?: string;
 }
 
 export interface AccountSearchResponse {
@@ -892,6 +896,7 @@ export declare namespace Accounts {
     type AccountResponse as AccountResponse,
     type Address as Address,
     type AccountEndDateBillingEntitiesResponse as AccountEndDateBillingEntitiesResponse,
+    type AccountGetChildrenResponse as AccountGetChildrenResponse,
     type AccountSearchResponse as AccountSearchResponse,
     type AccountResponsesCursor as AccountResponsesCursor,
     type AccountCreateParams as AccountCreateParams,
