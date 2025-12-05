@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.2 (2025-12-05)
+
+Full Changelog: [v0.3.1...v0.3.2](https://github.com/m3ter-com/m3ter-sdk-typescript/compare/v0.3.1...v0.3.2)
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([9211815](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/9211815379106125be71975691364c5371b51194))
+* **mcp:** return correct lines on typescript errors ([36940d2](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/36940d2411f10bcc7549205dc818ae8c392e7a2e))
+
+
+### Chores
+
+* **internal:** codegen related update ([d531760](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/d53176025debac7af41a466b40b713826688f3da))
+* **internal:** codegen related update ([8853b3f](https://github.com/m3ter-com/m3ter-sdk-typescript/commit/8853b3f0aebd27320594197ae1662cddbb834689))
+
 ## 0.3.1 (2025-12-03)
 
 Full Changelog: [v0.3.0...v0.3.1](https://github.com/m3ter-com/m3ter-sdk-typescript/compare/v0.3.0...v0.3.1)
